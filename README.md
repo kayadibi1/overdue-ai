@@ -1,8 +1,8 @@
 # Overdue — Frontier AI Safety Commitment Tracker
 
-**Which dated frontier-AI-safety commitments are being kept — and which are overdue right now?**
+**Are frontier AI labs keeping the dated safety promises *they* made — and which are overdue right now?**
 
-A static, source-cited board of specific, dated safety commitments by frontier AI labs. Each row shows a status (Met / Missed / Partial / Overdue / Upcoming / Pending), a **live timer** (counts up if overdue, down if upcoming), and one evidence link.
+A static, source-cited board of specific, dated safety promises **the labs themselves made or signed** (RSP/Preparedness/Frontier-Safety milestones, the Seoul and White House voluntary commitments). Each row shows a status (Met / Missed / Partial / Overdue / Upcoming / Pending), a **live timer** (counts up if overdue, down if upcoming), and one evidence link. Government **laws** (e.g. the EU AI Act) are tracked separately, beneath the board, as countdown-only *regulatory milestones* — never scored kept or broken.
 
 ## Why this exists
 Existing trackers cover one collective deadline (The Midas Project's Seoul Tracker) or compare policy documents (METR). None tracks *many* individual dated promises across all labs with a live overdue counter and per-row evidence. This does — honestly: rulings are judgment calls, every row is sourced, and disputable ones are flagged. Not the first accountability project; see Methodology for prior work it builds on.
