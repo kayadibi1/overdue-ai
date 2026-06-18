@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Turn Overdue's data into a credible reference: a sharper "promises the labs made" identity, ~30–45 well-sourced lab commitments, and EU/regulatory items shown as countdown-only context beneath the board.
+**Goal:** Turn Overdue's data into a credible reference: a sharper "promises the labs made" identity, ~24–28 well-sourced lab commitments (≥22 floor, quality-gated), and EU/regulatory items shown as countdown-only context beneath the board.
 
 **Architecture:** Add a `track: 'lab' | 'regulatory'` field; the page partitions rows by track and renders the scored lab board plus a lighter "Upcoming regulatory milestones" section beneath. A new pure `regulatoryLabel()` drives the (never-"overdue") regulatory countdowns. The bulk of the work is rigorous, web-verified data curation.
 
@@ -19,8 +19,8 @@ Spec: `docs/superpowers/specs/2026-06-18-milestone-1-coverage-design.md`. Projec
 | `src/lib/types.ts` | add `Track` type + `track` field to `Commitment` |
 | `src/lib/status.ts` | add pure `regulatoryLabel(deadline, now)` (countdown-only, never "overdue") |
 | `tests/status.test.ts` | tests for `regulatoryLabel` |
-| `src/data/commitments.ts` | add `track` to every row, reclassify EU → `regulatory`, grow `lab` to ≥30 (≥3 live), all web-verified |
-| `tests/data.test.ts` | enforce: valid `track`, ≥30 lab rows, ≥3 live lab rows, regulatory rows dated + no `resolution`, lab/regulatory split |
+| `src/data/commitments.ts` | add `track` to every row, reclassify EU → `regulatory`, grow `lab` to ~24–28 (≥22 floor, ≥3 live), all web-verified |
+| `tests/data.test.ts` | enforce: valid `track`, ≥22 lab rows, ≥3 live lab rows, regulatory rows dated + no `resolution`, lab/regulatory split |
 | `src/components/RegulatoryItem.astro` | new lighter card for a regulatory milestone |
 | `src/pages/index.astro` | partition by `track`; summary/sort over `lab` only; render regulatory section beneath |
 | `src/scripts/board.ts` | tick regulatory countdowns too (via `regulatoryLabel`) |
@@ -48,6 +48,10 @@ Add this line inside the `Commitment` interface (right after `lab: Lab;`):
 ```ts
   track: Track;               // 'lab' = a promise the lab made (scored); 'regulatory' = a law/milestone (context, countdown-only)
 ```
+
+- [ ] **Step 1b: Backfill `track: 'lab'` everywhere the now-required field is needed**
+
+Because `track` is required, add `track: 'lab',` to **every** existing object in `src/data/commitments.ts` (all 25 rows — the EU rows get *reclassified* to `regulatory` in Task 3, not now) and to the `make()` fixture in `tests/status.test.ts`. This keeps `tsc` / `astro check` green from here on (no broken-type window before Task 3).
 
 - [ ] **Step 2: Write the failing test** — append to `tests/status.test.ts`
 
@@ -101,8 +105,8 @@ Expected: PASS (15 tests: the prior 13 + 2 new).
 - [ ] **Step 6: Commit**
 
 ```bash
-git -C ~/Desktop/overdue-ai add src/lib/types.ts src/lib/status.ts tests/status.test.ts
-git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat: track field + regulatoryLabel"
+git -C ~/Desktop/overdue-ai add src/lib/types.ts src/lib/status.ts src/data/commitments.ts tests/status.test.ts
+git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat: track field (backfilled 'lab') + regulatoryLabel"
 ```
 
 ---
@@ -173,7 +177,7 @@ describe('COMMITMENTS dataset', () => {
 - [ ] **Step 2: Run — verify it fails**
 
 Run: `npm test -- data`
-Expected: FAIL (rows have no `track`; fewer than 30 lab rows).
+Expected: FAIL — the **"contains both tracks"** assertion fails (after Task 1 every row is `track: 'lab'`, so there are no `regulatory` rows until Task 3 reclassifies the EU rows). Track-validity and the ≥22-lab check already pass.
 
 - [ ] **Step 3: Commit the failing test**
 
@@ -196,8 +200,8 @@ This is the milestone's substance. **Use web search to verify every row** (date,
 - A `regulatory` row is a **statutory date** (EU AI Act). `track: 'regulatory'`, `deadlineType: 'calendar'`, `resolution: null` (unscored), neutral description. When a row is genuinely ambiguous lab-vs-regulatory, default to `regulatory`.
 - Any **recurring "next X due ~DATE"** derived from a cadence (not a lab-stated date) → `contested: true` with the derivation in `notes`.
 
-- [ ] **Step 1: Add `track` to every existing row**
-Set `track: 'lab'` on all current rows EXCEPT the EU statutory rows — the `eu-aia-*` rows **and** `eu-gpai-cop-finalized` (the EU GPAI Code is a regulatory instrument) — which become `track: 'regulatory'` with `resolution: null` (strip any scoring; keep `deadlineType: 'calendar'` + `deadline`). Lab–government commitments the labs *entered* (`nist-aisi-mou-2024`, `uk-aisi-predeployment`, `wh-voluntary-redteam-2023`) stay `track: 'lab'`.
+- [ ] **Step 1: Reclassify the EU rows to `regulatory` (the `lab` backfill was done in Task 1)**
+Change `track: 'lab'` → **`track: 'regulatory'`** on the EU statutory rows — the `eu-aia-*` rows **and** `eu-gpai-cop-finalized` (the EU GPAI Code is a regulatory instrument) — and set their **`resolution: null`** (strip any scoring; keep `deadlineType: 'calendar'` + `deadline`). Lab–government commitments the labs *entered* (`nist-aisi-mou-2024`, `uk-aisi-predeployment`, `wh-voluntary-redteam-2023`) stay `track: 'lab'`. Also add **`contested: true`** to the two cadence-derived live rows `anthropic-risk-report-next` and `anthropic-annual-procedural-review` (their next-dates are derived from a cadence, not lab-stated — spec §5 rule 7).
 
 - [ ] **Step 2: Grow `lab`-track rows to ≥22, target ~24–28 (quality-gated — do NOT pad)**
 Reality check: after reclassification there are ~19 `lab` rows, and genuine *dated promises* (vs. mere version-publication events, which are not promises and don't qualify) are limited — the honest ceiling is ~24–28, not 30+. Add only rows that are real dated promises a lab made or signed; if you cannot reach a number without stretching, stop and report the honest count rather than padding.
@@ -216,13 +220,13 @@ Keep genuinely live `lab` items: OpenAI Preparedness annual-review (overdue, `co
 - [ ] **Step 4: Run — verify the data tests pass**
 
 Run: `npm test`
-Expected: PASS — `data.test.ts` green (≥30 lab, ≥3 live, both tracks, regulatory unscored), `status.test.ts` green.
+Expected: PASS — `data.test.ts` green (≥22 lab, ≥3 live, both tracks, regulatory unscored), `status.test.ts` green.
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git -C ~/Desktop/overdue-ai add src/data/commitments.ts
-git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat: M1 coverage — lab/regulatory tracks, grow lab promises to >=30 (web-verified)"
+git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat: M1 coverage — reclassify EU as regulatory, grow lab promises to ~24-28 (web-verified)"
 ```
 
 ---
@@ -269,7 +273,7 @@ import RegulatoryItem from '../components/RegulatoryItem.astro';
 // ... existing imports ...
 const now = Date.now();
 const labRows = COMMITMENTS.filter((c) => c.track === 'lab');
-const regulatoryRows = COMMITMENTS.filter((c) => c.track === 'regulatory')
+const regulatoryRows = COMMITMENTS.filter((c) => c.track === 'regulatory' && c.deadlineType === 'calendar' && c.deadline != null)
   .sort((a, b) => (a.deadline ?? '').localeCompare(b.deadline ?? ''));
 const sorted = sortByUrgency(labRows, now);   // board = lab only
 const counts = summarize(labRows, now);        // headline = lab only
