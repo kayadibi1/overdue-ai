@@ -71,3 +71,18 @@ export function sortByUrgency(list: Commitment[], now: number): Commitment[] {
     return db - da;                                                   // most recent first
   });
 }
+
+/**
+ * Label for a regulatory milestone (a date a law applies). Countdown-only:
+ * before the date it is `upcoming`; after, it is `inforce` ("in force since
+ * <date>") — a law is never "overdue" or "missed". Independent of computeStatus.
+ */
+export function regulatoryLabel(deadline: string, now: number): { label: string; kind: 'upcoming' | 'inforce'; days: number } {
+  const ms = parseUTC(deadline);
+  if (ms > now) {
+    const days = Math.ceil((ms - now) / DAY_MS);
+    return { label: `in ${plural(days, 'day')}`, kind: 'upcoming', days };
+  }
+  const days = Math.floor((now - ms) / DAY_MS);
+  return { label: `in force since ${deadline}`, kind: 'inforce', days };
+}

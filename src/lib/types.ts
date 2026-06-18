@@ -18,10 +18,12 @@ export const CATEGORIES: readonly Category[] = [
 
 export type Resolution = 'met' | 'missed' | 'partial' | null;
 export type Status = 'met' | 'missed' | 'partial' | 'overdue' | 'upcoming' | 'pending';
+export type Track = 'lab' | 'regulatory';
 
 export interface Commitment {
   id: string;
   lab: Lab;
+  track: Track;                 // 'lab' = a promise the lab made (scored); 'regulatory' = a law/milestone (context, countdown-only)
   title: string;
   description: string;
   category: Category;

@@ -6,7 +6,7 @@ const NOW = Date.UTC(2026, 5, 18); // 2026-06-18
 
 function make(over: Partial<Commitment>): Commitment {
   return {
-    id: 'x', lab: 'OpenAI', title: 't', description: 'd', category: 'governance',
+    id: 'x', lab: 'OpenAI', track: 'lab', title: 't', description: 'd', category: 'governance',
     committedOn: '2024-01-01', deadlineType: 'calendar', deadline: '2024-06-01',
     resolution: null, resolvedOn: null, evidenceUrl: 'https://example.com', sourceLabel: 'Src',
     ...over,
@@ -84,5 +84,19 @@ describe('sortByUrgency', () => {
     const upLate = make({ id: 'up-late', deadline: '2027-01-01' });
     const sorted = sortByUrgency([met, pending, overdueSmall, overdueBig, upSoon, upLate], NOW).map(c => c.id);
     expect(sorted).toEqual(['od-big', 'od-small', 'up-soon', 'up-late', 'pending', 'met']);
+  });
+});
+
+import { regulatoryLabel } from '../src/lib/status';
+
+describe('regulatoryLabel', () => {
+  const NOW2 = Date.UTC(2026, 5, 18); // 2026-06-18
+  it('counts down to a future statutory date (upcoming, never overdue)', () => {
+    expect(regulatoryLabel('2026-08-02', NOW2)).toEqual({ label: 'in 45 days', kind: 'upcoming', days: 45 });
+  });
+  it('shows "in force since" once the date has passed (never "overdue")', () => {
+    const r = regulatoryLabel('2025-08-02', NOW2);
+    expect(r.kind).toBe('inforce');
+    expect(r.label).toBe('in force since 2025-08-02');
   });
 });
