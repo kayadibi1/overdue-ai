@@ -3,6 +3,7 @@
 - **Date:** 2026-06-18
 - **Status:** Approved design (pending final spec review before implementation plan)
 - **Context:** MLH Global Hack Week "Hacking for Good" — *Help a Nonprofit / support a cause* challenge.
+- **Revised:** 2026-06-18 — objective-fit pass: data liveness (#1), neutral & sourced tone (#2), nonprofit framing (#3).
 
 ## 1. Goal
 
@@ -12,7 +13,7 @@ A clean, source-cited web board that answers one question:
 
 Per-commitment rows across the major AI labs, each with a status chip and a **live, self-updating timer** (counts up if overdue, down if upcoming), and every claim backed by one evidence link. Built honestly: no "world-first" claims, with a methodology page explaining what counts and how rulings are made.
 
-**Who it serves:** AI-accountability nonprofits (METR, FLI, SaferAI, The Midas Project are all nonprofits), accountability journalists, and policy staff who need a fast "who is overdue *now*?" reference. Satisfies the challenge under "support a cause you care about" and "help a nonprofit."
+**Who it serves:** AI-accountability nonprofits (METR, FLI, SaferAI, The Midas Project are all nonprofits), accountability journalists, and policy staff who need a fast "who is overdue *now*?" reference. It is a **free, open tool** those watchdog nonprofits and journalists can reuse and cite (open dataset + a "cite this" affordance). The MLH submission is framed primarily under **"support a cause you care about"** — the "help a nonprofit" angle is real but indirect (nonprofits are the audience, not a built-for beneficiary), so we make the reuse-by-nonprofits path concrete rather than leaning on that label.
 
 ## 2. Prior art & differentiation (validated by research)
 
@@ -28,6 +29,8 @@ Researched comprehensively: indie/OSS/GitHub/hackathons, think tanks/government/
 
 **In (v1):**
 - A seeded, typed dataset of ~30 dated commitments (already researched + sourced).
+- **Live-items requirement (objective-fit #1):** the dataset MUST include a real cluster of *live* rows — currently overdue-and-unresolved promises, upcoming future deadlines, and recurring obligations — so the live timers (our differentiator vs. a static scorecard) actually fire instead of a wall of resolved history.
+- **Open data (objective-fit #3):** the dataset is published as reusable **open JSON** with a "cite this" affordance, so watchdog nonprofits and journalists can reuse it.
 - A board of one **card per commitment**, sorted **most-overdue-first**.
 - **Live timer** per dated row (counts up overdue / down to upcoming), self-computed from dates.
 - Status chips: Met / Missed / Partial / Overdue / Upcoming / Pending; a `contested` flag.
@@ -156,11 +159,15 @@ GitHub Pages via `.github/workflows/deploy.yml`: `astro build` → upload `dist/
 - **What counts:** a "specific, dated" commitment = a public statement with a calendar deadline *or* a falsifiable trigger (release/compute-based). Vague/aspirational pledges are excluded.
 - **How rulings are made:** met/missed/partial are human judgments; overdue/upcoming are computed from dates. Genuinely disputable rulings are flagged `contested`.
 - **Disclaimer:** independent, best-effort, unaffiliated with any lab; corrections welcome via GitHub issue.
+- **Editorial principles (objective-fit #2 — neutral & defensible):** strictly factual, neutral phrasing — state the deadline and what shipped by it; **no editorializing verbs** ("backpedalled", "broke", "failed"). Include a ruling only when a rock-solid public source supports it; phrase anything genuinely debatable as a `contested` question, not a verdict. (Design constraint: the author is job-hunting in this ecosystem, so accuracy and neutrality protect both the tool's credibility and the author.)
+- **Open data (objective-fit #3):** the commitments dataset is published as open JSON for watchdog nonprofits, journalists, and researchers to reuse; the page invites that reuse.
 - **Relationship to prior work:** cites The Midas Project (Seoul Tracker), METR (`/fsp`), AI Lab Watch, FLI, SaferAI as sources/related work.
 
 ## 13. Seed dataset (v1, ~30 items, pre-sourced)
 
 Already gathered during research, each with a source URL. Spans: the Seoul "publish a safety framework by the Paris summit" pledge; **xAI's two missed deadlines** (Feb 10 → May 10, 2025); Anthropic RSP/ASL milestones and version dates; OpenAI Superalignment "20% compute" + Preparedness Framework cadence; Google DeepMind Frontier Safety Framework dates; White House 2023 voluntary commitments; US/UK AISI access MOUs; EU GPAI Code dates; Meta/Microsoft framework publications. ~Half are clean calendar deadlines; the rest are explicit triggers. Vague items excluded. Each row needs a defensible status ruling + one durable evidence link.
+
+**Composition requirement (objective-fit #1):** the seed set MUST include several **live** rows — a handful of currently overdue-and-unresolved promises and upcoming future deadlines, plus **recurring obligations** (e.g., "publish a safety/system report with every frontier model launch") that stay perpetually near-term — so the live timers are visibly active, not a wall of resolved history. Prefer trigger items that already have a known resolution so they carry signal. Tone stays neutral and every row is sourced (see Methodology).
 
 ## 14. Success criteria
 
@@ -169,5 +176,8 @@ Already gathered during research, each with a source URL. Spans: the Seoul "publ
 - Filter by Lab + Status and the sort controls work.
 - `status` + `data-integrity` tests pass.
 - Methodology + disclaimer present; positioning cites Midas/METR (no "first" claim).
+- **≥ ~8 rows are live** (overdue or upcoming, unresolved) so the timers are visibly active — not a static scorecard. *(objective-fit #1)*
+- Tone is strictly neutral/factual; **every ruling is sourced**; debatable items flagged `contested`. *(objective-fit #2)*
+- Dataset published as **open JSON**; the page invites watchdog-org / journalist reuse. *(objective-fit #3)*
 - Builds and deploys to GitHub Pages.
-- Repo + a screenshot ready to submit to the MLH challenge.
+- Repo + a screenshot ready to submit, framed under "support a cause."
