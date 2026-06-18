@@ -1,4 +1,71 @@
 ---
+import { COMMITMENTS } from '../data/commitments';
+import { sortByUrgency, summarize } from '../lib/status';
+import { LABS } from '../lib/types';
+import CommitmentCard from '../components/CommitmentCard.astro';
+import SummaryStats from '../components/SummaryStats.astro';
+import '../styles/global.css';
+
+const now = Date.now();
+const sorted = sortByUrgency(COMMITMENTS, now);
+const counts = summarize(COMMITMENTS, now);
+const updated = new Date(now).toISOString().slice(0, 10);
+const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
+const labs = LABS.filter((l) => COMMITMENTS.some((c) => c.lab === l));
 ---
-<html lang="en"><head><meta charset="utf-8" /><title>Overdue</title></head>
-<body><h1>Overdue</h1></body></html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Overdue — Frontier AI Safety Commitment Tracker</title>
+    <meta name="description" content="Which dated frontier-AI-safety commitments are being kept, and which are overdue right now? A per-commitment, source-cited tracker." />
+  </head>
+  <body>
+    <header class="masthead">
+      <h1>Overdue</h1>
+      <p class="tagline">Are frontier AI labs keeping their dated safety promises? A per-commitment, source-cited tracker.</p>
+      <p class="meta">{COMMITMENTS.length} commitments · updated {updated} ·
+        <a href={withBase('methodology')}>Methodology</a> ·
+        <a href="https://github.com/kayadibi1/overdue-ai">GitHub</a> ·
+        <a href={withBase('commitments.json')}>Open data (JSON)</a>
+      </p>
+    </header>
+
+    <main>
+      <SummaryStats counts={counts} />
+
+      <section class="controls" aria-label="Filter and sort">
+        <label>Lab
+          <select id="filter-lab"><option value="">All</option>{labs.map((l) => <option value={l}>{l}</option>)}</select>
+        </label>
+        <label>Status
+          <select id="filter-status">
+            <option value="">All</option>
+            <option value="overdue">Overdue</option><option value="upcoming">Upcoming</option>
+            <option value="missed">Missed</option><option value="met">Met</option>
+            <option value="partial">Partial</option><option value="pending">Pending</option>
+          </select>
+        </label>
+        <label>Sort
+          <select id="sort">
+            <option value="urgency">Most overdue first</option>
+            <option value="lab">Lab</option>
+            <option value="committed">Date committed</option>
+          </select>
+        </label>
+      </section>
+
+      <section id="board" class="board">
+        {sorted.map((c) => <CommitmentCard c={c} now={now} />)}
+      </section>
+      <p id="empty" class="empty" hidden>No commitments match these filters.</p>
+    </main>
+
+    <footer class="footer">
+      <p>Independent, best-effort, and unaffiliated with any lab. Rulings are judgment calls; corrections welcome via a <a href="https://github.com/kayadibi1/overdue-ai/issues">GitHub issue</a>.</p>
+      <p class="diff">Per-commitment, across all labs — not a single-deadline scorecard. Builds on prior work by <a href="https://www.seoul-tracker.org/">The Midas Project</a> and <a href="https://metr.org/fsp">METR</a>.</p>
+    </footer>
+
+    <script>import '../scripts/board.ts';</script>
+  </body>
+</html>
