@@ -2,6 +2,6 @@
   { "id": "anthropic-rsp", "label": "Anthropic — RSP updates", "url": "https://www.anthropic.com/rsp-updates" },
   { "id": "openai-preparedness", "label": "OpenAI — Preparedness Framework", "url": "https://openai.com/index/updating-our-preparedness-framework/" },
   { "id": "deepmind-responsibility", "label": "Google DeepMind — Responsibility & Safety", "url": "https://deepmind.google/about/responsibility-safety/" },
-  { "id": "metr-fsp", "label": "METR — Frontier AI Safety Policies", "url": "https://metr.org/faisc" },
+  { "id": "metr-fsp", "label": "METR — Frontier AI Safety Policies", "url": "https://metr.org/fsp" },
   { "id": "eu-ai-act-timeline", "label": "EU AI Act — implementation timeline", "url": "https://artificialintelligenceact.eu/implementation-timeline/" }
 ]
