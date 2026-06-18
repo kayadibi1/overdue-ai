@@ -47,7 +47,7 @@ track: Track;   // 'lab' = a promise the lab made (scored); 'regulatory' = a law
 
 ## 4. Coverage target
 
-Grow **`lab`-track rows to ~30–45** well-sourced commitments (floor **≥30**, **quality-gated** — as many as genuinely meet the bar, *not a number to hit*; a tight ~32 airtight rows beats 50 with filler) across **OpenAI, Anthropic, Google DeepMind, xAI, Meta, Microsoft** (+ Amazon/Mistral *only if* they made specific dated promises). Plus the ~5 `regulatory` rows.
+Grow **`lab`-track rows to ~24–28** well-sourced commitments (floor **≥22**, **quality-gated** — as many as genuinely meet the bar, *not a number to hit*). *(Plan self-review correction: after EU reclassification there are only ~19 lab rows, and the strict "promises only" identity excludes mere version-publication events, so the honest ceiling is ~24–28, not 30+. Padding to hit a number is forbidden.)* Across **OpenAI, Anthropic, Google DeepMind, xAI, Meta, Microsoft** (+ Amazon/Mistral *only if* they made specific dated promises). Plus the ~5 `regulatory` rows.
 
 **Liveness (self-review #1):** moving EU rows out of the scored set removes ~6 of the 7 current live rows. We do **not** force a high live-lab count (that pressures invented dates). Instead: (a) a floor of **≥3 live `lab` rows** is sufficient; (b) the **regulatory section beneath the board** keeps honest live countdowns on the page; (c) any **recurring obligation** with a *derived* next-date is **`contested: true`** with the derivation in `notes`. Add genuine upcoming/recurring lab items where they actually exist:
 - **Upcoming:** next scheduled RSP / Frontier Safety Framework / Preparedness Framework reviews where a lab published a cadence or a dated next-review.
@@ -84,13 +84,13 @@ Add a **"Related trackers"** section to the methodology page: how Overdue relate
 
 ## 8. Testing
 
-- **`data.test.ts` updates:** every row has a valid `track` (`'lab'|'regulatory'`); **≥3 LIVE rows *within the `lab` track*** (overdue/upcoming, unresolved); **≥30 `lab`-track rows** (raise the floor from 20); **regulatory rows carry a date and no kept/broken `resolution`** (countdown-only); existing schema rules unchanged.
+- **`data.test.ts` updates:** every row has a valid `track` (`'lab'|'regulatory'`); **≥3 LIVE rows *within the `lab` track*** (overdue/upcoming, unresolved); **≥22 `lab`-track rows** (quality-gated; see §4); **regulatory rows carry a date and no kept/broken `resolution`** (countdown-only); existing schema rules unchanged.
 - **`status.test.ts`** unchanged (logic is track-agnostic).
 - **Architecture (no signature change):** the page partitions rows by `track`, computes the summary + most-overdue sort over the **`lab`-track list only**, and renders `regulatory` rows in their own section — so `summarize`/`sortByUrgency`/`computeStatus`/`relativeTime` keep their current signatures (the page just passes the filtered list). A `data.test.ts` assertion confirms the `lab` vs `regulatory` split (counts of each) so the partition can't silently break.
 
 ## 9. Success criteria
 
-- Core board shows **~30–45 `lab`-track commitments**, sorted most-overdue-first, in the clean theme.
+- Core board shows **~24–28 `lab`-track commitments** (floor ≥22), sorted most-overdue-first, in the clean theme.
 - **≥3 live `lab`-track rows** (we don't force more — honesty over a vanity count); the regulatory section keeps live countdowns on the page.
 - EU/regulatory rows present in a labeled section **beneath** the board (countdown-only), excluded from the headline counts.
 - Methodology page carries the **Inclusion criteria** + **Related trackers** sections; tagline/README reflect the "promises they made" identity.
