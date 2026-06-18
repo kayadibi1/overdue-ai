@@ -50,3 +50,24 @@ export function relativeTime(c: Commitment, now: number): RelTime | null {
   }
   return null;
 }
+
+export function summarize(list: Commitment[], now: number): Record<Status, number> {
+  const counts: Record<Status, number> = { met: 0, missed: 0, partial: 0, overdue: 0, upcoming: 0, pending: 0 };
+  for (const c of list) counts[computeStatus(c, now)]++;
+  return counts;
+}
+
+const URGENCY: Record<Status, number> = { overdue: 0, upcoming: 1, pending: 2, missed: 3, partial: 4, met: 5 };
+
+export function sortByUrgency(list: Commitment[], now: number): Commitment[] {
+  return [...list].sort((a, b) => {
+    const sa = computeStatus(a, now), sb = computeStatus(b, now);
+    if (URGENCY[sa] !== URGENCY[sb]) return URGENCY[sa] - URGENCY[sb];
+    const ra = relativeTime(a, now), rb = relativeTime(b, now);
+    if (sa === 'overdue') return (rb?.days ?? 0) - (ra?.days ?? 0);   // most overdue first
+    if (sa === 'upcoming') return (ra?.days ?? 0) - (rb?.days ?? 0);  // soonest first
+    const da = a.deadline ? parseUTC(a.deadline) : -Infinity;
+    const db = b.deadline ? parseUTC(b.deadline) : -Infinity;
+    return db - da;                                                   // most recent first
+  });
+}

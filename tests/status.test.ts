@@ -58,3 +58,31 @@ describe('relativeTime', () => {
     expect(relativeTime(make({ deadlineType: 'trigger', deadline: null, resolution: null }), NOW)).toBeNull();
   });
 });
+
+import { summarize, sortByUrgency } from '../src/lib/status';
+
+describe('summarize', () => {
+  it('counts commitments by computed status', () => {
+    const list = [
+      make({ resolution: 'met' }),
+      make({ resolution: 'missed' }),
+      make({ deadline: '2025-01-01' }),       // overdue
+      make({ deadline: '2026-12-01' }),       // upcoming
+      make({ deadlineType: 'trigger', deadline: null }), // pending
+    ];
+    expect(summarize(list, NOW)).toEqual({ met: 1, missed: 1, partial: 0, overdue: 1, upcoming: 1, pending: 1 });
+  });
+});
+
+describe('sortByUrgency', () => {
+  it('orders overdue→upcoming→pending→resolved, most-overdue first, soonest-upcoming first', () => {
+    const met = make({ id: 'met', resolution: 'met' });
+    const pending = make({ id: 'pending', deadlineType: 'trigger', deadline: null });
+    const overdueSmall = make({ id: 'od-small', deadline: '2026-06-10' });   // 8 days
+    const overdueBig = make({ id: 'od-big', deadline: '2025-01-01' });       // ~533 days
+    const upSoon = make({ id: 'up-soon', deadline: '2026-06-20' });          // 2 days
+    const upLate = make({ id: 'up-late', deadline: '2027-01-01' });
+    const sorted = sortByUrgency([met, pending, overdueSmall, overdueBig, upSoon, upLate], NOW).map(c => c.id);
+    expect(sorted).toEqual(['od-big', 'od-small', 'up-soon', 'up-late', 'pending', 'met']);
+  });
+});
