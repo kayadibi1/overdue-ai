@@ -1,0 +1,24 @@
+---
+import '../styles/global.css';
+const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
+---
+<html lang="en">
+  <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Overdue — Methodology</title></head>
+  <body>
+    <header class="masthead"><h1>Methodology</h1>
+      <p class="meta"><a href={withBase('')}>← Back to the board</a></p></header>
+    <main class="prose">
+      <h2>What counts</h2>
+      <p>A "specific, dated" commitment is a public statement with a calendar deadline <em>or</em> a falsifiable trigger (release- or compute-based). Vague or aspirational pledges are excluded.</p>
+      <h2>How rulings are made</h2>
+      <p><strong>Met / Missed / Partial</strong> are human judgments, each backed by one public source. <strong>Overdue / Upcoming</strong> are computed automatically from the deadline versus today, so those timers stay current on their own. Genuinely disputable rulings are flagged <code>⚠ contested</code> and phrased as open questions.</p>
+      <h2>Editorial principles</h2>
+      <p>Phrasing is strictly factual and neutral: we state the deadline and what shipped by it, and avoid editorializing verbs. A ruling ships only with a rock-solid source. Statuses are curated as of the "updated" date on the board; only the timers update live.</p>
+      <h2>Open data &amp; corrections</h2>
+      <p>The full dataset is available as <a href={withBase('commitments.json')}>open JSON</a> for nonprofits, journalists, and researchers to reuse. Spotted an error? Open a <a href="https://github.com/kayadibi1/overdue-ai/issues">GitHub issue</a>.</p>
+      <h2>Relationship to prior work</h2>
+      <p>This complements, and cites, <a href="https://www.seoul-tracker.org/">The Midas Project's Seoul Tracker</a> (one collective deadline), <a href="https://metr.org/fsp">METR's policy index</a> (document publication dates), <a href="https://ailabwatch.org/">AI Lab Watch</a>, the <a href="https://futureoflife.org/">FLI AI Safety Index</a>, and <a href="https://www.safer-ai.org/">SaferAI</a>. It is not the first accountability project; it is the first to track <em>many</em> dated commitments per-item with a live overdue counter.</p>
+    </main>
+  </body>
+</html>

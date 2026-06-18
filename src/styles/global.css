@@ -39,3 +39,7 @@ a { color: var(--upcoming); }
 .empty { text-align: center; color: var(--muted); padding: 30px; }
 .footer { margin-top: 34px; padding-top: 16px; border-top: 1px solid var(--line); font-size: .8rem; color: var(--muted); }
 @media (max-width: 640px) { .summary { grid-template-columns: repeat(3, 1fr); } }
+.prose { max-width: 680px; }
+.prose h2 { margin: 26px 0 6px; font-size: 1.1rem; }
+.prose p { color: #33333a; }
+.prose code { background: var(--panel); border: 1px solid var(--line); padding: 1px 5px; border-radius: 4px; font-size: .85em; }
