@@ -32,3 +32,29 @@ describe('computeStatus', () => {
     expect(computeStatus(make({ deadlineType: 'trigger', deadline: null, triggerText: 'before ASL-3' }), NOW)).toBe('pending');
   });
 });
+
+import { relativeTime } from '../src/lib/status';
+
+describe('relativeTime', () => {
+  it('counts up for overdue (days since deadline)', () => {
+    const r = relativeTime(make({ deadline: '2026-06-08' }), NOW);
+    expect(r).toEqual({ label: '10 days overdue', kind: 'overdue', days: 10 });
+  });
+  it('counts down for upcoming (days until deadline)', () => {
+    const r = relativeTime(make({ deadline: '2026-06-28' }), NOW);
+    expect(r).toEqual({ label: 'in 10 days', kind: 'upcoming', days: 10 });
+  });
+  it('uses singular "1 day" at the boundary', () => {
+    expect(relativeTime(make({ deadline: '2026-06-17' }), NOW)?.label).toBe('1 day overdue');
+  });
+  it('shows "resolved N days late" for a resolved, dated item', () => {
+    const r = relativeTime(make({ resolution: 'missed', deadline: '2025-05-10', resolvedOn: '2025-05-13' }), NOW);
+    expect(r).toEqual({ label: 'resolved 3 days late', kind: 'resolved', days: 3 });
+  });
+  it('says "due today" when the deadline is exactly today', () => {
+    expect(relativeTime(make({ deadline: '2026-06-18' }), NOW)).toEqual({ label: 'due today', kind: 'overdue', days: 0 });
+  });
+  it('returns null for a pending trigger', () => {
+    expect(relativeTime(make({ deadlineType: 'trigger', deadline: null, resolution: null }), NOW)).toBeNull();
+  });
+});

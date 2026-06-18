@@ -15,3 +15,38 @@ export function computeStatus(c: Commitment, now: number): Status {
   }
   return 'pending';
 }
+
+export interface RelTime { label: string; kind: 'overdue' | 'upcoming' | 'resolved'; days: number; }
+
+function plural(n: number, unit: string): string {
+  return `${n} ${unit}${n === 1 ? '' : 's'}`;
+}
+
+/**
+ * Live label for a dated, unresolved commitment, computed purely from its
+ * deadline. SHARED by relativeTime (build-time) and the client island (runtime)
+ * so server HTML and live ticks can never diverge.
+ */
+export function liveLabel(deadline: string, now: number): { label: string; kind: 'overdue' | 'upcoming'; days: number } {
+  const ms = parseUTC(deadline);
+  if (ms > now) {
+    const days = Math.ceil((ms - now) / DAY_MS);
+    return { label: `in ${plural(days, 'day')}`, kind: 'upcoming', days };
+  }
+  const days = Math.floor((now - ms) / DAY_MS);
+  return { label: days === 0 ? 'due today' : `${plural(days, 'day')} overdue`, kind: 'overdue', days };
+}
+
+export function relativeTime(c: Commitment, now: number): RelTime | null {
+  const status = computeStatus(c, now);
+  if ((status === 'overdue' || status === 'upcoming') && c.deadline) {
+    return liveLabel(c.deadline, now);
+  }
+  if ((status === 'met' || status === 'missed' || status === 'partial') && c.deadline && c.resolvedOn) {
+    const days = Math.round((parseUTC(c.resolvedOn) - parseUTC(c.deadline)) / DAY_MS);
+    if (days > 0) return { label: `resolved ${plural(days, 'day')} late`, kind: 'resolved', days };
+    if (days < 0) return { label: `resolved ${plural(-days, 'day')} early`, kind: 'resolved', days };
+    return { label: 'resolved on time', kind: 'resolved', days: 0 };
+  }
+  return null;
+}
