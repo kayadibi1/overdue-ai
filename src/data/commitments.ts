@@ -45,7 +45,7 @@ export const COMMITMENTS: Commitment[] = [
     resolution: null, resolvedOn: null,
     evidenceUrl: 'https://www.anthropic.com/news/anthropics-responsible-scaling-policy',
     sourceLabel: 'Anthropic', contested: true,
-    notes: 'The original v1.0 trigger is documented; whether later RSP revisions altered this is contested. Shown as an open trigger.' },
+    notes: 'The original v1.0 trigger is documented. The trigger has since elapsed — Anthropic activated ASL-3 with Claude Opus 4 on 2025-05-22 — and v3.0 (Feb 2026) restructured away from the ASL-4 framing; whether the loosely-specified ASL-4 commitment was satisfied is genuinely disputed.' },
 
   // ================= appendix-sourced rows =================
 
@@ -109,10 +109,10 @@ export const COMMITMENTS: Commitment[] = [
     description: 'DeepMind’s Frontier Safety Framework v1.0 (May 2024) aimed to have the framework implemented by early 2025; FSF v2.0 was published on 2025-02-04.',
     category: 'safety-framework', committedOn: '2024-05-17',
     deadlineType: 'calendar', deadline: '2025-03-01',
-    resolution: 'met', resolvedOn: '2025-02-04',
+    resolution: 'met', resolvedOn: '2025-02-04', contested: true,
     evidenceUrl: 'https://deepmind.google/blog/updating-the-frontier-safety-framework/',
     sourceLabel: 'Google DeepMind',
-    notes: 'FSF v2.0 (2025-02-04) specified the detection protocols and critical capability levels promised in v1.0. "Early 2025" encoded as a 2025-03-01 checkpoint.' },
+    notes: 'FSF v1.0 stated an aim to have the framework "fully implemented by early 2025"; v2.0 (2025-02-04) specified the promised protocols and capability levels. Whether publishing v2.0 fulfills a commitment to "implement" is debatable; "early 2025" encoded as a 2025-03-01 checkpoint.' },
 
   // #9 DeepMind FSF evaluation cadence (pending trigger)
   { id: 'deepmind-fsf-eval-cadence', lab: 'Google DeepMind', track: 'lab',
@@ -144,18 +144,19 @@ export const COMMITMENTS: Commitment[] = [
     deadlineType: 'calendar', deadline: '2024-08-29',
     resolution: 'met', resolvedOn: '2024-08-29',
     evidenceUrl: 'https://www.nist.gov/news-events/news/2024/08/us-ai-safety-institute-signs-agreements-regarding-ai-safety-research',
-    sourceLabel: 'NIST' },
+    sourceLabel: 'NIST',
+    notes: 'A bilateral access agreement the labs entered with NIST / the US AI Safety Institute (government-announced), counted here as a commitment the labs signed onto.' },
 
-  // #12 UK AISI pre-deployment access (missed/contested)
+  // #12 UK AISI pre-deployment access (partial/contested)
   { id: 'uk-aisi-predeployment', lab: 'Multi-lab', track: 'lab',
     title: 'Provide the UK AI Safety Institute pre-deployment model access',
-    description: 'Following the Bletchley commitments, reporting in April 2024 found that several labs had not provided the UK AI Safety Institute with pre-deployment model access.',
+    description: 'Following the Bletchley commitments, reporting as of late April 2024 found that most labs had not provided the UK AI Safety Institute with pre-deployment model access.',
     category: 'access', committedOn: '2023-11-02',
     deadlineType: 'trigger', deadline: null, triggerText: 'pre-deployment access for state safety institutes',
-    resolution: 'missed', resolvedOn: '2024-04-30',
-    evidenceUrl: 'https://subscriber.politicopro.com/article/2024/04/rishi-sunak-struggles-to-implement-his-landmark-ai-testing-deal-00153105',
-    sourceLabel: 'POLITICO', contested: true,
-    notes: 'In April 2024, several labs had not given pre-deployment access; the situation was partly remedied later in 2024 (e.g. a joint US/UK Claude 3.5 Sonnet evaluation). Labs cited the absence of agreed common evaluation procedures.' },
+    resolution: 'partial', resolvedOn: '2024-04-30',
+    evidenceUrl: 'https://newsletter.safe.ai/p/ai-safety-newsletter-34-new-military',
+    sourceLabel: 'Center for AI Safety', contested: true,
+    notes: 'As of late April 2024, only Google DeepMind had provided the UK AISI pre-deployment access; OpenAI, Anthropic and Meta had not. Access expanded later in 2024 (e.g. a joint US/UK evaluation). The underlying Bletchley commitment was a voluntary aspiration to deepen access, not a firm dated deadline — hence partial and contested.' },
 
   // #13 EU GPAI Code of Practice finalized (regulatory instrument — countdown-only context)
   { id: 'eu-gpai-cop-finalized', lab: 'Multi-lab', track: 'regulatory',
@@ -239,21 +240,10 @@ export const COMMITMENTS: Commitment[] = [
     description: 'At the AI Seoul Summit (2024-05-21), 16 companies — including OpenAI, Anthropic, Google, Microsoft, Meta, Amazon and xAI — signed the Frontier AI Safety Commitments, agreeing to publish a safety framework focused on severe risks by the next AI Summit, held in Paris on 2025-02-10/11.',
     category: 'safety-framework', committedOn: '2024-05-21',
     deadlineType: 'calendar', deadline: '2025-02-10',
-    resolution: 'met', resolvedOn: '2025-02-10',
+    resolution: 'partial', resolvedOn: '2025-02-10',
     evidenceUrl: 'https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024',
     sourceLabel: 'GOV.UK', contested: true,
     notes: 'Most signatories published a framework by the Paris Summit (Meta, Google DeepMind, Microsoft, OpenAI, Amazon, G42 and others); coverage was uneven across the 16+ signatories and some frameworks arrived close to or just after the summit, so the collective ruling is debatable.' },
-
-  // ---- NEW (M1): OpenAI Safety and Security Committee becomes an independent board committee (met) ----
-  { id: 'openai-ssc-independent', lab: 'OpenAI', track: 'lab',
-    title: 'Establish the Safety and Security Committee as an independent board committee',
-    description: 'On 2024-09-16, following the Safety and Security Committee’s 90-day review (the committee was formed 2024-05-28), OpenAI announced the committee would become an independent board oversight committee, chaired by Zico Kolter, with authority to delay model releases over safety concerns.',
-    category: 'governance', committedOn: '2024-05-28',
-    deadlineType: 'calendar', deadline: '2024-09-16',
-    resolution: 'met', resolvedOn: '2024-09-16',
-    evidenceUrl: 'https://openai.com/index/update-on-safety-and-security-practices/',
-    sourceLabel: 'OpenAI',
-    notes: 'Distinct from the 90-day recommendations deliverable: this is the conversion of the committee into an independent board oversight committee, confirmed by OpenAI and reported by CNBC on 2024-09-16.' },
 
   // ---- NEW (M1): White House voluntary commitment — watermarking / provenance for AI-generated content (partial, contested) ----
   { id: 'wh-voluntary-watermarking-2023', lab: 'Multi-lab', track: 'lab',
@@ -269,7 +259,7 @@ export const COMMITMENTS: Commitment[] = [
   // LIVE (cadence-derived): Anthropic Risk Report next due (upcoming)
   { id: 'anthropic-risk-report-next', lab: 'Anthropic', track: 'lab',
     title: 'Publish a Risk Report every three to six months',
-    description: 'RSP v3.0 commits Anthropic to publishing a (redacted) Risk Report every three to six months; the first general Risk Report was published 2026-02-24, placing the next due by about 2026-08-24.',
+    description: 'RSP v3.0 commits Anthropic to publishing a Risk Report (with minimal redactions) every three to six months; the first general Risk Report was published 2026-02-24, placing the next due by about 2026-08-24.',
     category: 'transparency', committedOn: '2026-02-24',
     deadlineType: 'calendar', deadline: '2026-08-24',
     resolution: null, resolvedOn: null, contested: true,
@@ -288,27 +278,27 @@ export const COMMITMENTS: Commitment[] = [
     sourceLabel: 'Anthropic',
     notes: 'Cadence derived from the RSP v3.0 commitment to an annual third-party procedural-compliance review; next-due ~2027-02-24 (one year from the v3.0 effective date, a derived date rather than a lab-stated one).' },
 
-  // #20 REGULATORY: EU AI Act high-risk (Annex III) obligations apply 2026-08-02 (countdown-only)
-  { id: 'eu-aia-highrisk-annex3-2026', lab: 'Multi-lab', track: 'regulatory',
+  // #20 REGULATORY: EU AI Act high-risk (Annex III) — deferred by the Digital Omnibus (countdown-only)
+  { id: 'eu-aia-highrisk-annex3', lab: 'Multi-lab', track: 'regulatory',
     title: 'EU AI Act high-risk (Annex III) obligations apply',
-    description: 'Under EU AI Act Article 113, the Act applies generally from 2026-08-02, including the high-risk obligations for systems listed in Annex III.',
+    description: 'The EU AI Act originally applied Annex III (standalone, use-based) high-risk obligations from 2026-08-02. The Digital Omnibus deal (provisional political agreement, May 2026) defers them to 2027-12-02.',
     category: 'governance', committedOn: '2024-08-01',
-    deadlineType: 'calendar', deadline: '2026-08-02',
+    deadlineType: 'calendar', deadline: '2027-12-02',
     resolution: null, resolvedOn: null,
-    evidenceUrl: 'https://artificialintelligenceact.eu/article/113/',
-    sourceLabel: 'EU AI Act',
-    notes: 'Statutory deadline (24 months after entry into force); shown as a countdown, not scored.' },
+    evidenceUrl: 'https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules',
+    sourceLabel: 'Hogan Lovells',
+    notes: 'New date (2027-12-02) is the Digital Omnibus deferral, provisionally agreed and pending formal adoption / EU Official Journal publication; the prior statutory date was 2026-08-02. Shown as a countdown, not scored.' },
 
-  // REGULATORY: EU AI Act Annex I high-risk obligations apply 2027-08-02 (countdown-only)
-  { id: 'eu-aia-highrisk-annex1-2027', lab: 'Multi-lab', track: 'regulatory',
+  // REGULATORY: EU AI Act Annex I high-risk — deferred by the Digital Omnibus (countdown-only)
+  { id: 'eu-aia-highrisk-annex1', lab: 'Multi-lab', track: 'regulatory',
     title: 'EU AI Act high-risk (Annex I) obligations apply',
-    description: 'Under EU AI Act Article 113, the Article 6(1) obligations for high-risk systems that are safety components of products covered by EU product law (Annex I) apply from 2027-08-02.',
+    description: 'The Article 6(1) obligations for high-risk systems that are safety components of products covered by EU product law (Annex I) originally applied from 2027-08-02. The Digital Omnibus deal (provisional agreement, May 2026) defers them to 2028-08-02.',
     category: 'governance', committedOn: '2024-08-01',
-    deadlineType: 'calendar', deadline: '2027-08-02',
+    deadlineType: 'calendar', deadline: '2028-08-02',
     resolution: null, resolvedOn: null,
-    evidenceUrl: 'https://artificialintelligenceact.eu/article/113/',
-    sourceLabel: 'EU AI Act',
-    notes: 'Statutory deadline (36 months after entry into force) for Annex I high-risk systems — distinct from the Article 111 legacy-GPAI deadline on the same date.' },
+    evidenceUrl: 'https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules',
+    sourceLabel: 'Hogan Lovells',
+    notes: 'New date (2028-08-02) is the Digital Omnibus deferral, provisionally agreed and pending formal adoption / EU Official Journal publication; the prior date was 2027-08-02. Shown as a countdown, not scored.' },
 
   // #19 REGULATORY: EU AI Act obligations for legacy GPAI models (countdown-only)
   { id: 'eu-aia-gpai-legacy-2027', lab: 'Multi-lab', track: 'regulatory',
