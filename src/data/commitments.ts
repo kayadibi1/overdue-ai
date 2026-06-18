@@ -157,27 +157,27 @@ export const COMMITMENTS: Commitment[] = [
     sourceLabel: 'POLITICO', contested: true,
     notes: 'In April 2024, several labs had not given pre-deployment access; the situation was partly remedied later in 2024 (e.g. a joint US/UK Claude 3.5 Sonnet evaluation). Labs cited the absence of agreed common evaluation procedures.' },
 
-  // #13 EU GPAI Code of Practice finalized (met, slipped)
-  { id: 'eu-gpai-cop-finalized', lab: 'Multi-lab', track: 'lab',
-    title: 'Finalize the EU General-Purpose AI Code of Practice',
-    description: 'The European Commission published the final General-Purpose AI Code of Practice on 2025-07-10, after the target slipped from an earlier 2025 date.',
+  // #13 EU GPAI Code of Practice finalized (regulatory instrument — countdown-only context)
+  { id: 'eu-gpai-cop-finalized', lab: 'Multi-lab', track: 'regulatory',
+    title: 'EU General-Purpose AI Code of Practice published',
+    description: 'The European Commission published the final General-Purpose AI Code of Practice on 2025-07-10. It is a voluntary instrument under the EU AI Act, not a promise a lab made.',
     category: 'governance', committedOn: '2024-08-01',
     deadlineType: 'calendar', deadline: '2025-07-10',
-    resolution: 'met', resolvedOn: '2025-07-10',
+    resolution: null, resolvedOn: null,
     evidenceUrl: 'https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai',
     sourceLabel: 'European Commission',
-    notes: 'Slipped from an earlier ~May 2025 target; finalized 2025-07-10.' },
+    notes: 'Regulatory instrument under the EU AI Act; shown as context, not scored.' },
 
-  // #14 EU GPAI obligations apply (met / in-force)
-  { id: 'eu-aia-gpai-apply-2025', lab: 'Multi-lab', track: 'lab',
+  // #14 EU GPAI obligations apply (regulatory — statutory date, countdown-only)
+  { id: 'eu-aia-gpai-apply-2025', lab: 'Multi-lab', track: 'regulatory',
     title: 'EU AI Act general-purpose AI obligations begin to apply',
     description: 'Under EU AI Act Article 113, the general-purpose AI model obligations (Chapter V) began to apply on 2025-08-02, 12 months after the Act entered into force.',
     category: 'governance', committedOn: '2024-08-01',
     deadlineType: 'calendar', deadline: '2025-08-02',
-    resolution: 'met', resolvedOn: '2025-08-02',
+    resolution: null, resolvedOn: null,
     evidenceUrl: 'https://artificialintelligenceact.eu/article/113/',
     sourceLabel: 'EU AI Act',
-    notes: 'Statutory in-force date; recorded as met (in force).' },
+    notes: 'Statutory in-force date under the EU AI Act; shown as context, not scored.' },
 
   // #16 Microsoft Frontier Governance Framework v1 (met)
   { id: 'microsoft-frontier-governance-v1', lab: 'Microsoft', track: 'lab',
@@ -211,16 +211,71 @@ export const COMMITMENTS: Commitment[] = [
     sourceLabel: 'Anthropic',
     notes: 'Commitment made at the Opus 4.5 launch; first report fulfilling it covered Opus 4.6 (2026-02-10).' },
 
+  // ---- NEW (M1): Anthropic activated ASL-3 safeguards with Claude Opus 4 (met) ----
+  { id: 'anthropic-asl3-opus4', lab: 'Anthropic', track: 'lab',
+    title: 'Apply ASL-3 safeguards when a model may reach the ASL-3 threshold',
+    description: 'Anthropic’s Responsible Scaling Policy commits to applying ASL-3 Security and Deployment Standards before deploying a model that may have crossed the corresponding capability threshold. On 2025-05-22 Anthropic activated ASL-3 protections with the launch of Claude Opus 4.',
+    category: 'security', committedOn: '2023-09-19',
+    deadlineType: 'trigger', deadline: null, triggerText: 'when a model may reach the ASL-3 capability threshold',
+    resolution: 'met', resolvedOn: '2025-05-22',
+    evidenceUrl: 'https://www.anthropic.com/news/activating-asl3-protections',
+    sourceLabel: 'Anthropic',
+    notes: 'Claude Opus 4 was the first Anthropic model deployed under ASL-3; Anthropic applied the standard as a precautionary measure without definitively determining the threshold had been crossed.' },
+
+  // ---- NEW (M1): Anthropic interpretability goal "by 2027" (LIVE: upcoming, contested) ----
+  { id: 'anthropic-interpretability-2027', lab: 'Anthropic', track: 'lab',
+    title: 'Interpretability that can "reliably detect most model problems" by 2027',
+    description: 'In an April 2025 essay, Anthropic CEO Dario Amodei stated: "Anthropic is doubling down on interpretability, and we have a goal of getting to \'interpretability can reliably detect most model problems\' by 2027."',
+    category: 'evaluations', committedOn: '2025-04-24',
+    deadlineType: 'calendar', deadline: '2027-12-31',
+    resolution: null, resolvedOn: null, contested: true,
+    evidenceUrl: 'https://www.darioamodei.com/post/the-urgency-of-interpretability',
+    sourceLabel: 'Dario Amodei (Anthropic)',
+    notes: 'A CEO-stated organizational goal rather than a precise, falsifiable deliverable; "by 2027" encoded as a 2027-12-31 checkpoint. Whether "most model problems" is measurable is debatable.' },
+
+  // ---- NEW (M1): Multi-lab Seoul commitment to publish a frontier safety framework before Paris (met, uneven) ----
+  { id: 'seoul-frameworks-by-paris', lab: 'Multi-lab', track: 'lab',
+    title: 'Publish a frontier safety framework before the Paris AI Action Summit',
+    description: 'At the AI Seoul Summit (2024-05-21), 16 companies — including OpenAI, Anthropic, Google, Microsoft, Meta, Amazon and xAI — signed the Frontier AI Safety Commitments, agreeing to publish a safety framework focused on severe risks by the next AI Summit, held in Paris on 2025-02-10/11.',
+    category: 'safety-framework', committedOn: '2024-05-21',
+    deadlineType: 'calendar', deadline: '2025-02-10',
+    resolution: 'met', resolvedOn: '2025-02-10',
+    evidenceUrl: 'https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024',
+    sourceLabel: 'GOV.UK', contested: true,
+    notes: 'Most signatories published a framework by the Paris Summit (Meta, Google DeepMind, Microsoft, OpenAI, Amazon, G42 and others); coverage was uneven across the 16+ signatories and some frameworks arrived close to or just after the summit, so the collective ruling is debatable.' },
+
+  // ---- NEW (M1): OpenAI Safety and Security Committee becomes an independent board committee (met) ----
+  { id: 'openai-ssc-independent', lab: 'OpenAI', track: 'lab',
+    title: 'Establish the Safety and Security Committee as an independent board committee',
+    description: 'On 2024-09-16, following the Safety and Security Committee’s 90-day review (the committee was formed 2024-05-28), OpenAI announced the committee would become an independent board oversight committee, chaired by Zico Kolter, with authority to delay model releases over safety concerns.',
+    category: 'governance', committedOn: '2024-05-28',
+    deadlineType: 'calendar', deadline: '2024-09-16',
+    resolution: 'met', resolvedOn: '2024-09-16',
+    evidenceUrl: 'https://openai.com/index/update-on-safety-and-security-practices/',
+    sourceLabel: 'OpenAI',
+    notes: 'Distinct from the 90-day recommendations deliverable: this is the conversion of the committee into an independent board oversight committee, confirmed by OpenAI and reported by CNBC on 2024-09-16.' },
+
+  // ---- NEW (M1): White House voluntary commitment — watermarking / provenance for AI-generated content (partial, contested) ----
+  { id: 'wh-voluntary-watermarking-2023', lab: 'Multi-lab', track: 'lab',
+    title: 'Develop provenance or watermarking for AI-generated content (2023 voluntary commitments)',
+    description: 'Under the White House voluntary AI commitments (2023-07-21), participating companies committed to develop robust mechanisms — including provenance and/or watermarking — so users can tell when audio or visual content is AI-generated.',
+    category: 'transparency', committedOn: '2023-07-21',
+    deadlineType: 'trigger', deadline: null, triggerText: 'develop provenance/watermarking for in-scope AI-generated audio-visual content',
+    resolution: 'partial', resolvedOn: '2024-07-21',
+    evidenceUrl: 'https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf',
+    sourceLabel: 'The White House (archive)', contested: true,
+    notes: 'Some signatories shipped provenance tooling (e.g. Google SynthID, C2PA Content Credentials), but a 2025 academic review found deployment across publicly available products was uneven a year on; recorded as partial.' },
+
   // LIVE (cadence-derived): Anthropic Risk Report next due (upcoming)
   { id: 'anthropic-risk-report-next', lab: 'Anthropic', track: 'lab',
     title: 'Publish a Risk Report every three to six months',
     description: 'RSP v3.0 commits Anthropic to publishing a (redacted) Risk Report every three to six months; the first general Risk Report was published 2026-02-24, placing the next due by about 2026-08-24.',
     category: 'transparency', committedOn: '2026-02-24',
     deadlineType: 'calendar', deadline: '2026-08-24',
-    resolution: null, resolvedOn: null,
+    resolution: null, resolvedOn: null, contested: true,
     evidenceUrl: 'https://www.anthropic.com/rsp-updates',
     sourceLabel: 'Anthropic',
-    notes: 'Cadence derived from the RSP v3.0 clause "Risk Reports will be published online (with some redactions) every 3–6 months." Six-month outer bound from the 2026-02-24 report gives ~2026-08-24.' },
+    notes: 'Cadence derived from the RSP v3.0 clause "Risk Reports will be published online (with some redactions) every 3–6 months." Six-month outer bound from the 2026-02-24 report gives ~2026-08-24 (a derived next-date, not a lab-stated one).' },
 
   // LIVE (cadence-derived): Anthropic annual third-party procedural review (upcoming)
   { id: 'anthropic-annual-procedural-review', lab: 'Anthropic', track: 'lab',
@@ -228,13 +283,13 @@ export const COMMITMENTS: Commitment[] = [
     description: 'RSP v3.0 commits Anthropic to an annual third-party review of compliance with its main procedural commitments; anchored to the 2026-02-24 v3.0 effective date, the next review falls due around 2027-02-24.',
     category: 'governance', committedOn: '2026-02-24',
     deadlineType: 'calendar', deadline: '2027-02-24',
-    resolution: null, resolvedOn: null,
+    resolution: null, resolvedOn: null, contested: true,
     evidenceUrl: 'https://www.anthropic.com/rsp-updates',
     sourceLabel: 'Anthropic',
-    notes: 'Cadence derived from the RSP v3.0 commitment to an annual third-party procedural-compliance review; next-due ~2027-02-24 (one year from the v3.0 effective date).' },
+    notes: 'Cadence derived from the RSP v3.0 commitment to an annual third-party procedural-compliance review; next-due ~2027-02-24 (one year from the v3.0 effective date, a derived date rather than a lab-stated one).' },
 
-  // #20 LIVE: EU AI Act high-risk (Annex III) obligations apply 2026-08-02 (upcoming)
-  { id: 'eu-aia-highrisk-annex3-2026', lab: 'Multi-lab', track: 'lab',
+  // #20 REGULATORY: EU AI Act high-risk (Annex III) obligations apply 2026-08-02 (countdown-only)
+  { id: 'eu-aia-highrisk-annex3-2026', lab: 'Multi-lab', track: 'regulatory',
     title: 'EU AI Act high-risk (Annex III) obligations apply',
     description: 'Under EU AI Act Article 113, the Act applies generally from 2026-08-02, including the high-risk obligations for systems listed in Annex III.',
     category: 'governance', committedOn: '2024-08-01',
@@ -242,10 +297,10 @@ export const COMMITMENTS: Commitment[] = [
     resolution: null, resolvedOn: null,
     evidenceUrl: 'https://artificialintelligenceact.eu/article/113/',
     sourceLabel: 'EU AI Act',
-    notes: 'Statutory deadline (24 months after entry into force) — drives a live count-down timer.' },
+    notes: 'Statutory deadline (24 months after entry into force); shown as a countdown, not scored.' },
 
-  // LIVE: EU AI Act Annex I high-risk obligations apply 2027-08-02 (upcoming)
-  { id: 'eu-aia-highrisk-annex1-2027', lab: 'Multi-lab', track: 'lab',
+  // REGULATORY: EU AI Act Annex I high-risk obligations apply 2027-08-02 (countdown-only)
+  { id: 'eu-aia-highrisk-annex1-2027', lab: 'Multi-lab', track: 'regulatory',
     title: 'EU AI Act high-risk (Annex I) obligations apply',
     description: 'Under EU AI Act Article 113, the Article 6(1) obligations for high-risk systems that are safety components of products covered by EU product law (Annex I) apply from 2027-08-02.',
     category: 'governance', committedOn: '2024-08-01',
@@ -255,8 +310,8 @@ export const COMMITMENTS: Commitment[] = [
     sourceLabel: 'EU AI Act',
     notes: 'Statutory deadline (36 months after entry into force) for Annex I high-risk systems — distinct from the Article 111 legacy-GPAI deadline on the same date.' },
 
-  // #19 LIVE: EU AI Act obligations for legacy GPAI models (upcoming)
-  { id: 'eu-aia-gpai-legacy-2027', lab: 'Multi-lab', track: 'lab',
+  // #19 REGULATORY: EU AI Act obligations for legacy GPAI models (countdown-only)
+  { id: 'eu-aia-gpai-legacy-2027', lab: 'Multi-lab', track: 'regulatory',
     title: 'EU AI Act obligations apply to GPAI models already on the market',
     description: 'Under EU AI Act Article 111, providers of general-purpose AI models placed on the market before 2025-08-02 must comply with the GPAI obligations by 2027-08-02.',
     category: 'governance', committedOn: '2024-08-01',
@@ -264,10 +319,10 @@ export const COMMITMENTS: Commitment[] = [
     resolution: null, resolvedOn: null,
     evidenceUrl: 'https://artificialintelligenceact.eu/article/111/',
     sourceLabel: 'EU AI Act',
-    notes: 'Statutory transition deadline for pre-existing GPAI models — drives a live count-down timer.' },
+    notes: 'Statutory transition deadline for pre-existing GPAI models; shown as a countdown, not scored.' },
 
-  // LIVE: EU AI Act first Commission evaluation due 2028-08-02 (upcoming)
-  { id: 'eu-aia-commission-eval-2028', lab: 'Multi-lab', track: 'lab',
+  // REGULATORY: EU AI Act first Commission evaluation due 2028-08-02 (countdown-only)
+  { id: 'eu-aia-commission-eval-2028', lab: 'Multi-lab', track: 'regulatory',
     title: 'EU AI Act first Commission evaluation and review',
     description: 'Under EU AI Act Article 112, the Commission must evaluate the need to amend the high-risk list and related provisions by 2028-08-02, then every four years.',
     category: 'governance', committedOn: '2024-08-01',
@@ -275,5 +330,5 @@ export const COMMITMENTS: Commitment[] = [
     resolution: null, resolvedOn: null,
     evidenceUrl: 'https://artificialintelligenceact.eu/article/112/',
     sourceLabel: 'EU AI Act',
-    notes: 'Statutory review cycle (first due 2028-08-02, then every four years) — drives a live count-down timer.' },
+    notes: 'Statutory review cycle (first due 2028-08-02, then every four years); shown as a countdown, not scored.' },
 ];
