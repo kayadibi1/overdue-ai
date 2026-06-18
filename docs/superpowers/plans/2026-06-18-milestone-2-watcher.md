@@ -103,6 +103,12 @@ describe('dueDeadlines', () => {
     const ids = dueDeadlines(list, NOW).map((d) => d.c.id).sort();
     expect(ids).toEqual(['justpast', 'soon']);
   });
+  it('agrees with computeStatus on a same-day deadline regardless of time of day', () => {
+    const sameDay = c({ id: 'today', deadline: '2026-06-18' });
+    const afternoon = Date.UTC(2026, 5, 18, 15); // 3pm UTC; deadline is midnight today, already passed
+    const [d] = dueDeadlines([sameDay], afternoon);
+    expect(d.kind).toBe('overdue'); // matches computeStatus, not a spurious "upcoming 0 days"
+  });
 });
 
 describe('issueMarker', () => {
@@ -124,7 +130,7 @@ Expected: FAIL ("Cannot find module '../src/watcher/core'").
 import { createHash } from 'node:crypto';
 import * as cheerio from 'cheerio';
 import type { Commitment } from '../lib/types';
-import { parseUTC, DAY_MS } from '../lib/status';
+import { parseUTC, DAY_MS, computeStatus } from '../lib/status';
 
 /** Visible text only: drop script/style/head/noscript (+ per-source selectors), collapse whitespace. */
 export function extractText(html: string, stripSelectors: string[] = []): string {
@@ -161,9 +167,15 @@ export function dueDeadlines(commitments: Commitment[], now: number, withinDays 
   const out: DueItem[] = [];
   for (const c of commitments) {
     if (c.track !== 'lab' || c.resolution !== null || c.deadlineType !== 'calendar' || !c.deadline) continue;
-    const days = Math.round((parseUTC(c.deadline) - now) / DAY_MS);
-    if (days >= 0 && days <= withinDays) out.push({ c, kind: 'upcoming', days });
-    else if (days < 0 && days >= -graceDays) out.push({ c, kind: 'overdue', days: -days });
+    const rawDays = (parseUTC(c.deadline) - now) / DAY_MS;
+    const status = computeStatus(c, now); // 'upcoming' | 'overdue' — the SAME rule the board uses, so kind never disagrees
+    if (status === 'upcoming') {
+      const days = Math.ceil(rawDays);
+      if (days <= withinDays) out.push({ c, kind: 'upcoming', days });
+    } else if (status === 'overdue') {
+      const days = Math.floor(-rawDays);
+      if (days <= graceDays) out.push({ c, kind: 'overdue', days });
+    }
   }
   return out;
 }
@@ -261,14 +273,16 @@ const today = new Date(now).toISOString().slice(0, 10);
 
 interface Planned { marker: string; title: string; body: string; }
 const planned: Planned[] = [];
+const pendingSnapshots = new Map<string, string>();   // flushed to disk only after all issues succeed
 
 async function fetchText(url: string): Promise<string | null> {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const res = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(15000), headers: { 'user-agent': 'overdue-watcher' } });
       if (!res.ok) { if (res.status >= 500 && attempt === 0) continue; return null; }
+      if (Number(res.headers.get('content-length') ?? '0') > 2_000_000) return null; // reject oversized early when advertised
       const buf = await res.arrayBuffer();
-      if (buf.byteLength > 2_000_000) return null; // 2 MB cap
+      if (buf.byteLength > 2_000_000) return null;                                     // hard cap if length absent/wrong
       return new TextDecoder().decode(buf);
     } catch { if (attempt === 0) continue; return null; }
   }
@@ -285,7 +299,7 @@ async function checkSources() {
     const hash = hashText(text);
     const prior = state[w.id];
     if (!prior) {                                  // baseline: record, no issue
-      if (!DRY) { writeFileSync(snapPath(w.id), text); }
+      pendingSnapshots.set(w.id, text);
       state[w.id] = { hash, lastChanged: today };
       console.log(`baseline: ${w.id}`);
       continue;
@@ -294,7 +308,7 @@ async function checkSources() {
     const prev = existsSync(snapPath(w.id)) ? readFileSync(snapPath(w.id), 'utf8') : '';
     const diff = diffSummary(prev, text);
     if (!isMeaningfulChange(diff)) { // sub-threshold: refresh silently
-      if (!DRY) { writeFileSync(snapPath(w.id), text); }
+      pendingSnapshots.set(w.id, text);
       state[w.id] = { hash, lastChanged: today };
       console.log(`minor change (no issue): ${w.id}`);
       continue;
@@ -304,7 +318,7 @@ async function checkSources() {
       title: `Source changed: ${w.label}`,
       body: `${issueMarker('src', w.id)}\n\n**${w.label}** changed (detected ${today}).\n${w.url}\n\nNew/changed text:\n\n> ${diff.snippet.replace(/\n/g, '\n> ')}\n\nReview and update \`src/data/commitments.ts\` if warranted.`,
     });
-    if (!DRY) { writeFileSync(snapPath(w.id), text); }
+    pendingSnapshots.set(w.id, text);
     state[w.id] = { hash, lastChanged: today };
   }
 }
@@ -346,26 +360,27 @@ async function openWatcherIssues(): Promise<Map<string, number>> {
 
 async function upsert(open: Map<string, number>, p: Planned) {
   const existing = open.get(p.marker);
-  if (existing) {
-    await api(`/repos/${repo}/issues/${existing}`, { method: 'PATCH', body: JSON.stringify({ body: p.body }) });
-    console.log(`updated #${existing}: ${p.title}`);
-  } else {
-    const res = await api(`/repos/${repo}/issues`, { method: 'POST', body: JSON.stringify({ title: p.title, body: p.body, labels: ['watcher'] }) });
-    console.log(`${res.ok ? 'created' : 'FAILED ' + res.status}: ${p.title}`);
-  }
+  const res = existing
+    ? await api(`/repos/${repo}/issues/${existing}`, { method: 'PATCH', body: JSON.stringify({ body: p.body }) })
+    : await api(`/repos/${repo}/issues`, { method: 'POST', body: JSON.stringify({ title: p.title, body: p.body, labels: ['watcher'] }) });
+  if (!res.ok) throw new Error(`issue ${existing ? 'update' : 'create'} failed (${res.status}): ${p.title}`); // throw → run fails BEFORE state is persisted
+  console.log(`${existing ? 'updated #' + existing : 'created'}: ${p.title}`);
 }
 
 async function main() {
-  await checkSources();
+  await checkSources();   // updates `state` + `pendingSnapshots` IN MEMORY only
   checkDeadlines();
   console.log(`\n${planned.length} issue(s) planned; dryRun=${DRY}`);
   if (DRY) { for (const p of planned) console.log(`  • ${p.title}`); return; }
-  // persist state (snapshots already written above)
-  mkdirSync(W('.watcher/snapshots'), { recursive: true });
-  writeFileSync(W('.watcher/state.json'), JSON.stringify(state, null, 2) + '\n');
+  // Create/refresh issues FIRST. upsert() throws on any API failure, so a failed
+  // call can never let us persist state (mark a source "seen") without its issue.
   await ensureLabel();
   const open = await openWatcherIssues();
   for (const p of planned) await upsert(open, p);
+  // Only now flush state + snapshots to disk for the workflow to commit.
+  mkdirSync(W('.watcher/snapshots'), { recursive: true });
+  for (const [id, text] of pendingSnapshots) writeFileSync(snapPath(id), text);
+  writeFileSync(W('.watcher/state.json'), JSON.stringify(state, null, 2) + '\n');
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });
