@@ -4,27 +4,16 @@ import type { Commitment } from '../lib/types';
 // reporting as of 2026-06-18. Tone is factual: each row states the deadline and
 // what was published by it. Genuinely disputable rulings carry `contested: true`.
 export const COMMITMENTS: Commitment[] = [
-  // ---- resolved: missed (self-imposed deadline passed without an updated policy) ----
-  { id: 'xai-fsp-update-2025', lab: 'xAI',
-    title: 'Publish an updated frontier safety policy within three months',
-    description: 'In a draft "Risk Management Framework" (2025-02-20), xAI stated it would release an updated version of the policy within three months (a 2025-05-10 deadline).',
+  // ---- resolved: partial (updated policy published ~3 months after the self-imposed deadline) ----
+  { id: 'xai-updated-policy-2025', lab: 'xAI',
+    title: 'Publish an updated policy within three months',
+    description: 'In a draft framework (~2025-02-20), xAI stated it would release an updated version of the policy within three months (a ~2025-05-10 deadline).',
     category: 'safety-framework', committedOn: '2025-02-20',
     deadlineType: 'calendar', deadline: '2025-05-10',
-    resolution: 'missed', resolvedOn: '2025-05-13',
+    resolution: 'partial', resolvedOn: '2025-08-20', contested: true,
     evidenceUrl: 'https://techcrunch.com/2025/05/13/xais-promised-safety-report-is-mia/',
     sourceLabel: 'TechCrunch',
-    notes: 'No updated policy was published by 2025-05-10. xAI later published an updated Risk Management Framework on 2025-08-20 (tracked separately).' },
-
-  // ---- resolved: partial (the updated policy shipped ~3 months after the deadline) ----
-  { id: 'xai-updated-rmf-2025', lab: 'xAI',
-    title: 'Release the updated frontier safety policy after the missed deadline',
-    description: 'After missing the 2025-05-10 self-imposed deadline, xAI published an updated Risk Management Framework on 2025-08-20, about three months late.',
-    category: 'safety-framework', committedOn: '2025-02-20',
-    deadlineType: 'calendar', deadline: '2025-05-10',
-    resolution: 'partial', resolvedOn: '2025-08-20',
-    evidenceUrl: 'https://metr.org/common-elements',
-    sourceLabel: 'METR', contested: true,
-    notes: 'Published ~102 days late. METR notes the August version removed capability-evaluation thresholds present in the February draft; whether it is a strengthening or weakening is debated.' },
+    notes: 'No updated policy was published by the ~2025-05-10 deadline; xAI published an updated Risk Management Framework on 2025-08-20, about three months late.' },
 
   // ---- resolved: met ----
   { id: 'meta-frontier-framework-seoul', lab: 'Meta',
@@ -98,10 +87,10 @@ export const COMMITMENTS: Commitment[] = [
     description: 'OpenAI’s Preparedness Framework v2 (2025-04-15) commits to reviewing and potentially updating the framework at least once a year; the next annual review fell due around 2026-04-15.',
     category: 'governance', committedOn: '2025-04-15',
     deadlineType: 'calendar', deadline: '2026-04-15',
-    resolution: null, resolvedOn: null,
+    resolution: null, resolvedOn: null, contested: true,
     evidenceUrl: 'https://openai.com/index/updating-our-preparedness-framework/',
     sourceLabel: 'OpenAI',
-    notes: 'Cadence derived from the v2 "at least once a year" clause (Preparedness Framework v2 PDF, 2025-04-15). No 2026 Preparedness Framework review had been published as of 2026-06-18. The May 2026 Frontier Governance Framework is a separate document and does not update the Preparedness Framework.' },
+    notes: 'The 2026-04-15 deadline is derived from the v2 "at least once a year" annual-review cadence (Preparedness Framework v2, 2025-04-15), not an OpenAI-stated date. No 2026 Preparedness Framework review had been published as of 2026-06-18. The May 2026 Frontier Governance Framework is a separate document and does not update the Preparedness Framework.' },
 
   // #7 OpenAI Safety and Security Committee 90-day recommendations (met)
   { id: 'openai-ssc-90-days', lab: 'OpenAI',
@@ -164,8 +153,8 @@ export const COMMITMENTS: Commitment[] = [
     category: 'access', committedOn: '2023-11-02',
     deadlineType: 'trigger', deadline: null, triggerText: 'pre-deployment access for state safety institutes',
     resolution: 'missed', resolvedOn: '2024-04-30',
-    evidenceUrl: 'https://en.wikipedia.org/wiki/Artificial_intelligence_safety_institute',
-    sourceLabel: 'AI Safety Institute (Wikipedia)', contested: true,
+    evidenceUrl: 'https://subscriber.politicopro.com/article/2024/04/rishi-sunak-struggles-to-implement-his-landmark-ai-testing-deal-00153105',
+    sourceLabel: 'POLITICO', contested: true,
     notes: 'In April 2024, several labs had not given pre-deployment access; the situation was partly remedied later in 2024 (e.g. a joint US/UK Claude 3.5 Sonnet evaluation). Labs cited the absence of agreed common evaluation procedures.' },
 
   // #13 EU GPAI Code of Practice finalized (met, slipped)
@@ -189,17 +178,6 @@ export const COMMITMENTS: Commitment[] = [
     evidenceUrl: 'https://artificialintelligenceact.eu/article/113/',
     sourceLabel: 'EU AI Act',
     notes: 'Statutory in-force date; recorded as met (in force).' },
-
-  // #15 Meta declined to sign the EU GPAI Code of Practice (missed / opt-out)
-  { id: 'meta-eu-cop-decline', lab: 'Meta',
-    title: 'Decision on signing the EU General-Purpose AI Code of Practice',
-    description: 'On 2025-07-18 Meta announced it would not sign the EU General-Purpose AI Code of Practice; OpenAI, Anthropic, and Google signed.',
-    category: 'governance', committedOn: '2025-07-10',
-    deadlineType: 'calendar', deadline: '2025-08-02',
-    resolution: 'missed', resolvedOn: '2025-07-18',
-    evidenceUrl: 'https://techcrunch.com/2025/07/18/meta-refuses-to-sign-eus-ai-code-of-practice/',
-    sourceLabel: 'TechCrunch', contested: true,
-    notes: 'Meta chose not to sign the voluntary Code; signing was optional, so this is an opt-out rather than a breach of a binding obligation.' },
 
   // #16 Microsoft Frontier Governance Framework v1 (met)
   { id: 'microsoft-frontier-governance-v1', lab: 'Microsoft',
