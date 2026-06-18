@@ -1,4 +1,4 @@
-import { liveLabel } from '../lib/status';
+import { liveLabel, regulatoryLabel } from '../lib/status';
 
 const CHIP_LABEL: Record<string, string> = { overdue: 'Overdue', upcoming: 'Upcoming' };
 
@@ -53,6 +53,11 @@ if (!board) {
     });
     const n = document.querySelector<HTMLElement>('[data-stat-n="overdue"]');
     if (n) n.textContent = String(overdueNow);
+    // Tick regulatory countdowns too (separate section; never "overdue").
+    document.querySelectorAll<HTMLElement>('[data-reg-timer]').forEach((el) => {
+      const d = el.dataset.deadline;
+      if (d) el.textContent = regulatoryLabel(d, now).label;
+    });
     // If any card flipped status, re-apply controls once so an active status filter stays consistent.
     if (flipped) applyControls();
   }

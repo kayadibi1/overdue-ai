@@ -4,14 +4,18 @@ import { sortByUrgency, summarize } from '../lib/status';
 import { LABS } from '../lib/types';
 import CommitmentCard from '../components/CommitmentCard.astro';
 import SummaryStats from '../components/SummaryStats.astro';
+import RegulatoryItem from '../components/RegulatoryItem.astro';
 import '../styles/global.css';
 
 const now = Date.now();
-const sorted = sortByUrgency(COMMITMENTS, now);
-const counts = summarize(COMMITMENTS, now);
+const labRows = COMMITMENTS.filter((c) => c.track === 'lab');
+const regulatoryRows = COMMITMENTS.filter((c) => c.track === 'regulatory' && c.deadlineType === 'calendar' && c.deadline != null)
+  .sort((a, b) => (a.deadline ?? '').localeCompare(b.deadline ?? ''));
+const sorted = sortByUrgency(labRows, now);   // board = lab promises only
+const counts = summarize(labRows, now);        // headline = lab promises only
 const updated = new Date(now).toISOString().slice(0, 10);
 const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
-const labs = LABS.filter((l) => COMMITMENTS.some((c) => c.lab === l));
+const labs = LABS.filter((l) => labRows.some((c) => c.lab === l));
 ---
 <html lang="en">
   <head>
@@ -24,7 +28,7 @@ const labs = LABS.filter((l) => COMMITMENTS.some((c) => c.lab === l));
     <header class="masthead">
       <h1>Overdue</h1>
       <p class="tagline">Are frontier AI labs keeping their dated safety promises? A per-commitment, source-cited tracker.</p>
-      <p class="meta">{COMMITMENTS.length} commitments · updated {updated} ·
+      <p class="meta">{labRows.length} lab promises · {regulatoryRows.length} regulatory · updated {updated} ·
         <a href={withBase('methodology')}>Methodology</a> ·
         <a href="https://github.com/kayadibi1/overdue-ai">GitHub</a> ·
         <a href={withBase('commitments.json')}>Open data (JSON)</a>
@@ -59,6 +63,14 @@ const labs = LABS.filter((l) => COMMITMENTS.some((c) => c.lab === l));
         {sorted.map((c) => <CommitmentCard c={c} now={now} />)}
       </section>
       <p id="empty" class="empty" hidden>No commitments match these filters.</p>
+
+      <section class="reg-section" aria-label="Upcoming regulatory milestones">
+        <h2>Upcoming regulatory milestones</h2>
+        <p class="reg-note">Context, not scored. These are <strong>laws</strong> (e.g. the EU AI Act), not promises a lab made — shown as countdowns, never marked "missed".</p>
+        <div class="reg-grid">
+          {regulatoryRows.map((c) => <RegulatoryItem c={c} now={now} />)}
+        </div>
+      </section>
     </main>
 
     <footer class="footer">

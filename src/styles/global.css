@@ -43,3 +43,8 @@ a { color: var(--upcoming); }
 .prose h2 { margin: 26px 0 6px; font-size: 1.1rem; }
 .prose p { color: #33333a; }
 .prose code { background: var(--panel); border: 1px solid var(--line); padding: 1px 5px; border-radius: 4px; font-size: .85em; }
+
+.reg-section { margin-top: 36px; padding-top: 18px; border-top: 2px solid var(--line); }
+.reg-section h2 { font-size: 1.1rem; margin: 0 0 4px; }
+.reg-note { margin: 0 0 14px; color: var(--muted); font-size: .85rem; }
+.reg-grid { display: grid; gap: 10px; }

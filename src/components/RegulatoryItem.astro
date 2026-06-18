@@ -1,0 +1,22 @@
+---
+import type { Commitment } from '../lib/types';
+import { regulatoryLabel } from '../lib/status';
+interface Props { c: Commitment; now: number }
+const { c, now } = Astro.props;
+const rel = regulatoryLabel(c.deadline as string, now);
+---
+<article class="reg" data-reg data-deadline={c.deadline}>
+  <div class="reg__head"><span class="badge">{c.lab}</span><span class="tag">{c.category}</span></div>
+  <h4 class="reg__title">{c.title}</h4>
+  <p class="reg__desc">{c.description}</p>
+  <div class="reg__timer" data-reg-timer data-deadline={c.deadline}>{rel.label}</div>
+  <a class="reg__src" href={c.evidenceUrl} target="_blank" rel="noopener noreferrer">Source: {c.sourceLabel} ↗</a>
+</article>
+<style>
+  .reg { background: #fbfbfd; border: 1px dashed var(--line); border-radius: 8px; padding: 12px 14px; }
+  .reg__head { display: flex; gap: 8px; align-items: center; margin-bottom: 4px; }
+  .reg__title { margin: 2px 0; font-size: .92rem; }
+  .reg__desc { margin: 0 0 6px; color: var(--muted); font-size: .85rem; }
+  .reg__timer { font-family: var(--mono); font-size: .95rem; color: var(--upcoming); font-weight: 700; }
+  .reg__src { font-size: .78rem; }
+</style>
