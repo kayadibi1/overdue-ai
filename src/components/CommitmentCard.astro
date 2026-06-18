@@ -1,0 +1,27 @@
+---
+import type { Commitment } from '../lib/types';
+import { computeStatus, relativeTime } from '../lib/status';
+import StatusChip from './StatusChip.astro';
+interface Props { c: Commitment; now: number }
+const { c, now } = Astro.props;
+const status = computeStatus(c, now);
+const rel = relativeTime(c, now);
+---
+<article class="card" data-lab={c.lab} data-status={status} data-committed={c.committedOn}
+         data-deadline={c.deadline ?? ''} data-deadline-type={c.deadlineType}>
+  <header class="card__top">
+    <span class="badge">{c.lab}</span>
+    <span class="tag">{c.category}</span>
+    <StatusChip status={status} />
+    {c.contested && <span class="contested" title="Genuinely disputable ruling">⚠ contested</span>}
+  </header>
+  <h3 class="card__title">{c.title}</h3>
+  <p class="card__desc">{c.description}</p>
+  <div class="card__timer" data-timer data-kind={rel?.kind ?? 'none'}>
+    {rel ? rel.label : (c.triggerText ? `awaiting ${c.triggerText}` : '—')}
+  </div>
+  <footer class="card__foot">
+    <a href={c.evidenceUrl} target="_blank" rel="noopener noreferrer">Source: {c.sourceLabel} ↗</a>
+    <span class="committed">committed {c.committedOn}</span>
+  </footer>
+</article>

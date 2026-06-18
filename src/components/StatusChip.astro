@@ -1,0 +1,10 @@
+---
+import type { Status } from '../lib/types';
+interface Props { status: Status }
+const { status } = Astro.props;
+const LABEL: Record<Status, string> = {
+  met: 'Met', missed: 'Missed', partial: 'Partial',
+  overdue: 'Overdue', upcoming: 'Upcoming', pending: 'Pending',
+};
+---
+<span class={`chip chip--${status}`}>{LABEL[status]}</span>

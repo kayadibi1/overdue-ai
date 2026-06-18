@@ -1,0 +1,21 @@
+---
+import type { Status } from '../lib/types';
+interface Props { counts: Record<Status, number> }
+const { counts } = Astro.props;
+const ITEMS: { key: Status; label: string }[] = [
+  { key: 'overdue', label: 'Overdue now' },
+  { key: 'upcoming', label: 'Upcoming' },
+  { key: 'missed', label: 'Missed' },
+  { key: 'met', label: 'Met' },
+  { key: 'partial', label: 'Partial' },
+  { key: 'pending', label: 'Pending' },
+];
+---
+<div class="summary">
+  {ITEMS.map(({ key, label }) => (
+    <div class={`stat stat--${key}`} data-stat={key}>
+      <span class="stat__n" data-stat-n={key}>{counts[key]}</span>
+      <span class="stat__label">{label}</span>
+    </div>
+  ))}
+</div>
