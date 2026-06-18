@@ -183,7 +183,7 @@ Expected: FAIL — the **"contains both tracks"** assertion fails (after Task 1 
 
 ```bash
 git -C ~/Desktop/overdue-ai add tests/data.test.ts
-git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "test: M1 data-integrity rules (track, >=30 lab, >=3 live, regulatory unscored)"
+git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "test: M1 data-integrity rules (track, >=22 lab, >=3 live, regulatory unscored)"
 ```
 
 ---
