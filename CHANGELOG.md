@@ -2,6 +2,18 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-19 · M6 — depth & credibility
+
+- **Per-lab report-card pages** (`/labs/<slug>`): each lab's commitments with its status counts (reusing `SummaryStats`) and a derived **kept-rate** (`met ÷ resolved`) always shown *with* the underlying counts and formula, so a single percentage can't be cited out of context (the CAT / GovTrack pattern).
+- **Per-commitment detail pages** (`/c/<id>`): a four-stage **status timeline** (committed → due → evaluated → ruling) where each stage carries a `{label, done}` flag so unresolved stages render ghosted rather than falsely "done"; the surfaced **provenance** (`notes`, "Why this ruling"); the source, `committedOn`, an "as of" date, any related updates, and a ready-to-paste **citation**.
+- **Trust layer:** every card and detail page now carries its source and an **"as of"** date (per-row `lastChecked` overriding a global `DATA_AS_OF`); methodology gains a **"Data, license & how to cite"** section; the dataset is released **[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)** (`LICENSE-DATA`) while the code stays MIT.
+- **CSV export** (`/commitments.csv`): an RFC 4180 serializer (commas/quotes/newlines escaped) alongside the existing JSON, with `description` and `notes` columns.
+- **Explore table** (`/table`): a dense, **sortable + filterable** view of every commitment (lab / status / text), each row linking to its detail page; the Lab cell links to a lab page only when one exists.
+- **Corrections page** (`/corrections`): lists `UPDATES` with the new `kind: 'correction'`, newest-first, with an empty-state until the first one — out-transparenting the trackers it borrows from.
+- **Clickable scorecard:** homepage status counts are now keyboard-accessible filter buttons that set the board's status filter and scroll to it; the homepage also links to the table, per-lab pages, and the data downloads.
+- Two optional, backward-compatible data fields only (`Commitment.lastChecked?`, `Update.kind?`) plus `site.ts` `DATA_AS_OF`; new pure helpers (`labs.ts` slug/group/keptRate, `csv.ts`) are TDD'd; existing helpers (`summarize` / `sortByUrgency` / `computeStatus` / `StatusChip` / `CommitmentCard` / `sortUpdates`) are reused, not reimplemented. Borrowed patterns from Climate Action Tracker, PolitiFact, Net Zero Tracker, Our World in Data, and GovTrack.
+- 45 tests green; apex + `PAGES=1` builds both green (now emitting 29 `/c` pages, 7 `/labs` pages, `/table`, `/corrections`, and `/commitments.csv`).
+
 ## 2026-06-18 · M5 — our own email system
 
 - **Owned double-opt-in list:** a Python `subscribe_server` on the box (`server/subscribe/`) backs the on-site form with a SQLite store (`pending → verified → unsubscribed`) ported from `dc-frontier-events`. `/api/subscribe` speaks JSON to the inline fetch and is **enumeration-safe** (a valid email always returns `subscribed`, new or existing); verify/unsubscribe are server-rendered **form pages** whose state changes fire on **POST only**, so mail scanners and link prefetchers can't confirm or unsubscribe a human. Honeypot, per-IP rate limits, a 300s per-address verify cooldown, and a 48h pending TTL come along.

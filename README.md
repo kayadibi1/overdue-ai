@@ -18,7 +18,16 @@ npm test         # pure-logic + data-integrity tests
 npm run build
 ```
 
-## How it's built
-Astro (static) + TypeScript. Pure logic in `src/lib/status.ts` is imported by both the build and one client island, so server HTML and live timers never diverge. Data is a typed array in `src/data/commitments.ts`, also published as open JSON at `/commitments.json`.
+## Explore & reuse
+Beyond the homepage card board, the site offers:
+- **Per-commitment pages** (`/c/<id>`) — each with a status timeline (committed → due → evaluated → ruling), the surfaced ruling rationale, the source, an "as of" date, and a ready-to-paste citation.
+- **Per-lab report cards** (`/labs/<slug>`) — each lab's commitments with its status counts and a kept-rate (`met ÷ resolved`, shown with the underlying counts).
+- **An explore table** (`/table`) — every commitment, sortable by any column and filterable by lab / status / text.
+- **A corrections log** (`/corrections`) — when a ruling changes or an error is fixed, it's recorded here.
+- **Open data downloads** — `/commitments.json` and `/commitments.csv`.
 
-MIT licensed.
+## How it's built
+Astro (static) + TypeScript. Pure logic in `src/lib/status.ts` is imported by both the build and one client island, so server HTML and live timers never diverge. Data is a typed array in `src/data/commitments.ts`, also published as open JSON at `/commitments.json` and CSV at `/commitments.csv`.
+
+## Licenses
+The **code** is MIT licensed (see `LICENSE`). The **dataset** (`src/data/*`, `/commitments.json`, `/commitments.csv`) is licensed **[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)** (see `LICENSE-DATA`) — republish freely with attribution.
