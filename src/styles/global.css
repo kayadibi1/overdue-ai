@@ -101,11 +101,7 @@ h1, h2, h3, h4 { color: var(--ink); font-family: var(--display); letter-spacing:
 /* ---------- board: commitment = timeline card ---------- */
 .board { display: grid; gap: 16px; }
 .card { background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow-md);
-  padding: 18px 20px; position: relative; overflow: hidden; }
-.card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--pending); }
-.card--overdue::before { background: var(--overdue); } .card--upcoming::before { background: var(--upcoming); }
-.card--met::before { background: var(--met); } .card--missed::before { background: var(--missed); }
-.card--partial::before { background: var(--partial); } .card--pending::before { background: var(--pending); }
+  padding: 18px 20px; position: relative; }
 .card__top { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 10px; }
 .card__logo { width: 22px; height: 22px; border-radius: 6px; object-fit: contain; box-shadow: var(--shadow); background: #fff; flex: none; }
 .badge, .card__lab { font-weight: 700; font-size: .92rem; color: var(--ink); text-decoration: none; }
