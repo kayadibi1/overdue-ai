@@ -1,0 +1,18 @@
+---
+// /api/subscribe is a same-origin ROOT-relative path the box's Caddy serves — NOT absUrl()
+// (absUrl would prepend the origin/base and break the same-origin fetch + the Pages build).
+// On the Pages backup (PAGES=1) there is no box, so show a link to the apex instead of a dead form.
+const onPages = process.env.PAGES === '1';
+---
+{onPages ? (
+  <p class="subscribe">Get updates by email at <a href="https://overduetracker.org/">overduetracker.org</a>.</p>
+) : (
+  <form class="subscribe" data-subscribe action="/api/subscribe" method="post">
+    <label>Get updates by email
+      <input type="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+    </label>
+    <button type="submit">Subscribe</button>
+    <span class="subscribe__status" data-status aria-live="polite"></span>
+  </form>
+)}
+<script>import '../scripts/subscribe.ts';</script>

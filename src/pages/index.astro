@@ -5,6 +5,8 @@ import { LABS } from '../lib/types';
 import { UPDATES } from '../data/updates';
 import { sortUpdates } from '../lib/updates';
 import { absUrl } from '../lib/urls';
+import { CANONICAL_ORIGIN } from '../lib/site';
+import Subscribe from '../components/Subscribe.astro';
 import CommitmentCard from '../components/CommitmentCard.astro';
 import SummaryStats from '../components/SummaryStats.astro';
 import RegulatoryItem from '../components/RegulatoryItem.astro';
@@ -28,6 +30,7 @@ const latest = sortUpdates(UPDATES).slice(0, 2);
     <title>Overdue — Frontier AI Safety Commitment Tracker</title>
     <meta name="description" content="Which dated frontier-AI-safety commitments are being kept, and which are overdue right now? A per-commitment, source-cited tracker." />
     <link rel="alternate" type="application/rss+xml" title="Overdue updates" href={absUrl('/feed.xml')} />
+    <link rel="canonical" href={`${CANONICAL_ORIGIN}/`} />
   </head>
   <body>
     <header class="masthead">
@@ -84,7 +87,8 @@ const latest = sortUpdates(UPDATES).slice(0, 2);
         <ul>
           {latest.map((u) => <li><a href={withBase(`/updates#${u.id}`)}>{u.title}</a> <span class="u-date">{u.date}</span></li>)}
         </ul>
-        <p><a href={withBase('updates')}>All updates</a> · <a href={absUrl('/feed.xml')}>RSS</a> · email coming soon</p>
+        <p><a href={withBase('updates')}>All updates</a> · <a href={absUrl('/feed.xml')}>RSS</a></p>
+        <Subscribe />
       </section>
     </main>
 

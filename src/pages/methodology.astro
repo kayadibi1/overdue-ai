@@ -1,12 +1,14 @@
 ---
 import '../styles/global.css';
 import { absUrl } from '../lib/urls';
+import { CANONICAL_ORIGIN } from '../lib/site';
 const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
 ---
 <html lang="en">
   <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Overdue — Methodology</title>
-    <link rel="alternate" type="application/rss+xml" title="Overdue updates" href={absUrl('/feed.xml')} /></head>
+    <link rel="alternate" type="application/rss+xml" title="Overdue updates" href={absUrl('/feed.xml')} />
+    <link rel="canonical" href={`${CANONICAL_ORIGIN}/methodology`} /></head>
   <body>
     <header class="masthead"><h1>Methodology</h1>
       <p class="meta"><a href={withBase('')}>← Back to the board</a></p></header>
