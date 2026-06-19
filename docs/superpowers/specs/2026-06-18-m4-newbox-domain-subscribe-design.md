@@ -125,9 +125,16 @@ Progressive-enhancement form (the site already ships a client island, so first-p
 **Create:** `.github/workflows/deploy-newbox.yml` · `server/subscribe/{index.mjs,subscribe.mjs,package.json}` · `tests/subscribe.test.ts` · `src/components/Subscribe.astro` · `src/scripts/subscribe.ts` · `docs/runbooks/m4-hosting.md` · `docs/runbooks/m4-subscribe.md`
 **Modify:** `astro.config.mjs` (env base/site) · `deploy.yml` (PAGES=1) · pages `<head>` (canonical) · `index.astro`/`updates.astro`/footer (Subscribe block) · `CHANGELOG.md` (M4 entry, in the same commit) · `README.md`
 
-## Manual steps (cannot be automated — user, on box/Cloudflare)
+## Execution — who does what
 
-DNS A record · Origin-cert SAN for the new host · deploy keypair (GH secret + box authorized_keys) · Caddy vhost · Node install · subscribe env file + systemd unit · Buttondown account + RSS-to-email. All captured in the two runbooks.
+Most of these I can execute directly; the runbooks double as the written record of exactly what was applied.
+
+- **Cloudflare (I drive via the logged-in browser):** add the `overduetracker.org` DNS A record → `37.27.242.32` (proxied), set SSL/TLS mode to Full (strict), enable **Authenticated Origin Pulls** for the zone, and issue an **Origin Certificate** covering the host. Optionally mirror the hireme WAF/rate-limit rules.
+- **Box / newbox (I apply over `ssh newbox`):** install the deploy public key in `authorized_keys`, install Node, drop the systemd unit + root-only env file, create `/var/www/overdue`. **The Caddy vhost change requires your explicit OK each time** — the box also serves `sidaraslanoglu.com` + `emersus.ai`, so I'll `caddy validate` and do a careful reload, but you sign off before it's applied.
+- **GitHub (I do):** add the `NEWBOX_DEPLOY_KEY` + `NEWBOX_KNOWN_HOSTS` secrets.
+- **You (identity/billing):** create the **Buttondown** account (I can drive the browser through setup with you, but it's tied to your email + billing). You may prefer to install the Origin cert's private key on the box yourself rather than hand it to me.
+
+Go-live order: build the repo side first (this gauntlet), *then* execute the above end-to-end so DNS only flips once the box is actually serving.
 
 ## Risks / tradeoffs
 
