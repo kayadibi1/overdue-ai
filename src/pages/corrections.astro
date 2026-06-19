@@ -1,0 +1,52 @@
+---
+import { UPDATES } from '../data/updates';
+import { COMMITMENTS } from '../data/commitments';
+import { sortUpdates } from '../lib/updates';
+import { absUrl } from '../lib/urls';
+import { CANONICAL_ORIGIN } from '../lib/site';
+import '../styles/global.css';
+
+const corrections = sortUpdates(UPDATES.filter((u) => u.kind === 'correction'));
+const titleOf = (id: string) => COMMITMENTS.find((c) => c.id === id)?.title ?? id;
+const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
+const fmtDate = (d: string) =>
+  new Date(`${d}T00:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Corrections — Overdue</title>
+    <meta name="description" content="When Overdue changes a ruling or fixes an error, it's logged here." />
+    <link rel="alternate" type="application/rss+xml" title="Overdue updates" href={absUrl('/feed.xml')} />
+    <link rel="canonical" href={`${CANONICAL_ORIGIN}/corrections`} />
+  </head>
+  <body>
+    <header class="masthead">
+      <h1>Corrections</h1>
+      <p class="meta"><a href={withBase('')}>← Back to the board</a> · When we change a ruling or fix an error, it's logged here.</p>
+    </header>
+    <main class="prose">
+      {corrections.length === 0 ? (
+        <p>No corrections yet. When we change a ruling or fix a data error, it will appear here with what changed and why — and link to the affected commitment.</p>
+      ) : (
+        corrections.map((u) => (
+          <section id={u.id} class="correction">
+            <p class="correction__date">{fmtDate(u.date)}</p>
+            <h2>{u.title}</h2>
+            <p>{u.body}</p>
+            {u.commitmentIds && u.commitmentIds.length > 0 && (
+              <p class="update__refs">Affected:{' '}
+                {u.commitmentIds.map((id, i) => (
+                  <Fragment>{i > 0 ? ', ' : ''}<a href={withBase(`/c/${id}`)}>{titleOf(id)}</a></Fragment>
+                ))}
+              </p>
+            )}
+          </section>
+        ))
+      )}
+    </main>
+    <footer class="footer">
+      <p>Independent, best-effort, and unaffiliated with any lab. Spotted an error? Open a <a href="https://github.com/kayadibi1/overdue-ai/issues">GitHub issue</a>.</p>
+    </footer>
+  </body>
+</html>
