@@ -2,6 +2,14 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-19 · Teal palette
+
+Recolor only — layout and type unchanged. Moving the brand off the literal Stripe blurple to a distinctive teal (none of the peer trackers use it).
+
+- **Accent → teal.** Links, buttons, the hero `they` highlight and focus rings now use a deep, AA-legible teal (`#0e7490`), with a brighter teal (`#0e9aa7`) for hover and fills. The top sliver and the "Hold them to it" CTA band switch from the cyan→blurple→magenta gradient to an all-teal one; the logo ring matches.
+- **"Upcoming" status → blue (`#2f6bed`).** It previously *was* the blurple accent, so with a teal brand it needed its own hue to stay distinct from overdue-red and met-green. Overdue / met / partial colors unchanged — status meaning preserved.
+- **Favicon cache-bust:** `?v=2 → ?v=3` on every page so Cloudflare serves the new teal mark instead of the cached blurple one.
+
 ## 2026-06-19 · Craft pass (round 1)
 
 Refining the existing identity rather than replacing it.

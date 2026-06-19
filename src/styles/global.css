@@ -12,14 +12,14 @@
   --muted: #687385;      /* secondary / labels */
   --faint: #8792a2;      /* faint */
   --line: #e3e8ee; --line-2: #eef1f6;
-  --accent: #635bff;     /* blurple */
-  --accent-2: #7a73ff; --accent-dim: rgba(99,91,255,.10);
-  /* status palette (Stripe-ified) */
-  --overdue: #e2493f; --upcoming: #635bff; --met: #18a87a;
+  --accent: #0e7490;     /* deep teal — links, buttons (AA legible) */
+  --accent-2: #0e9aa7; --accent-dim: rgba(14,116,144,.10);
+  /* status palette */
+  --overdue: #e2493f; --upcoming: #2f6bed; --met: #18a87a;
   --missed: #df1b41; --partial: #ef8e1b; --pending: #8792a2;
   --radius: 14px; --radius-sm: 10px;
   --hairline: rgba(10,37,64,.08);   /* crisp card edge */
-  --grad: linear-gradient(101deg, #21d4fd 0%, #635bff 46%, #b224ef 100%);
+  --grad: linear-gradient(101deg, #2ad0d0 0%, #0e9aa7 50%, #0b6e8c 100%);
   --ease: cubic-bezier(.2,.6,.2,1);
   --shadow: 0 1px 2px rgba(10,37,64,.05);
   --shadow-md: 0 1px 2px rgba(10,37,64,.04), 0 5px 14px -4px rgba(10,37,64,.07);
@@ -103,7 +103,7 @@ h1, h2, h3, h4 { color: var(--ink); font-family: var(--display); letter-spacing:
 .labcard { display: block; background: var(--panel); border-radius: var(--radius); border: 1px solid var(--hairline);
   box-shadow: var(--shadow-md); padding: 16px 18px; text-decoration: none;
   transition: transform .18s var(--ease), box-shadow .18s var(--ease), border-color .18s var(--ease); }
-.labcard:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: rgba(99,91,255,.35); text-decoration: none; }
+.labcard:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: rgba(14,154,167,.4); text-decoration: none; }
 .labcard__head { display: flex; align-items: center; gap: 10px; margin-bottom: 13px; }
 .labcard__logo { border-radius: 6px; box-shadow: var(--shadow); background: #fff; flex: none; }
 .labcard__name { font-weight: 700; color: var(--ink); font-size: 1.05rem; letter-spacing: -.01em; }
