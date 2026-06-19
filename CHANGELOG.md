@@ -9,6 +9,7 @@ Full visual + structural redesign (replaces the original light theme).
 - **Stripe-inspired theme:** light `#f6f9fc` ground, deep-navy headings over slate body, the blurple `#635bff` brand, Inter type, the signature gradient sliver across the top, soft layered shadows, and rounded cards. Explored against a rig.ai dark/orange direction first (kept on the `redesign/rig-inspired` branch).
 - **Homepage is now a lab dashboard,** not a 29-card feed: an "Overdue right now" hero (only the overdue commitments, as timeline cards) over a "By lab" grid of tiles — logo, kept-rate %, status distribution bar, counts — that drill into each lab. The full sortable list stays at `/table`.
 - **Commitment cards** became timeline cards: a status-colored edge, a big day-count, and a deadline bar (committed → due → now). Lab logos added throughout (`public/logos/`). The homepage filter board/scorecard were removed in favour of the dashboard.
+- **Commitment card refined:** a clean container (soft shadow, rounded corners, no left edge bar — status reads from the chip) with the deadline grouped into an inset module (the magnitude phrase above the kept timeline line) and a hairline-divided footer.
 - Mobile pass (lab scorecard 6→3 cols, detail timeline 4→2). 52 vitest green; apex + `PAGES=1` builds green.
 
 ## 2026-06-19 · UI/UX polish
