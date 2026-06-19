@@ -1,0 +1,107 @@
+---
+import type { GetStaticPaths } from 'astro';
+import type { Commitment } from '../../lib/types';
+import { COMMITMENTS } from '../../data/commitments';
+import { UPDATES } from '../../data/updates';
+import { sortUpdates } from '../../lib/updates';
+import { computeStatus } from '../../lib/status';
+import { labSlug } from '../../lib/labs';
+import { absUrl } from '../../lib/urls';
+import { CANONICAL_ORIGIN, DATA_AS_OF } from '../../lib/site';
+import StatusChip from '../../components/StatusChip.astro';
+import '../../styles/global.css';
+
+export const getStaticPaths = (() =>
+  COMMITMENTS.map((c) => ({ params: { id: c.id }, props: { c } }))) satisfies GetStaticPaths;
+
+interface Props { c: Commitment }
+const { c } = Astro.props;
+const now = Date.now();
+const status = computeStatus(c, now);
+const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
+
+// Timeline: compute {label, done} so the em-dash fallback NEVER marks a stage done.
+const stages: { stage: string; label: string; done: boolean }[] = [
+  { stage: 'Committed', label: c.committedOn, done: true },
+  { stage: 'Due', label: c.deadline ?? c.triggerText ?? '—', done: Boolean(c.deadline || c.triggerText) },
+  { stage: 'Evaluated', label: c.resolvedOn ?? '—', done: Boolean(c.resolvedOn) },
+  { stage: 'Ruling', label: c.resolution ?? '—', done: Boolean(c.resolution) },
+];
+
+const asOf = c.lastChecked ?? DATA_AS_OF;
+const related = sortUpdates(UPDATES.filter((u) => u.commitmentIds?.includes(c.id)));
+const fmtDate = (d: string) =>
+  new Date(`${d}T00:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const year = c.resolvedOn ? c.resolvedOn.slice(0, 4) : c.committedOn.slice(0, 4);
+const retrieved = new Date(now).toISOString().slice(0, 10);
+const cite = `Overdue. "${c.title}." Overdue, ${year}. ${CANONICAL_ORIGIN}/c/${c.id} (retrieved ${retrieved}).`;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{c.title} — Overdue</title>
+    <meta name="description" content={c.description} />
+    <link rel="alternate" type="application/rss+xml" title="Overdue updates" href={absUrl('/feed.xml')} />
+    <link rel="canonical" href={`${CANONICAL_ORIGIN}/c/${c.id}`} />
+  </head>
+  <body>
+    <header class="masthead">
+      <p class="meta"><a href={withBase('')}>← Back to the board</a> · <a href={withBase(`/labs/${labSlug(c.lab)}`)}>{c.lab}</a> · <a href={withBase('/table')}>Table</a></p>
+      <div class="card__top">
+        <a class="badge" href={withBase(`/labs/${labSlug(c.lab)}`)}>{c.lab}</a>
+        <span class="tag">{c.category}</span>
+        <StatusChip status={status} />
+        {c.contested && <span class="contested" title="Genuinely disputable ruling">⚠ contested</span>}
+      </div>
+      <h1>{c.title}</h1>
+    </header>
+    <main class="prose">
+      <p>{c.description}</p>
+
+      <ol class="timeline" aria-label="Status timeline">
+        {stages.map((s) => (
+          <li data-done={String(s.done)}>
+            <span class="tl-stage">{s.stage}</span>
+            <span class="tl-label">{s.label}</span>
+          </li>
+        ))}
+      </ol>
+
+      {c.notes && (
+        <section>
+          <h2>Why this ruling</h2>
+          <p>{c.notes}</p>
+        </section>
+      )}
+
+      <dl class="detail-meta">
+        <dt>Source</dt>
+        <dd><a href={c.evidenceUrl} target="_blank" rel="noopener noreferrer">{c.sourceLabel} ↗</a></dd>
+        <dt>Committed</dt>
+        <dd>{c.committedOn}</dd>
+        <dt>As of</dt>
+        <dd>{asOf}</dd>
+        {c.contested && <Fragment><dt>Contested</dt><dd>This ruling is genuinely disputable.</dd></Fragment>}
+      </dl>
+
+      {related.length > 0 && (
+        <section>
+          <h2>Updates</h2>
+          <ul>
+            {related.map((u) => (
+              <li><a href={withBase(`/updates#${u.id}`)}>{u.title}</a> <span class="u-date">{fmtDate(u.date)}</span></li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section>
+        <h2>Cite this commitment</h2>
+        <div class="cite"><code>{cite}</code></div>
+      </section>
+    </main>
+    <footer class="footer">
+      <p>Independent, best-effort, and unaffiliated with any lab. Rulings are judgment calls; corrections welcome via a <a href="https://github.com/kayadibi1/overdue-ai/issues">GitHub issue</a> and logged on <a href={withBase('/corrections')}>Corrections</a>.</p>
+    </footer>
+  </body>
+</html>
