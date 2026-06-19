@@ -226,8 +226,11 @@ h1, h2, h3, h4 { color: var(--ink); font-family: var(--display); letter-spacing:
 .subscribe__status { font-size: .85rem; color: var(--muted); }
 @media (max-width: 480px) { .subscribe label, .subscribe input { width: 100%; } .subscribe input { min-width: 0; } }
 
-/* ---------- prose (methodology) ---------- */
-.prose { max-width: 720px; }
+/* ---------- prose (methodology, updates, corrections, detail) ---------- */
+.prose { max-width: 720px; margin-inline: auto; }
+/* keep the title block + footer aligned with the centered prose column */
+body:has(main.prose) .masthead,
+body:has(main.prose) .footer { max-width: 720px; margin-inline: auto; }
 .prose h2 { margin: 28px 0 8px; font-size: 1.25rem; }
 .prose p { color: var(--slate); }
 .prose code { background: var(--bg-2); border: 1px solid var(--line); padding: 1px 6px; border-radius: 5px; font-size: .85em; }

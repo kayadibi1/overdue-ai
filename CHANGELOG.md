@@ -2,6 +2,11 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-19 · Layout fix + UI/UX audit
+
+- **Fixed prose pages rendering left-aligned:** methodology / updates / corrections / detail used a 720px column inside the 960px body with no centering, so the text sat ~100px left of centre with a wide right gutter. The prose column, its title block, and footer now centre together (`margin-inline:auto`, scoped via `body:has(main.prose)`).
+- **Autonomous UI/UX audit** (desktop + 390px mobile across home, table, detail, prose pages): no horizontal overflow, no broken images; the explore table scrolls within its wrap, the 4-stage detail timeline reflows 4→2 columns on mobile, and the dashboard/cards hold up. No further regressions found.
+
 ## 2026-06-19 · Brand mark
 
 - **New logo** (`favicon.svg`, also the nav mark): an "overshoot ring" — a blue on-time arc that turns **red as it sweeps past the navy 12 o'clock deadline tick** into a red "now" head, echoing the blue→red deadline bars on the cards. Replaces the plain red clock.
