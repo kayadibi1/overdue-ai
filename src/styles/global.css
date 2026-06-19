@@ -101,48 +101,41 @@ h1, h2, h3, h4 { color: var(--ink); font-family: var(--display); letter-spacing:
 /* ---------- board: commitment = timeline card ---------- */
 .board { display: grid; gap: 16px; }
 .card { background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow-md);
-  padding: 18px 20px; position: relative; overflow: hidden; }
-.card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--pending); }
-.card--overdue::before { background: var(--overdue); } .card--upcoming::before { background: var(--upcoming); }
-.card--met::before { background: var(--met); } .card--missed::before { background: var(--missed); }
-.card--partial::before { background: var(--partial); } .card--pending::before { background: var(--pending); }
-.card__top { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 9px; }
+  padding: 18px 20px; position: relative; }
+.card__top { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 10px; }
 .card__logo { width: 22px; height: 22px; border-radius: 6px; object-fit: contain; box-shadow: var(--shadow); background: #fff; flex: none; }
-.badge { font-weight: 600; font-size: .9rem; color: var(--ink); text-decoration: none; }
-.badge:hover { color: var(--accent); text-decoration: none; }
-.tag { font-size: .68rem; color: var(--muted); background: var(--bg-2); padding: 3px 9px; border-radius: 999px;
+.badge, .card__lab { font-weight: 700; font-size: .92rem; color: var(--ink); text-decoration: none; }
+.badge:hover, .card__lab:hover { color: var(--accent); text-decoration: none; }
+.card__top .chip { margin-left: auto; }
+.tag { font-size: .66rem; color: var(--muted); background: var(--bg-2); padding: 3px 9px; border-radius: 999px;
   text-transform: uppercase; letter-spacing: .4px; font-weight: 600; }
 .contested { font-size: .72rem; color: var(--partial); font-weight: 600; white-space: nowrap; }
-.card__metric { margin-left: auto; display: flex; align-items: center; gap: 12px; }
-.card__big { font-family: var(--display); font-weight: 800; font-size: 1.5rem; line-height: 1; text-align: right; color: var(--muted); }
-.card__big--overdue { color: var(--overdue); } .card__big--upcoming { color: var(--upcoming); }
-.card__big--met { color: var(--met); } .card__big--missed { color: var(--missed); }
-.card__big--partial { color: var(--partial); } .card__big--pending { color: var(--muted); }
-.card__big--word { font-size: 1.1rem; }
-.card__big-n { display: block; }
-.card__big-l { display: block; font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--muted); font-weight: 600; margin-top: 4px; }
-.card__title { margin: 2px 0 5px; font-size: 1.12rem; font-weight: 700; letter-spacing: -.01em; }
+.card__title { margin: 2px 0 5px; font-size: 1.16rem; font-weight: 700; letter-spacing: -.015em; line-height: 1.3; }
 .card__title a { color: var(--ink); }
 .card__title a:hover { color: var(--accent); text-decoration: none; }
 .card__desc { margin: 0; color: var(--slate); font-size: .95rem; }
-/* deadline timeline bar */
-.card__tlwrap { margin: 14px 0 2px; }
-.card__tl { position: relative; height: 14px; }
-.tl__track { position: absolute; top: 6px; left: 0; right: 0; height: 4px; background: var(--line); border-radius: 3px; }
-.tl__elapsed { position: absolute; top: 6px; left: 0; height: 4px; background: var(--muted); border-radius: 3px; }
+/* deadline module — inset panel: magnitude phrase + timeline bar */
+.card__deadline { background: var(--bg-2); border-radius: var(--radius-sm); padding: 13px 15px; margin: 15px 0 0; }
+.card__metric { font-weight: 700; font-size: 1.05rem; letter-spacing: -.01em; color: var(--muted); }
+.card__metric--overdue { color: var(--overdue); } .card__metric--upcoming { color: var(--upcoming); }
+.card__metric--met { color: var(--met); } .card__metric--missed { color: var(--missed); }
+.card__metric--partial { color: var(--partial); } .card__metric--pending { color: var(--muted); }
+.card__tlbar { margin-top: 11px; }
+.card__tl { position: relative; height: 13px; }
+.tl__track { position: absolute; top: 5px; left: 0; right: 0; height: 4px; background: #d7e0ec; border-radius: 3px; }
+.tl__elapsed { position: absolute; top: 5px; left: 0; height: 4px; background: var(--muted); border-radius: 3px; }
 .tl__elapsed--up { background: var(--upcoming); }
-.tl__over { position: absolute; top: 5px; height: 6px; background: var(--overdue); border-radius: 3px; }
-.tl__due { position: absolute; top: 0; width: 2px; height: 14px; background: var(--ink); border-radius: 2px; transform: translateX(-1px); }
+.tl__over { position: absolute; top: 4px; height: 6px; background: var(--overdue); border-radius: 3px; }
+.tl__due { position: absolute; top: 0; width: 2px; height: 13px; background: var(--ink); border-radius: 2px; transform: translateX(-1px); }
 .tl__now { position: absolute; top: 1px; width: 11px; height: 11px; border-radius: 50%;
-  background: var(--overdue); border: 2px solid var(--panel); box-shadow: var(--shadow); transform: translateX(-50%); }
+  background: var(--overdue); border: 2px solid var(--bg-2); box-shadow: var(--shadow); transform: translateX(-50%); }
 .tl__now--up { background: var(--upcoming); }
-.tl__labels { display: flex; justify-content: space-between; font-size: .68rem; color: var(--faint); margin-top: 5px; }
-.card__foot { display: block; font-size: .8rem; color: var(--muted); margin-top: 11px; }
+.tl__labels { display: flex; justify-content: space-between; font-size: .68rem; color: var(--faint); margin-top: 7px; }
+.card__foot { display: block; font-size: .8rem; color: var(--muted); margin-top: 13px; padding-top: 11px; border-top: 1px solid var(--line-2); }
 .card__foot a { color: var(--accent); }
-.card__why { margin-top: 10px; font-size: .88rem; }
+.card__why { margin-top: 9px; font-size: .88rem; }
 .card__why summary { cursor: pointer; color: var(--accent); font-weight: 500; }
-.card__why p { margin: 6px 0 0; color: var(--slate); }
+.card__why p { margin: 8px 0 0; color: var(--slate); }
 
 /* ---------- summary band (lab pages) ---------- */
 .summary-wrap { margin: 20px 0 8px; background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow-md); overflow: hidden; }
