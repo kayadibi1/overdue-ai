@@ -5,6 +5,7 @@ import { COMMITMENTS } from '../data/commitments';
 import { absUrl } from '../lib/urls';
 import { CANONICAL_ORIGIN } from '../lib/site';
 import Subscribe from '../components/Subscribe.astro';
+import Nav from '../components/Nav.astro';
 import '../styles/global.css';
 const updates = sortUpdates(UPDATES);
 const titleOf = (id: string) => COMMITMENTS.find((c) => c.id === id)?.title ?? id;
@@ -25,6 +26,7 @@ const fmtDate = (d: string) =>
     <link rel="canonical" href={`${CANONICAL_ORIGIN}/updates`} />
   </head>
   <body>
+    <Nav />
     <header class="masthead">
       <h1>Updates</h1>
       <p class="meta"><a href={withBase('')}>← Back to the board</a> · <a href={absUrl('/feed.xml')}>RSS</a></p>

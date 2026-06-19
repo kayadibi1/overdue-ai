@@ -9,6 +9,7 @@ import { labSlug } from '../../lib/labs';
 import { absUrl } from '../../lib/urls';
 import { CANONICAL_ORIGIN, DATA_AS_OF } from '../../lib/site';
 import StatusChip from '../../components/StatusChip.astro';
+import Nav from '../../components/Nav.astro';
 import '../../styles/global.css';
 
 export const getStaticPaths = (() =>
@@ -46,6 +47,7 @@ const cite = `Overdue. "${c.title}." Overdue, ${year}. ${CANONICAL_ORIGIN}/c/${c
     <link rel="canonical" href={`${CANONICAL_ORIGIN}/c/${c.id}`} />
   </head>
   <body>
+    <Nav />
     <header class="masthead">
       <p class="meta"><a href={withBase('')}>← Back to the board</a> · <a href={withBase(`/labs/${labSlug(c.lab)}`)}>{c.lab}</a> · <a href={withBase('/table')}>Table</a></p>
       <div class="card__top">

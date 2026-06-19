@@ -2,6 +2,11 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-19 · Top navigation + CI bump
+
+- **Sticky header nav** on every page (new `Nav.astro`): the wordmark (→ home) + Explore / Methodology / Updates / Corrections + a blurple **Subscribe** CTA, as a blurred white bar under the gradient sliver. Links collapse on mobile (brand + CTA remain).
+- Bumped GitHub Actions to current majors — `checkout@v7`, `setup-node@v6`, `setup-python@v6` — clearing the Node 20 deprecation warning.
+
 ## 2026-06-19 · Redesign — Stripe theme + lab dashboard
 
 Full visual + structural redesign (replaces the original light theme).
