@@ -64,6 +64,23 @@ if (!board) {
 
   ['filter-lab', 'filter-status', 'sort'].forEach((id) =>
     document.getElementById(id)?.addEventListener('change', applyControls));
+
+  // Clickable scorecard: a stat sets the status filter, applies, and scrolls to the board.
+  function filterByStat(el: HTMLElement): void {
+    const key = el.dataset.filterStatus ?? '';
+    const select = document.getElementById('filter-status') as HTMLSelectElement | null;
+    if (!select) return;
+    select.value = key;
+    applyControls();
+    document.getElementById('board')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  document.querySelectorAll<HTMLElement>('[data-filter-status]').forEach((el) => {
+    el.addEventListener('click', () => filterByStat(el));
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); filterByStat(el); }
+    });
+  });
+
   tick();
   setInterval(tick, 1000);
 }

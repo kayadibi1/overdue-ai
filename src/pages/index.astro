@@ -1,6 +1,7 @@
 ---
 import { COMMITMENTS } from '../data/commitments';
 import { sortByUrgency, summarize } from '../lib/status';
+import { labSlug } from '../lib/labs';
 import { LABS } from '../lib/types';
 import { UPDATES } from '../data/updates';
 import { sortUpdates } from '../lib/updates';
@@ -69,6 +70,12 @@ const latest = sortUpdates(UPDATES).slice(0, 2);
         </label>
       </section>
 
+      <p class="lab-nav">
+        <a href={withBase('/table')}>View as table ↗</a> ·
+        <strong>Browse by lab:</strong>{' '}
+        {labs.map((l, i) => <Fragment>{i > 0 ? ' · ' : ''}<a href={withBase(`/labs/${labSlug(l)}`)}>{l}</a></Fragment>)}
+      </p>
+
       <section id="board" class="board">
         {sorted.map((c) => <CommitmentCard c={c} now={now} />)}
       </section>
@@ -93,7 +100,8 @@ const latest = sortUpdates(UPDATES).slice(0, 2);
     </main>
 
     <footer class="footer">
-      <p>Independent, best-effort, and unaffiliated with any lab. Rulings are judgment calls; corrections welcome via a <a href="https://github.com/kayadibi1/overdue-ai/issues">GitHub issue</a>.</p>
+      <p>Independent, best-effort, and unaffiliated with any lab. Rulings are judgment calls; corrections welcome via a <a href="https://github.com/kayadibi1/overdue-ai/issues">GitHub issue</a> and logged on <a href={withBase('/corrections')}>Corrections</a>.</p>
+      <p class="download-row">Open data (<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>): Download <a href={withBase('/commitments.json')}>JSON</a> · <a href={withBase('/commitments.csv')}>CSV</a> · <a href={withBase('/table')}>Table</a> · <a href={withBase('/corrections')}>Corrections</a> · <a href={withBase('methodology')}>How to cite</a></p>
       <p class="diff">Per-commitment, across all labs — not a single-deadline scorecard. Builds on prior work by <a href="https://www.seoul-tracker.org/">The Midas Project</a> and <a href="https://metr.org/fsp">METR</a>.</p>
     </footer>
 

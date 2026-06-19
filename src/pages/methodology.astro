@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { absUrl } from '../lib/urls';
 import { CANONICAL_ORIGIN } from '../lib/site';
 const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
+const today = new Date().toISOString().slice(0, 10);
 ---
 <html lang="en">
   <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,8 +25,12 @@ const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/
       <p><strong>Met / Missed / Partial</strong> are human judgments, each backed by one public source. <strong>Overdue / Upcoming</strong> are computed automatically from the deadline versus today, so those timers stay current on their own. Genuinely disputable rulings are flagged <code>⚠ contested</code> and phrased as open questions.</p>
       <h2>Editorial principles</h2>
       <p>Phrasing is strictly factual and neutral: we state the deadline and what shipped by it, and avoid editorializing verbs. A ruling ships only with a rock-solid source. Statuses are curated as of the "updated" date on the board; only the timers update live.</p>
-      <h2>Open data &amp; corrections</h2>
-      <p>The full dataset is available as <a href={withBase('commitments.json')}>open JSON</a> for nonprofits, journalists, and researchers to reuse. Spotted an error? Open a <a href="https://github.com/kayadibi1/overdue-ai/issues">GitHub issue</a>.</p>
+      <h2>Data, license &amp; how to cite</h2>
+      <p>The dataset (<code>src/data/*</code>, <a href={withBase('/commitments.json')}>/commitments.json</a>, <a href={withBase('/commitments.csv')}>/commitments.csv</a>) is licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> — <strong>republish freely with attribution</strong>. The code is MIT. Nonprofits, journalists, and researchers are welcome to reuse it.</p>
+      <p>Suggested citation:</p>
+      <div class="cite"><code>Overdue: Frontier AI Safety Commitment Tracker. {CANONICAL_ORIGIN} (retrieved {today}).</code></div>
+      <p><strong>Download:</strong> <a href={withBase('/commitments.json')}>JSON</a> · <a href={withBase('/commitments.csv')}>CSV</a>. Explore: <a href={withBase('/table')}>table view</a>. When a ruling changes or an error is fixed, it is logged on <a href={withBase('/corrections')}>Corrections</a>.</p>
+      <p>Spotted an error? Open a <a href="https://github.com/kayadibi1/overdue-ai/issues">GitHub issue</a>.</p>
       <h2>How Overdue differs (related trackers)</h2>
       <p>Overdue complements existing work rather than replacing it. <a href="https://www.seoul-tracker.org/">The Midas Project's Seoul Tracker</a> grades one collective deadline, and its <a href="https://www.themidasproject.com/watchtower">Watchtower</a> flags quiet policy changes; <a href="https://metr.org/fsp">METR's index</a> catalogs policy <em>documents</em>; the <a href="https://futureoflife.org/">FLI AI Safety Index</a> and <a href="https://www.safer-ai.org/">SaferAI</a> grade overall posture. <a href="https://ailabwatch.org/">AI Lab Watch</a> compiled the broadest commitment list, but has been unmaintained since September 2025. Overdue's contribution is to bring those regimes together with a live, per-promise deadline clock: many individual dated commitments — RSPs, frontier safety frameworks, the Seoul and White House commitments — each with a status, an explicit <em>upcoming / overdue</em> countdown, and one source. It is not the first accountability project.</p>
     </main>

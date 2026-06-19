@@ -13,7 +13,8 @@ const ITEMS: { key: Status; label: string }[] = [
 ---
 <div class="summary">
   {ITEMS.map(({ key, label }) => (
-    <div class={`stat stat--${key}`} data-stat={key}>
+    <div class={`stat stat--${key}`} data-stat={key} data-filter-status={key} role="button" tabindex="0"
+         aria-label={`Filter the board to ${label}`}>
       <span class="stat__n" data-stat-n={key}>{counts[key]}</span>
       <span class="stat__label">{label}</span>
     </div>
