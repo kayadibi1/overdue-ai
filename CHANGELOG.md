@@ -2,6 +2,13 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-19 · Craft pass (round 1)
+
+Refining the existing identity rather than replacing it.
+
+- **Disciplined elevation:** every carded surface (commitment cards, lab tiles, summary band, table, detail timeline, citation, corrections) now has a crisp 1px hairline edge with a much subtler, more intentional shadow — instead of everything floating on the same heavy drop-shadow. Subtle hover lift on commitment cards.
+- **Typography + interaction polish:** tighter heading tracking/leading, refined link underline, a consistent focus-ring, and eased transitions on interactive surfaces.
+
 ## 2026-06-19 · Homepage hero
 
 - **Lead with the value prop, not the brand.** The hero `h1` was just the word "Overdue" — redundant with the nav wordmark. It's now the question ("Are frontier AI labs keeping the dated safety promises *they* made?") with the descriptor as the subtitle, and the meta line drops the Updates/Methodology links (already in the nav). Stronger first impression and a descriptive `h1` for SEO.
