@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { labSlug, labFromSlug, keptRate } from '../src/lib/labs';
+import { toCsv } from '../src/lib/csv';
 import type { Commitment } from '../src/lib/types';
 
 const c = (o: Partial<Commitment>): Commitment => ({
@@ -22,5 +23,15 @@ describe('keptRate', () => {
     const r = keptRate(rows);
     expect(r.met).toBe(1); expect(r.resolved).toBe(3); expect(r.rate).toBeCloseTo(1/3);
     expect(keptRate([c({resolution:null})]).rate).toBeNull();
+  });
+});
+
+describe('toCsv', () => {
+  it('emits a header + escapes commas/quotes/newlines (RFC 4180)', () => {
+    const out = toCsv([c({ id:'a', title:'has, comma "q"\nnl', resolution:'met' })]);
+    const [header, row] = out.trim().split('\r\n');
+    expect(header.startsWith('id,lab,track,title,')).toBe(true);
+    expect(row).toContain('"has, comma ""q""\nnl"');
+    expect(out.endsWith('\r\n')).toBe(true);
   });
 });
