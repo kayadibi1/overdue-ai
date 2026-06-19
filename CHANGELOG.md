@@ -2,6 +2,18 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-19 · UI/UX polish
+
+A visual/interaction pass from a live browser review (desktop + mobile, seven page types). No new features or data changes. Specs in `docs/superpowers/specs/2026-06-19-ui-ux-polish-design.md`.
+
+- **Subscribe form styled.** The signup — the conversion point — was rendering as raw browser-default widgets (no `.subscribe` CSS existed). Now a styled input (border, radius, focus ring) and an accent pill **Subscribe** button via a new shared `.btn` / `.btn--ghost` system (also applied to the table **Reset** and the new citation **Copy**).
+- **Scorecard reads at a glance + is honestly interactive.** The status counts now use the existing semantic tokens (overdue/missed red, upcoming blue, met green, partial amber, pending grey) instead of all-black, and carry a "Tap any metric to filter the board" cue. Fixed an **a11y bug**: lab pages reused the `role="button"` scorecard with no handler (dead focusable controls) — `SummaryStats` gained an `interactive` prop and lab pages now render plain, non-focusable stats.
+- **Explore table is more legible.** Sortable headers show a faint `⇅` hint (replaced by `▲`/`▼` when active), rows highlight on hover, the Committed column no longer wraps, and the Commitment column has more room. (The Deadline column still wraps — it can hold long trigger text.)
+- **Detail page.** The timeline RULING now reads title-cased (`Met`, matching the chip); the citation gained a working **Copy** button (`scripts/cite.ts`, clipboard with a selection fallback); and deep pages (`/c/…`, `/labs/…`) gained a compact footer nav (Board · Table · Methodology · Updates · Corrections · JSON · CSV) so they aren't dead-ends.
+- **Favicon.** Added `public/favicon.svg` (a red "overdue clock") + a base-aware `<link rel="icon">` on every page, ending the per-page `/favicon.ico` 404.
+- **"Contested" quieted** from amber to muted grey — it appears on many cards, and an alarm colour on most rows stops being a signal. (The flag's threshold is editorial and unchanged.)
+- Scope notes: skipped a shared-layout refactor (per-page edits instead) and wide-screen re-centering (the body is already `max-width:920px; margin:0 auto`). 52 vitest + 40 pytest green (regression guard); apex + `PAGES=1` builds green (49 pages); verified in-browser incl. a caught + fixed table-overflow regression.
+
 ## 2026-06-19 · Review remediation — correctness, a11y & hardening
 
 Fixes from a 5-agent comprehensive codebase review (no new features).

@@ -1,7 +1,9 @@
 ---
 import type { Status } from '../lib/types';
-interface Props { counts: Record<Status, number> }
-const { counts } = Astro.props;
+interface Props { counts: Record<Status, number>; interactive?: boolean }
+// interactive (default true): clickable filter buttons wired to board.ts (homepage).
+// false: plain, non-focusable stats (lab pages, which have no board to filter).
+const { counts, interactive = true } = Astro.props;
 const ITEMS: { key: Status; label: string }[] = [
   { key: 'overdue', label: 'Overdue now' },
   { key: 'upcoming', label: 'Upcoming' },
@@ -12,11 +14,17 @@ const ITEMS: { key: Status; label: string }[] = [
 ];
 ---
 <div class="summary">
-  {ITEMS.map(({ key, label }) => (
+  {ITEMS.map(({ key, label }) => (interactive ? (
     <div class={`stat stat--${key}`} data-stat={key} data-filter-status={key} role="button" tabindex="0"
          aria-label={`Filter the board to ${label}`}>
       <span class="stat__n" data-stat-n={key}>{counts[key]}</span>
       <span class="stat__label">{label}</span>
     </div>
-  ))}
+  ) : (
+    <div class={`stat stat--${key}`} data-stat={key}>
+      <span class="stat__n" data-stat-n={key}>{counts[key]}</span>
+      <span class="stat__label">{label}</span>
+    </div>
+  )))}
 </div>
+{interactive && <p class="summary-hint" aria-hidden="true">Tap any metric to filter the board</p>}

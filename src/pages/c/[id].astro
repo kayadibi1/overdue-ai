@@ -25,7 +25,7 @@ const stages: { stage: string; label: string; done: boolean }[] = [
   { stage: 'Committed', label: c.committedOn, done: true },
   { stage: 'Due', label: c.deadline ?? c.triggerText ?? '—', done: Boolean(c.deadline || c.triggerText) },
   { stage: 'Evaluated', label: c.resolvedOn ?? '—', done: Boolean(c.resolvedOn) },
-  { stage: 'Ruling', label: c.resolution ?? '—', done: Boolean(c.resolution) },
+  { stage: 'Ruling', label: c.resolution ? c.resolution[0].toUpperCase() + c.resolution.slice(1) : '—', done: Boolean(c.resolution) },
 ];
 
 const asOf = c.lastChecked ?? DATA_AS_OF;
@@ -39,6 +39,7 @@ const cite = `Overdue. "${c.title}." Overdue, ${year}. ${CANONICAL_ORIGIN}/c/${c
 <html lang="en">
   <head>
     <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
     <title>{c.title} — Overdue</title>
     <meta name="description" content={c.description} />
     <link rel="alternate" type="application/rss+xml" title="Overdue updates" href={absUrl('/feed.xml')} />
@@ -97,11 +98,17 @@ const cite = `Overdue. "${c.title}." Overdue, ${year}. ${CANONICAL_ORIGIN}/c/${c
 
       <section>
         <h2>Cite this commitment</h2>
-        <div class="cite"><code>{cite}</code></div>
+        <div class="cite">
+          <div class="cite__head"><span class="tl-stage">copy-paste</span>
+            <button type="button" class="btn btn--ghost cite__copy" data-cite-copy>Copy</button></div>
+          <code data-cite-text>{cite}</code>
+        </div>
       </section>
     </main>
     <footer class="footer">
       <p>Independent, best-effort, and unaffiliated with any lab. Rulings are judgment calls; corrections welcome via a <a href="https://github.com/kayadibi1/overdue-ai/issues">GitHub issue</a> and logged on <a href={withBase('/corrections')}>Corrections</a>.</p>
+      <p class="page-nav"><a href={withBase('')}>Board</a> · <a href={withBase('/table')}>Table</a> · <a href={withBase('methodology')}>Methodology</a> · <a href={withBase('updates')}>Updates</a> · <a href={withBase('/corrections')}>Corrections</a> · <a href={withBase('/commitments.json')}>JSON</a> · <a href={withBase('/commitments.csv')}>CSV</a></p>
     </footer>
+    <script>import '../../scripts/cite.ts';</script>
   </body>
 </html>

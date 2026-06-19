@@ -29,6 +29,7 @@ const keptLine = k.rate == null
 <html lang="en">
   <head>
     <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
     <title>{lab} — Overdue</title>
     <meta name="description" content={`${lab}'s dated AI-safety commitments tracked by Overdue: status, deadlines, and kept-rate.`} />
     <link rel="alternate" type="application/rss+xml" title="Overdue updates" href={absUrl('/feed.xml')} />
@@ -40,7 +41,7 @@ const keptLine = k.rate == null
       <h1>{lab}</h1>
     </header>
     <main>
-      <SummaryStats counts={counts} />
+      <SummaryStats counts={counts} interactive={false} />
       <p class="kept-rate">{keptLine}</p>
       <p class="kept-note">kept = met ÷ resolved (resolved = met + missed + partial; counts shown so the number always carries its context).</p>
       <section class="board">
@@ -49,6 +50,7 @@ const keptLine = k.rate == null
     </main>
     <footer class="footer">
       <p>Independent, best-effort, and unaffiliated with any lab. Rulings are judgment calls; corrections welcome via a <a href="https://github.com/kayadibi1/overdue-ai/issues">GitHub issue</a> and logged on <a href={withBase('/corrections')}>Corrections</a>.</p>
+      <p class="page-nav"><a href={withBase('')}>Board</a> · <a href={withBase('/table')}>Table</a> · <a href={withBase('methodology')}>Methodology</a> · <a href={withBase('updates')}>Updates</a> · <a href={withBase('/corrections')}>Corrections</a> · <a href={withBase('/commitments.json')}>JSON</a> · <a href={withBase('/commitments.csv')}>CSV</a></p>
     </footer>
   </body>
 </html>
