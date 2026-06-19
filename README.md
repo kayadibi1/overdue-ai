@@ -7,6 +7,9 @@ A static, source-cited board of specific, dated safety promises **the labs thems
 ## Why this exists
 Existing trackers cover one collective deadline (The Midas Project's Seoul Tracker) or compare policy documents (METR). None tracks *many* individual dated promises across all labs with a live overdue counter and per-row evidence. This does — honestly: rulings are judgment calls, every row is sourced, and disputable ones are flagged. Not the first accountability project; see Methodology for prior work it builds on.
 
+## Follow
+Changes are posted to an on-site **updates log** (`/updates`) and an **RSS feed** (`/feed.xml`); email subscribe is coming next.
+
 ## Run it
 ```bash
 npm install

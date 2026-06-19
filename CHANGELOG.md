@@ -2,6 +2,16 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-18 · M3 — updates log + RSS feed + launch writeup
+
+- **Curated updates log** (`src/data/updates.ts`): a typed, hand-written stream of "what changed" — the single source the feed (and M4's email) both render from. Helper `sortUpdates` + integrity tests (unique ids, real UTC calendar dates, valid commitment refs).
+- **`/updates` page** + a "Latest updates" block on the homepage; entries deep-link to the commitments they reference (new `id` anchors on cards).
+- **Hand-rolled RSS feed** at `/feed.xml` — a pure, unit-tested `renderFeed` (+ `escapeXml`), correct under the `/overdue-ai` base path, with autodiscovery `<link>`s on every page.
+- **Repositioned on a prior-art scan:** methodology's "How Overdue differs" cites The Midas Project (Seoul Tracker + Watchtower), notes AI Lab Watch is unmaintained since Sept 2025, and frames the wedge — all commitment regimes + a live upcoming/overdue clock, kept current.
+- **Launch writeup** drafted (`docs/launch/2026-06-18-overdue-launch.md`) for Substack.
+- Gauntlet (spec → Codex review → plan → self-review ×2) caught real bugs pre-build: base-path-relative hrefs, a missing `<lastBuildDate>`, a date test that accepted `2026-02-31`, and commitment links with no anchor targets. 39 tests green.
+- Email subscribe, the `overduetracker.org` domain, and the newbox move are deferred to **M4**.
+
 ## 2026-06-18 · M2 — the watcher (freshness)
 
 - **Weekly source watcher.** New GitHub Action (Mondays 09:17 UTC + manual `workflow_dispatch`) fetches 5 watched lab/regulatory source pages, diffs the visible text against a stored snapshot, and files a **"Source changed: …"** review issue (with the new text) when a page moves meaningfully.
