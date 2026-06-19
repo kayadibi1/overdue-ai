@@ -11,10 +11,18 @@ jobs:
       DEPLOY_KEY: ${{ secrets.NEWBOX_DEPLOY_KEY }}
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }     # full history so the send gate can diff github.event.before
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci
       - run: npm test
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Python subscribe service tests
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          pytest server/subscribe -q
       - run: npm run build          # default env → apex site/base (overduetracker.org)
       - name: Deploy dist/ to newbox
         if: ${{ env.DEPLOY_KEY != '' }}        # skip (green) until the deploy secret exists / go-live
@@ -24,6 +32,34 @@ jobs:
           chmod 600 ~/.ssh/id_deploy
           printf '%s\n' "${{ secrets.NEWBOX_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
           rsync -az --delete -e "ssh -i ~/.ssh/id_deploy -o StrictHostKeyChecking=yes" dist/ deploy@37.27.242.32:/var/www/overdue/
+      - name: Send update email on publish
+        if: ${{ env.DEPLOY_KEY != '' }}        # gated on go-live, then only fires when updates.ts changed
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          # Only mail when this push changed the updates log. Skip on a first push /
+          # force where `before` is all-zeros (no valid base to diff), and on any
+          # diff failure (treat as "no change" rather than blindly sending).
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            echo "No usable github.event.before — skipping send-on-publish."
+            exit 0
+          fi
+          if ! git diff --name-only "$BEFORE" "$AFTER" > /tmp/changed.txt 2>/dev/null; then
+            echo "Could not diff $BEFORE..$AFTER — skipping send-on-publish."
+            exit 0
+          fi
+          if ! grep -qx 'src/data/updates.ts' /tmp/changed.txt; then
+            echo "src/data/updates.ts unchanged — no update email to send."
+            exit 0
+          fi
+          echo "src/data/updates.ts changed — mailing the latest update to confirmed subscribers."
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          printf '%s\n' "${{ secrets.NEWBOX_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_deploy -o StrictHostKeyChecking=yes deploy@37.27.242.32 \
+            'cd /opt/overdue-subscribe && set -a && . /etc/overdue-subscribe.env && set +a && python3 -m send_update --latest --updates /var/www/overdue/updates.json'
       - name: Skip deploy (pre go-live)
         if: ${{ env.DEPLOY_KEY == '' }}
         run: echo "NEWBOX_DEPLOY_KEY not set yet — build validated, skipping deploy until go-live."
