@@ -130,8 +130,14 @@ describe('UPDATES integrity', () => {
     const ids = UPDATES.map((u) => u.id);
     expect(new Set(ids).size).toBe(ids.length);
   });
-  it('has real UTC calendar dates (YYYY-MM-DD)', () => {
-    for (const u of UPDATES) expect(u.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  it('has real UTC calendar dates (not just the format)', () => {
+    const isRealUtcDate = (s: string) => {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+      const [y, m, d] = s.split('-').map(Number);
+      const dt = new Date(Date.UTC(y, m - 1, d));
+      return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+    };
+    for (const u of UPDATES) expect(isRealUtcDate(u.date), u.id).toBe(true); // rejects 2026-02-31
   });
   it('references only existing commitments', () => {
     const known = new Set(COMMITMENTS.map((c) => c.id));
@@ -235,6 +241,7 @@ describe('renderFeed', () => {
     expect(xml).toContain('<guid isPermaLink="false">new</guid>');
     expect(xml).toContain('https://x.org/overdue-ai/updates#new');
     expect((xml.match(/<item>/g) || []).length).toBe(2);
+    expect(xml).toContain('<lastBuildDate>Sun, 01 Feb 2026 00:00:00 GMT</lastBuildDate>'); // = newest update's date
   });
 });
 ```
@@ -257,7 +264,9 @@ export function escapeXml(s: string): string {
 export interface FeedOpts { siteUrl: string; feedUrl: string; title: string; description: string; }
 
 export function renderFeed(updates: Update[], o: FeedOpts): string {
-  const items = sortUpdates(updates).map((u) => {
+  const sorted = sortUpdates(updates);
+  const lastBuildDate = (sorted[0] ? new Date(`${sorted[0].date}T00:00:00Z`) : new Date(0)).toUTCString();
+  const items = sorted.map((u) => {
     const link = `${o.siteUrl.replace(/\/+$/, '')}/updates#${u.id}`;
     const pub = new Date(`${u.date}T00:00:00Z`).toUTCString();
     return `    <item>
@@ -275,6 +284,7 @@ export function renderFeed(updates: Update[], o: FeedOpts): string {
     <link>${escapeXml(o.siteUrl)}</link>
     <description>${escapeXml(o.description)}</description>
     <atom:link href="${escapeXml(o.feedUrl)}" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>${lastBuildDate}</lastBuildDate>
 ${items}
   </channel>
 </rss>`;
@@ -345,13 +355,13 @@ git commit -m "feat(m3): /feed.xml hand-rolled RSS endpoint"
 **Files:**
 - Create: `src/pages/updates.astro`
 
-- [ ] **Step 1: Inspect an existing page for chrome/theme conventions**
+- [ ] **Step 1: Add anchor targets + inspect chrome**
 
-Read `src/pages/methodology.astro` to copy its layout/header/footer pattern, link styling, and how it sets `<title>`.
+First, read `src/components/CommitmentCard.astro` and add `id={`commitment-${PROP.id}`}` to its root `<article>` (use the card's real prop name) so update→commitment fragment links (`/#commitment-<id>`) resolve. Then read `src/pages/index.astro` (full shell incl. header + the footer at the bottom) and `src/pages/methodology.astro`; copy the html/head/body wrapper + header + **footer from `index.astro`** (methodology has no footer).
 
 - [ ] **Step 2: Implement the page**
 
-Render `sortUpdates(UPDATES)` newest-first. For each update output a section with `id={update.id}` containing: formatted date, `<h2>` title, body paragraph, links to referenced commitments (map `commitmentIds` → `COMMITMENTS` titles, linking to the board), and the source link if present. Add a visible "Follow via RSS" link to `absUrl('/feed.xml')` at top. Use `<title>Updates — Overdue</title>`. Match `methodology.astro`'s wrapper/markup exactly (same container classes, header, footer).
+Render `sortUpdates(UPDATES)` newest-first. For each update output `<section id={update.id}>` containing: formatted date, `<h2>` title, body paragraph, links to referenced commitments (`commitmentIds.map` → `<a href={withBase(`/#commitment-${id}`)}>{titleOf(id)}</a>`), and the source link if present (`<a href={linkOf(update.sourceUrl)}>{update.sourceLabel}</a>`). Add a top "Follow via RSS" link to `absUrl('/feed.xml')`. In `<head>`: `<title>Updates — Overdue</title>` and the autodiscovery `<link rel="alternate" type="application/rss+xml" href={absUrl('/feed.xml')} />`. Copy the page shell (header + footer) from `index.astro`.
 
 ```astro
 ---
@@ -361,9 +371,10 @@ import { COMMITMENTS } from '../data/commitments';
 import { absUrl } from '../lib/urls';
 const updates = sortUpdates(UPDATES);
 const titleOf = (id: string) => COMMITMENTS.find((c) => c.id === id)?.title ?? id;
+// base-aware internal hrefs (base='/overdue-ai'); external URLs pass through unchanged
+const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
+const linkOf = (u: string) => (u.startsWith('/') ? withBase(u) : u);
 ---
-<!-- reuse methodology.astro's html/head/body chrome; <title>Updates — Overdue</title>;
-     add <link rel="alternate" type="application/rss+xml" href={absUrl('/feed.xml')} /> in <head> -->
 ```
 
 - [ ] **Step 3: Build**
@@ -374,8 +385,8 @@ Expected: succeeds; `dist/updates/index.html` exists and lists the launch update
 - [ ] **Step 4: Commit**
 
 ```bash
-git add src/pages/updates.astro
-git commit -m "feat(m3): /updates page"
+git add src/pages/updates.astro src/components/CommitmentCard.astro
+git commit -m "feat(m3): /updates page + commitment anchor ids"
 ```
 
 ---
@@ -388,7 +399,7 @@ git commit -m "feat(m3): /updates page"
 
 - [ ] **Step 1: Locate the head**
 
-Read `src/pages/index.astro`. Determine whether a shared Layout/head partial exists. If yes, add the autodiscovery `<link rel="alternate" type="application/rss+xml" href={absUrl('/feed.xml')} />` there once. If no, add it to the `<head>` of `index.astro`, `updates.astro` (done in Task 6), and `methodology.astro`.
+Read `src/pages/index.astro`. Determine whether a shared Layout/head partial exists. If yes, add the autodiscovery `<link rel="alternate" type="application/rss+xml" href={absUrl('/feed.xml')} />` there once. If no, add it to the `<head>` of `index.astro`, `updates.astro` (done in Task 6), and `methodology.astro`. **Every page that gets the `<link>` must import `absUrl`** — add `import { absUrl } from '../lib/urls';` to its frontmatter (`methodology.astro` currently imports only CSS; `index.astro` gets it in Step 2).
 
 - [ ] **Step 2: Add the homepage blocks**
 
