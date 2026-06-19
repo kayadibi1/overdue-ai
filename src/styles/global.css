@@ -158,6 +158,16 @@ h1, h2, h3, h4 { color: var(--ink); font-family: var(--display); letter-spacing:
 .card__why { margin-top: 9px; font-size: .88rem; }
 .card__why summary { cursor: pointer; color: var(--accent); font-weight: 500; }
 .card__why p { margin: 8px 0 0; color: var(--slate); }
+/* verification: under-review pill, derived marker, archive links, committed-text quote */
+.under-review { font-size: .72rem; font-weight: 700; color: #9a5b00; background: rgba(239,142,27,.14);
+  padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+abbr.derived { cursor: help; color: var(--accent); text-decoration: none; font-weight: 700; }
+.card__srcs .sep { color: var(--faint); }
+.card__srcs .archived { color: var(--muted); font-size: .9em; }
+.card__asof { color: var(--muted); }
+.card__quote { margin-top: 9px; font-size: .88rem; }
+.card__quote summary { cursor: pointer; color: var(--accent); font-weight: 500; }
+.card__quote blockquote { margin: 8px 0 0; padding-left: 12px; border-left: 2px solid var(--line); color: var(--slate); font-style: italic; }
 
 /* ---------- summary band (lab pages) ---------- */
 .summary-wrap { margin: 20px 0 8px; background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow-md); overflow: hidden; }

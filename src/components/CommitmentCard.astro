@@ -4,6 +4,7 @@ import { computeStatus, relativeTime } from '../lib/status';
 import { labSlug, labLogo } from '../lib/labs';
 import { DATA_AS_OF } from '../lib/site';
 import { primarySource } from '../lib/sources';
+import { isUnderReview, archiveFor } from '../lib/verification';
 import StatusChip from './StatusChip.astro';
 interface Props { c: Commitment; now: number }
 const { c, now } = Astro.props;
@@ -14,7 +15,10 @@ const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/
 
 // Headline magnitude phrase for the deadline panel.
 const timerKind = rel ? rel.kind : 'none';
-const phrase = rel ? rel.label : (c.triggerText ? `Awaiting ${c.triggerText}` : 'Pending — no deadline yet');
+const phrase = rel ? rel.label
+  : status === 'overdue' && c.triggerFired ? `Trigger fired${c.triggerFiredOn ? ` ${c.triggerFiredOn}` : ''} — ruling due`
+  : c.triggerText ? `Awaiting ${c.triggerText}`
+  : 'Pending — no deadline yet';
 
 // Deadline timeline (committed → due → now), only for dated, active commitments.
 const pUTC = (d: string) => Date.parse(`${d}T00:00:00Z`);
@@ -31,6 +35,8 @@ if (c.deadline && (status === 'overdue' || status === 'upcoming')) {
   }
 }
 const asOf = c.reviewedOn ?? DATA_AS_OF;
+const obligationQuote = primarySource(c).quote;
+const underReview = isUnderReview(c.id);
 ---
 <article class={`card card--${status}`} id={`commitment-${c.id}`} data-lab={c.lab} data-status={status}
          data-committed={c.committedOn} data-deadline={c.deadline ?? ''} data-deadline-type={c.deadlineType}>
@@ -39,6 +45,7 @@ const asOf = c.reviewedOn ?? DATA_AS_OF;
     <a class="card__lab" href={withBase(`/labs/${labSlug(c.lab)}`)}>{c.lab}</a>
     <span class="tag">{c.category}</span>
     {c.contested && <span class="contested" title="Genuinely disputable ruling">⚠ contested</span>}
+    {underReview && <span class="under-review" title="A cited source changed, or this ruling is being re-checked">⚠ under review</span>}
     <StatusChip status={status} />
   </div>
 
@@ -68,15 +75,19 @@ const asOf = c.reviewedOn ?? DATA_AS_OF;
         </div>
         <div class="tl__labels">
           <span>committed {c.committedOn}</span>
-          <span>due {c.deadline}{tl.kind === 'overdue' ? ' · now' : ''}</span>
+          <span>due {c.deadline}{c.deadlineBasis === 'derived' && <abbr class="derived" title={c.derivationNote}>†</abbr>}{tl.kind === 'overdue' ? ' · now' : ''}</span>
         </div>
       </div>
     )}
   </div>
 
   <div class="card__foot">
-    <a href={primarySource(c).url} target="_blank" rel="noopener noreferrer">Source: {primarySource(c).label} ↗</a>
-    <span> · as of {asOf}</span>
+    <span class="card__srcs">Sources: {c.sources.map((s, i) => {
+      const arch = archiveFor(c.id, s.url);
+      return (<Fragment>{i > 0 ? <span class="sep"> · </span> : null}<a href={s.url} target="_blank" rel="noopener noreferrer">{s.label}{s.role !== 'obligation' ? ` (${s.role})` : ''} ↗</a>{arch ? <a class="archived" href={arch} target="_blank" rel="noopener noreferrer"> archived</a> : null}</Fragment>);
+    })}</span>
+    <span class="card__asof"> · auto-checked daily · reviewed {asOf}</span>
   </div>
+  {obligationQuote && <details class="card__quote"><summary>Committed text</summary><blockquote>“{obligationQuote}”</blockquote></details>}
   {c.notes && <details class="card__why"><summary>Why this ruling</summary><p>{c.notes}</p></details>}
 </article>

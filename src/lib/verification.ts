@@ -1,11 +1,15 @@
 import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import { parseVerification, type VerificationState } from './verify/schema';
 
+// Runtime read (NOT a static `import` of the JSON): a static import is parsed by
+// Vite at build time before any try/catch, so a malformed committed file would
+// break the build. Reading at runtime makes a bad file degrade to "no badges".
+// Use process.cwd() (repo root during `astro build` and in CI) rather than
+// `new URL(..., import.meta.url)`, which Vite rewrites as an asset reference.
 function load(): VerificationState {
   try {
-    const path = fileURLToPath(new URL('../data/verification.json', import.meta.url));
-    return parseVerification(JSON.parse(readFileSync(path, 'utf8')));
+    return parseVerification(JSON.parse(readFileSync(join(process.cwd(), 'src/data/verification.json'), 'utf8')));
   } catch {
     return { rows: {} };
   }

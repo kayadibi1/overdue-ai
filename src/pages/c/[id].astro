@@ -9,6 +9,7 @@ import { labSlug } from '../../lib/labs';
 import { absUrl } from '../../lib/urls';
 import { CANONICAL_ORIGIN, DATA_AS_OF } from '../../lib/site';
 import { primarySource } from '../../lib/sources';
+import { isUnderReview, archiveFor } from '../../lib/verification';
 import StatusChip from '../../components/StatusChip.astro';
 import Nav from '../../components/Nav.astro';
 import '../../styles/global.css';
@@ -31,6 +32,7 @@ const stages: { stage: string; label: string; done: boolean }[] = [
 ];
 
 const asOf = c.reviewedOn ?? DATA_AS_OF;
+const obligationQuote = primarySource(c).quote;
 const related = sortUpdates(UPDATES.filter((u) => u.commitmentIds?.includes(c.id)));
 const fmtDate = (d: string) =>
   new Date(`${d}T00:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
@@ -56,6 +58,7 @@ const cite = `Overdue. "${c.title}." Overdue, ${year}. ${CANONICAL_ORIGIN}/c/${c
         <span class="tag">{c.category}</span>
         <StatusChip status={status} />
         {c.contested && <span class="contested" title="Genuinely disputable ruling">⚠ contested</span>}
+        {isUnderReview(c.id) && <span class="under-review" title="A cited source changed, or this ruling is being re-checked">⚠ under review</span>}
       </div>
       <h1>{c.title}</h1>
     </header>
@@ -79,11 +82,16 @@ const cite = `Overdue. "${c.title}." Overdue, ${year}. ${CANONICAL_ORIGIN}/c/${c
       )}
 
       <dl class="detail-meta">
-        <dt>Source</dt>
-        <dd><a href={primarySource(c).url} target="_blank" rel="noopener noreferrer">{primarySource(c).label} ↗</a></dd>
+        <dt>Sources</dt>
+        <dd>{c.sources.map((s, i) => {
+          const arch = archiveFor(c.id, s.url);
+          return (<Fragment>{i > 0 ? <br /> : null}<a href={s.url} target="_blank" rel="noopener noreferrer">{s.label}{s.role !== 'obligation' ? ` (${s.role})` : ''} ↗</a>{arch ? <Fragment> · <a href={arch} target="_blank" rel="noopener noreferrer">archived</a></Fragment> : null}</Fragment>);
+        })}</dd>
+        {obligationQuote && <Fragment><dt>Committed text</dt><dd><em>“{obligationQuote}”</em></dd></Fragment>}
+        {c.deadlineBasis === 'derived' && <Fragment><dt>Derived deadline</dt><dd>{c.derivationNote}</dd></Fragment>}
         <dt>Committed</dt>
         <dd>{c.committedOn}</dd>
-        <dt>As of</dt>
+        <dt>Reviewed</dt>
         <dd>{asOf}</dd>
         {c.contested && <Fragment><dt>Contested</dt><dd>This ruling is genuinely disputable.</dd></Fragment>}
       </dl>
