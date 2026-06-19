@@ -31,7 +31,10 @@ jobs:
           printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/id_deploy
           chmod 600 ~/.ssh/id_deploy
           printf '%s\n' "${{ secrets.NEWBOX_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-          rsync -az --delete -e "ssh -i ~/.ssh/id_deploy -o StrictHostKeyChecking=yes" dist/ deploy@37.27.242.32:/var/www/overdue/
+          # --delete keeps the webroot a clean mirror of dist/, but exclude paths the
+          # build never produces yet something else may write there (ACME http-challenge
+          # files, hand-placed verification tokens) so a deploy can't wipe them mid-flight.
+          rsync -az --delete --exclude='.well-known/' -e "ssh -i ~/.ssh/id_deploy -o StrictHostKeyChecking=yes" dist/ deploy@37.27.242.32:/var/www/overdue/
       - name: Send update email on publish
         if: ${{ env.DEPLOY_KEY != '' }}        # gated on go-live, then only fires when updates.ts changed
         env:

@@ -19,12 +19,20 @@ describe('COMMITMENTS dataset', () => {
       expect(LABS, c.id).toContain(c.lab);
       expect(CATEGORIES, c.id).toContain(c.category);
       expect(c.title && c.description).toBeTruthy();
-      expect(ISO.test(c.committedOn)).toBe(true);
-      if (c.deadlineType === 'calendar') expect(ISO.test(c.deadline ?? '')).toBe(true);
+      expect(isRealUtcDate(c.committedOn), c.id).toBe(true);
+      if (c.deadlineType === 'calendar') expect(isRealUtcDate(c.deadline ?? ''), c.id).toBe(true);
       if (c.deadlineType === 'trigger') expect(c.triggerText).toBeTruthy();
-      if (c.resolution) expect(ISO.test(c.resolvedOn ?? '')).toBe(true);
-      expect(() => new URL(c.evidenceUrl)).not.toThrow();
+      if (c.resolution) expect(isRealUtcDate(c.resolvedOn ?? ''), c.id).toBe(true);
+      const u = new URL(c.evidenceUrl);
+      expect(/^https?:$/.test(u.protocol), c.id).toBe(true);   // real http(s) URL, not foo:bar / mailto:
+      expect(u.hostname.includes('.'), c.id).toBe(true);        // has a dotted hostname
       expect(c.sourceLabel).toBeTruthy();
+    }
+  });
+  it('resolvedOn is set iff resolution is set, and falls on/after committedOn', () => {
+    for (const c of COMMITMENTS) {
+      expect(Boolean(c.resolvedOn), c.id).toBe(Boolean(c.resolution)); // no stray resolvedOn / no resolution w/o date
+      if (c.resolvedOn) expect(c.resolvedOn >= c.committedOn, c.id).toBe(true); // lexicographic = chronological for YYYY-MM-DD
     }
   });
   it('has unique ids', () => {

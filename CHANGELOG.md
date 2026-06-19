@@ -2,6 +2,19 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-19 · Review remediation — correctness, a11y & hardening
+
+Fixes from a 5-agent comprehensive codebase review (no new features).
+
+- **HIGH — resolved triggers no longer contradict their own chip:** a trigger commitment that has been ruled (Met/Missed/Partial but `deadline: null`) was rendering "awaiting *{trigger}*" — flatly contradicting its status chip on ~10 live rows. `relativeTime` now gates the resolved branch on `resolvedOn` alone and renders "resolved *{date}*" (or "resolved N days early/late / on time" when a deadline exists). Genuinely pending triggers still read "awaiting …".
+- **MED — deterministic urgency sort:** `sortByUrgency` compared `NaN` for resolved-but-deadline-less rows; replaced with a finite comparator (deadline-desc → `resolvedOn` → `id`) so order is stable.
+- **Feed robustness:** `escapeXml` now strips XML-1.0-illegal control chars (keeping tab/newline/return) so a stray control byte can't make the RSS non-well-formed; `feed.xml.ts` builds item links from `CANONICAL_ORIGIN`, so even the `PAGES=1` backup feed points at the apex. `/updates` "Related" links now resolve to `/c/<id>` detail pages instead of dead homepage anchors.
+- **Explore-table accessibility:** sortable column headers are now keyboard-operable `<button>`s with `scope="col"` and live `aria-sort` feedback (were mouse-only `<th>` click targets).
+- **Email service hardening (defense in depth):** `build_message` collapses CR/LF in `Subject`/`To`/`List-Unsubscribe` so a future newline-bearing value can't inject extra headers (Python would otherwise *raise* mid-send); the inputs are already validated/curated, this is the last line.
+- **CI deploy guard:** the `rsync --delete` mirror now `--exclude='.well-known/'`, so a deploy can't wipe ACME http-challenge or hand-placed verification files the build never produces.
+- **Stronger data tests + docs:** `data.test.ts` now asserts real UTC calendar dates on every date field, `http(s)` + dotted-host evidence URLs, and the `resolvedOn` ⇔ `resolution` (and `resolvedOn ≥ committedOn`) invariants; added a `commitmentsByLab` grouping/track-exclusion test and `escapeXml` / read-rate-limit / header-injection tests. Runbooks corrected: `m4-hosting` documents the right `rrsync` forced-command pattern and the dual-use-key conflict with send-on-publish; `m4-subscribe` is banner-marked **SUPERSEDED** (Overdue runs its own Python email service, not Buttondown).
+- 52 vitest + 40 pytest tests green; apex + `PAGES=1` builds both green (49 pages).
+
 ## 2026-06-19 · M7 — coverage (data breadth)
 
 - **Backed the "all regimes / all labs" claim** by adding 6 web-verified, sourced commitment rows (lab rows 23 → 29) at the project's strict accuracy bar (specific + dated + lab-signed + rock-solid source + contested-flagged; no padding):

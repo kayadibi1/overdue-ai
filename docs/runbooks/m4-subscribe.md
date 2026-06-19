@@ -1,5 +1,9 @@
 # M4 Runbook — Inline subscribe go-live
 
+> **⚠️ SUPERSEDED — historical only.** Overdue runs its **own** Python double-opt-in email
+> service (Resend SMTP), not Buttondown. Use **[`m5-email.md`](./m5-email.md)** for the live
+> setup. This file is kept only as a record of the original Buttondown plan; do not follow it.
+
 Stand up the subscribe proxy on newbox so the on-site form adds subscribers to Buttondown with inline status. Do Phase A (hosting) first.
 
 ## 1. Buttondown (you — ties to your email + billing)

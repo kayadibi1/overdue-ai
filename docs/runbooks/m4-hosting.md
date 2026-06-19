@@ -15,7 +15,10 @@ Bring `overduetracker.org` live on newbox, behind Cloudflare/AOP, deployed by th
   useradd -m -s /bin/bash deploy 2>/dev/null || true
   mkdir -p /var/www/overdue && chown -R deploy:deploy /var/www/overdue
   ```
-- Install the deploy **public** key into `/home/deploy/.ssh/authorized_keys` (ideally `command="rsync --server -logDtprze.iLsfxC . /var/www/overdue/",no-pty,no-port-forwarding` restricted).
+- Install the deploy **public** key into `/home/deploy/.ssh/authorized_keys`, prefixed with key restrictions. **Do not** hardcode rsync's negotiated flags (`command="rsync --server -logDtprze.iLsfxC . …"`) — SSH forces *that* exact command regardless of what the client sent, so it breaks the moment flags differ (the deploy step now sends `--delete --exclude='.well-known/'`). Options:
+  - **`rrsync` wrapper** (ships with rsync): parses the real flags from `SSH_ORIGINAL_COMMAND` and pins the destination dir — `command="rrsync -wo /var/www/overdue/",restrict ssh-ed25519 AAAA… deploy@overdue`. Caveat: `rrsync` only permits rsync, so it is **incompatible with the send-on-publish SSH** (which runs `python3 -m send_update …` as the same `deploy` key). Use this only alongside the two-key split below.
+  - **Two keys (recommended least-privilege):** one `rrsync`-locked key for the deploy/rsync, plus a second key locked to the send command (`command="cd /opt/overdue-subscribe && … send_update …",restrict`). Then point the `NEWBOX_DEPLOY_KEY` secret at the rsync key and add a separate secret for the send key.
+  - At minimum, until split: add `restrict` (disables pty + agent/port/X11 forwarding) to the single dual-use key.
 - Install the Origin cert + key (e.g. `/etc/ssl/overduetracker/origin.pem` / `.key`).
 - **Caddy vhost** (apply only with sign-off — `caddy validate` then `systemctl reload caddy`):
   ```

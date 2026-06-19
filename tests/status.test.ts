@@ -57,6 +57,16 @@ describe('relativeTime', () => {
   it('returns null for a pending trigger', () => {
     expect(relativeTime(make({ deadlineType: 'trigger', deadline: null, resolution: null }), NOW)).toBeNull();
   });
+  it('labels a resolved trigger commitment (no deadline) by its resolved date', () => {
+    const r = relativeTime(make({ resolution: 'missed', deadlineType: 'trigger', deadline: null, resolvedOn: '2024-05-17' }), NOW);
+    expect(r).toEqual({ label: 'resolved 2024-05-17', kind: 'resolved', days: 0 });
+  });
+  it('shows "resolved N days early" and "resolved on time"', () => {
+    expect(relativeTime(make({ resolution: 'met', deadline: '2025-02-10', resolvedOn: '2025-02-03' }), NOW))
+      .toEqual({ label: 'resolved 7 days early', kind: 'resolved', days: -7 });
+    expect(relativeTime(make({ resolution: 'met', deadline: '2025-02-10', resolvedOn: '2025-02-10' }), NOW))
+      .toEqual({ label: 'resolved on time', kind: 'resolved', days: 0 });
+  });
 });
 
 import { summarize, sortByUrgency } from '../src/lib/status';
@@ -85,6 +95,12 @@ describe('sortByUrgency', () => {
     const sorted = sortByUrgency([met, pending, overdueSmall, overdueBig, upSoon, upLate], NOW).map(c => c.id);
     expect(sorted).toEqual(['od-big', 'od-small', 'up-soon', 'up-late', 'pending', 'met']);
   });
+  it('deterministically orders resolved trigger rows (no deadline) by resolvedOn desc then id', () => {
+    const a = make({ id: 'a', resolution: 'met', deadlineType: 'trigger', deadline: null, resolvedOn: '2024-01-01' });
+    const b = make({ id: 'b', resolution: 'met', deadlineType: 'trigger', deadline: null, resolvedOn: '2025-01-01' });
+    expect(sortByUrgency([a, b], NOW).map((c) => c.id)).toEqual(['b', 'a']);
+    expect(sortByUrgency([b, a], NOW).map((c) => c.id)).toEqual(['b', 'a']); // order-independent (no NaN comparator)
+  });
 });
 
 import { regulatoryLabel } from '../src/lib/status';
@@ -98,5 +114,8 @@ describe('regulatoryLabel', () => {
     const r = regulatoryLabel('2025-08-02', NOW2);
     expect(r.kind).toBe('inforce');
     expect(r.label).toBe('in force since 2025-08-02');
+  });
+  it('uses singular "in 1 day" at the boundary', () => {
+    expect(regulatoryLabel('2026-06-19', NOW2).label).toBe('in 1 day');
   });
 });

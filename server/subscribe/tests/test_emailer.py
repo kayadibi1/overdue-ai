@@ -67,6 +67,23 @@ def test_no_reply_to_or_list_unsub_when_unset(monkeypatch):
     assert msg["List-Unsubscribe-Post"] is None
 
 
+def test_build_message_neutralizes_header_injection():
+    # A CRLF-laden subject/recipient/unsub-url must NOT raise and must NOT smuggle
+    # in extra headers (e.g. a Bcc to exfiltrate the send).
+    msg = build_message(
+        "a@b.co\r\nBcc: evil@x.com",
+        "Hello\r\nX-Injected: yes",
+        "t", "<p>t</p>",
+        list_unsubscribe="https://x/u\r\nX-Bad: 1")
+    assert msg["Bcc"] is None            # no smuggled recipient header
+    assert msg["X-Injected"] is None
+    assert msg["X-Bad"] is None
+    # values were flattened to a single line, so serialization can't break them out
+    assert "\r" not in msg["Subject"] and "\n" not in msg["Subject"]
+    assert "\r" not in msg["To"] and "\n" not in msg["To"]
+    msg.as_bytes()                       # serializes without raising
+
+
 def test_deliver_message_dryrun_writes_eml_and_sends_nothing(tmp_path, monkeypatch):
     for k in ("SMTP_HOST", "SMTP_USER", "SMTP_PASS"):
         monkeypatch.delenv(k, raising=False)

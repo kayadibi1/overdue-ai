@@ -74,6 +74,23 @@ def test_subscribe_rate_limit_blocks_after_max(tmp_path):
     deps.store.close()
 
 
+def test_read_endpoints_have_their_own_rate_limit(tmp_path):
+    # The token endpoints (verify/unsubscribe) share a generous read limiter that is
+    # SEPARATE from the strict subscribe limiter.
+    deps, sent = _deps(tmp_path)
+    deps.rate_read.max_hits = 2
+    token = deps.store.subscribe("a@b.co").token
+    for _ in range(2):                                          # two reads allowed
+        assert route("GET", "/api/verify", {"token": token}, {}, "5.5.5.5", deps, 1.0).status == 200
+    blocked = route("GET", "/api/verify", {"token": token}, {}, "5.5.5.5", deps, 1.0)
+    assert blocked.status == 429                                # third from same IP throttled
+    # the strict subscribe limiter is untouched -> a subscribe POST from the same IP still works
+    assert route("POST", "/api/subscribe", {}, {"email": "c@d.co"}, "5.5.5.5", deps, 1.0).status == 200
+    # and a different IP can still read
+    assert route("GET", "/api/unsubscribe", {"token": "x"}, {}, "6.6.6.6", deps, 1.0).status == 200
+    deps.store.close()
+
+
 # -- /api/verify (HTML form pages, POST mutates) ------------------------------
 
 def test_verify_get_is_a_form_with_no_side_effects(tmp_path):

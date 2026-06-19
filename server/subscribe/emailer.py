@@ -23,6 +23,14 @@ from html import escape
 from notify import deliver
 
 
+def _safe_header(value: str) -> str:
+    """Collapse CR/LF to a space so a header value can never break into extra
+    headers (defense in depth: callers already validate the email and build the
+    URLs, but build_message is the last line — and Python would otherwise *raise*
+    on an embedded newline, crashing the send worker)."""
+    return value.replace("\r", " ").replace("\n", " ")
+
+
 def _from_addr() -> str:
     """SMTP_FROM with a display name, e.g. 'Overdue <updates@mail.overduetracker.org>'.
     If SMTP_FROM already includes a display name (has '<'), use it as-is."""
@@ -42,9 +50,9 @@ def build_message(to: str, subject: str, text: str, html: str,
     unit-testable. Adds Reply-To (from SMTP_REPLY_TO) and one-click
     List-Unsubscribe headers (RFC 8058) when provided."""
     msg = EmailMessage()
-    msg["Subject"] = subject
+    msg["Subject"] = _safe_header(subject)
     msg["From"] = _from_addr()
-    msg["To"] = to
+    msg["To"] = _safe_header(to)
     msg["Date"] = formatdate(localtime=True)
     msg["Message-ID"] = make_msgid(domain=_addr_domain())
     reply = os.environ.get("SMTP_REPLY_TO")
@@ -54,7 +62,7 @@ def build_message(to: str, subject: str, text: str, html: str,
     # and bulk-sender requirements are met. The URL must accept POST -- the subscribe
     # service handles POST /api/unsubscribe.
     if list_unsubscribe and list_unsubscribe != "#":
-        msg["List-Unsubscribe"] = f"<{list_unsubscribe}>"
+        msg["List-Unsubscribe"] = f"<{_safe_header(list_unsubscribe)}>"
         msg["List-Unsubscribe-Post"] = "List-Unsubscribe=One-Click"
     msg.set_content(text)                       # plain-text alternative
     msg.add_alternative(html, subtype="html")   # preferred HTML body

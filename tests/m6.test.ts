@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { labSlug, labFromSlug, keptRate } from '../src/lib/labs';
+import { labSlug, labFromSlug, keptRate, commitmentsByLab } from '../src/lib/labs';
 import { toCsv } from '../src/lib/csv';
 import type { Commitment } from '../src/lib/types';
 
@@ -14,6 +14,21 @@ describe('labSlug', () => {
     expect(labSlug('Multi-lab')).toBe('multi-lab');
     expect(labFromSlug('google-deepmind')).toBe('Google DeepMind');
     expect(labFromSlug('nope')).toBeNull();
+  });
+});
+
+describe('commitmentsByLab', () => {
+  it('groups lab-track rows by lab (insertion order) and excludes regulatory rows', () => {
+    const m = commitmentsByLab([
+      c({ id: 'a', lab: 'OpenAI', track: 'lab' }),
+      c({ id: 'b', lab: 'OpenAI', track: 'lab' }),
+      c({ id: 'c', lab: 'Anthropic', track: 'lab' }),
+      c({ id: 'd', lab: 'Multi-lab', track: 'regulatory' }),
+    ]);
+    expect([...m.keys()]).toEqual(['OpenAI', 'Anthropic']);  // regulatory lab never gets a bucket
+    expect(m.get('OpenAI')!.map((x) => x.id)).toEqual(['a', 'b']);
+    expect(m.get('Anthropic')!.map((x) => x.id)).toEqual(['c']);
+    expect(m.has('Multi-lab')).toBe(false);
   });
 });
 

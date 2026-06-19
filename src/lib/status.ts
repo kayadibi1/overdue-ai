@@ -42,7 +42,9 @@ export function relativeTime(c: Commitment, now: number): RelTime | null {
   if ((status === 'overdue' || status === 'upcoming') && c.deadline) {
     return liveLabel(c.deadline, now);
   }
-  if ((status === 'met' || status === 'missed' || status === 'partial') && c.deadline && c.resolvedOn) {
+  if ((status === 'met' || status === 'missed' || status === 'partial') && c.resolvedOn) {
+    // Trigger commitments have no deadline → no "days late/early" delta; label by the resolved date.
+    if (!c.deadline) return { label: `resolved ${c.resolvedOn}`, kind: 'resolved', days: 0 };
     const days = Math.round((parseUTC(c.resolvedOn) - parseUTC(c.deadline)) / DAY_MS);
     if (days > 0) return { label: `resolved ${plural(days, 'day')} late`, kind: 'resolved', days };
     if (days < 0) return { label: `resolved ${plural(-days, 'day')} early`, kind: 'resolved', days };
@@ -66,9 +68,10 @@ export function sortByUrgency(list: Commitment[], now: number): Commitment[] {
     const ra = relativeTime(a, now), rb = relativeTime(b, now);
     if (sa === 'overdue') return (rb?.days ?? 0) - (ra?.days ?? 0);   // most overdue first
     if (sa === 'upcoming') return (ra?.days ?? 0) - (rb?.days ?? 0);  // soonest first
-    const da = a.deadline ? parseUTC(a.deadline) : -Infinity;
-    const db = b.deadline ? parseUTC(b.deadline) : -Infinity;
-    return db - da;                                                   // most recent first
+    const da = a.deadline ? parseUTC(a.deadline) : 0;                 // finite fallback (no NaN comparator)
+    const db = b.deadline ? parseUTC(b.deadline) : 0;
+    if (db !== da) return db - da;                                    // most recent deadline first
+    return (b.resolvedOn ?? '').localeCompare(a.resolvedOn ?? '') || a.id.localeCompare(b.id);
   });
 }
 

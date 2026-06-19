@@ -58,6 +58,11 @@ describe('escapeXml', () => {
     );
     expect(escapeXml('plain text 123')).toBe('plain text 123');
   });
+  it('drops XML-1.0-illegal control chars but keeps tab/newline/return', () => {
+    // \x00 NUL, \x07 BEL, \x1F unit-separator would make the feed non-well-formed
+    expect(escapeXml('a\x00b\x07c\x1Fd')).toBe('abcd');
+    expect(escapeXml('keep\ttab\nnl\rcr')).toBe('keep\ttab\nnl\rcr');
+  });
 });
 
 describe('renderFeed', () => {

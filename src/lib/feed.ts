@@ -3,6 +3,7 @@ import { sortUpdates } from './updates';
 
 export function escapeXml(s: string): string {
   return s
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '') // drop XML-1.0-illegal control chars (keep \t \n \r)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')

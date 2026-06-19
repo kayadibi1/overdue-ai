@@ -46,12 +46,16 @@ if (typeof document !== 'undefined') {
       ordered.forEach((tr) => tbody!.appendChild(tr));
     }
 
-    table.querySelectorAll<HTMLElement>('th[data-sort]').forEach((th) => {
-      th.addEventListener('click', () => {
-        const key = th.dataset.sort ?? '';
+    // data-sort now lives on a <button> inside each sortable <th> (keyboard-operable for free).
+    const sortButtons = table.querySelectorAll<HTMLElement>('[data-sort]');
+    sortButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.sort ?? '';
         if (sortKey === key) asc = !asc;
         else { sortKey = key; asc = true; }
         applySort();
+        sortButtons.forEach((b) => b.closest('th')?.removeAttribute('aria-sort'));
+        btn.closest('th')?.setAttribute('aria-sort', asc ? 'ascending' : 'descending');
       });
     });
 

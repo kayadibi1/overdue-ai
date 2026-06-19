@@ -51,13 +51,13 @@ const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/
         <table id="ctable">
           <thead>
             <tr>
-              <th data-sort="lab">Lab</th>
-              <th data-sort="title">Commitment</th>
-              <th data-sort="category">Category</th>
-              <th data-sort="committed">Committed</th>
-              <th data-sort="deadline">Deadline</th>
-              <th data-sort="status">Status</th>
-              <th>Source</th>
+              <th scope="col"><button type="button" class="th-sort" data-sort="lab">Lab</button></th>
+              <th scope="col"><button type="button" class="th-sort" data-sort="title">Commitment</button></th>
+              <th scope="col"><button type="button" class="th-sort" data-sort="category">Category</button></th>
+              <th scope="col"><button type="button" class="th-sort" data-sort="committed">Committed</button></th>
+              <th scope="col"><button type="button" class="th-sort" data-sort="deadline">Deadline</button></th>
+              <th scope="col"><button type="button" class="th-sort" data-sort="status">Status</button></th>
+              <th scope="col">Source</th>
             </tr>
           </thead>
           <tbody>
@@ -88,6 +88,16 @@ const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/
     <footer class="footer">
       <p>Independent, best-effort, and unaffiliated with any lab. Open data: <a href={withBase('/commitments.json')}>JSON</a> · <a href={withBase('/commitments.csv')}>CSV</a> · <a href={withBase('/corrections')}>Corrections</a>.</p>
     </footer>
+    <style>
+      .th-sort {
+        background: none; border: 0; padding: 0; margin: 0;
+        font: inherit; color: inherit; cursor: pointer;
+      }
+      .th-sort:hover { text-decoration: underline; }
+      .th-sort:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+      th[aria-sort="ascending"] .th-sort::after { content: " \25B2"; }
+      th[aria-sort="descending"] .th-sort::after { content: " \25BC"; }
+    </style>
     <script>import '../scripts/table.ts';</script>
   </body>
 </html>
