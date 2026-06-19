@@ -1,12 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
 :root {
-  --bg: #f7f7f8; --panel: #fff; --ink: #1a1a1f; --muted: #6b6b76; --line: #e4e4ea;
-  --overdue: #d92d20; --upcoming: #1570ef; --met: #15803d; --missed: #b42318;
-  --partial: #b54708; --pending: #6b6b76;
-  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  /* rig-inspired "ink / paper" dark system (adapted visual language; our own content) */
+  --bg: #121211; --bg-2: #0c0c0b; --panel: #1c1b18; --panel-2: #242320;
+  --ink: #f0ede6; --muted: #9c978c; --faint: #6c685f;
+  --line: rgba(240,237,230,.14); --line-2: rgba(240,237,230,.08);
+  --accent: #f0502e; --accent-dim: rgba(240,80,46,.15);
+  /* status palette, harmonized to the dark theme */
+  --overdue: #f0502e; --upcoming: #5b8cff; --met: #3ecf76; --missed: #ff5a45;
+  --partial: #f5a524; --pending: #9c978c;
+  --chamfer: 12px;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --display: "Space Grotesk", "Instrument Sans", system-ui, sans-serif;
+  --sans: "Instrument Sans", system-ui, -apple-system, sans-serif;
 }
+html { background: var(--bg); }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink);
-  font-family: system-ui, -apple-system, sans-serif; line-height: 1.55;
+body { margin: 0; background: transparent; color: var(--ink);
+  font-family: var(--sans); line-height: 1.55;
   max-width: 920px; margin: 0 auto; padding: 28px 18px 60px; }
 a { color: var(--upcoming); }
 .masthead h1 { margin: 0; font-size: 2rem; letter-spacing: -.5px; }
@@ -122,3 +133,64 @@ a { color: var(--upcoming); }
 .cite__head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
 .cite__copy { font-size: .78rem; padding: 4px 12px; }
 .page-nav { font-size: .8rem; margin-top: 8px; }
+
+/* ===================================================================
+   RIG-INSPIRED THEME LAYER
+   Dark "ink/paper" system, warm-orange accent, 12px chamfer motif,
+   heavy display type + mono caption strips. Adapts rig.ai's visual
+   *language* only — our own markup, content and palette values.
+   =================================================================== */
+
+/* ambient warm glow behind the masthead (faux of rig's WebGL hero, no JS) */
+body { position: relative; z-index: 0; }
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(72% 46% at 50% -10%, var(--accent-dim), transparent 70%),
+    radial-gradient(48% 32% at 100% -4%, rgba(91,140,255,.07), transparent 70%); }
+::selection { background: var(--accent); color: #14130f; }
+
+/* ---- type: heavy grotesk display, clean body, mono captions ---- */
+.masthead h1 { font-family: var(--display); font-weight: 700;
+  font-size: clamp(2.6rem, 8vw, 5rem); line-height: .9; letter-spacing: -.045em; color: var(--ink); }
+.tagline { color: var(--ink); font-size: 1.12rem; max-width: 44ch; }
+.tagline em { color: var(--accent); font-style: italic; }
+.meta { font-family: var(--mono); text-transform: uppercase; letter-spacing: .08em;
+  font-size: .72rem; color: var(--muted); }
+.prose h2, .reg-section h2 { font-family: var(--display); letter-spacing: -.01em; }
+.kept-rate { font-family: var(--display); }
+a { color: var(--accent); }
+.prose p, .card__why p { color: #cdc9c0; }
+.summary-hint { font-family: var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+
+/* ---- chamfered static surfaces (NOT focusable elements, so outlines show) ---- */
+.card, .cite, .timeline li, .correction {
+  border-radius: 0;
+  clip-path: polygon(var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)); }
+.card { background: var(--panel); }
+.cite, .prose code { background: var(--panel-2); }
+
+/* ---- sharp technical rectangles for interactive bits (focus outline intact) ---- */
+.stat, .tag, .chip, .btn, .controls select, .subscribe input { border-radius: 0; }
+.stat { background: var(--panel); }
+.stat__n { font-family: var(--mono); }
+.stat[role="button"]:hover { border-color: var(--accent); }
+.stat[role="button"]:focus-visible { outline-color: var(--accent); }
+
+.tag { background: var(--bg-2); border-color: var(--line); color: var(--muted); }
+.chip { color: #14130f; }
+.contested { color: var(--partial); }
+
+.btn { background: var(--accent); color: #14130f; }
+.btn:focus-visible { outline-color: var(--accent); }
+.btn--ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.btn--ghost:hover { filter: none; border-color: var(--accent); color: var(--accent); }
+
+.controls select, .subscribe input { background: var(--panel); color: var(--ink); border-color: var(--line); }
+.controls select:focus-visible, .subscribe input:focus-visible { outline-color: var(--accent); border-color: var(--accent); }
+
+/* ---- table, dividers, misc ---- */
+#ctable thead th { background: var(--bg); }
+#ctable th[data-sort]:hover, .card__why summary { color: var(--accent); }
+.footer { border-color: var(--line); }
+.detail-meta dt { color: var(--ink); }

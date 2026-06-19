@@ -13,7 +13,7 @@ const rel = regulatoryLabel(c.deadline as string, now);
   <a class="reg__src" href={c.evidenceUrl} target="_blank" rel="noopener noreferrer">Source: {c.sourceLabel} ↗</a>
 </article>
 <style>
-  .reg { background: #fbfbfd; border: 1px dashed var(--line); border-radius: 8px; padding: 12px 14px; }
+  .reg { background: var(--panel); border: 1px dashed var(--line); border-radius: 0; padding: 12px 14px; }
   .reg__head { display: flex; gap: 8px; align-items: center; margin-bottom: 4px; }
   .reg__title { margin: 2px 0; font-size: .92rem; }
   .reg__desc { margin: 0 0 6px; color: var(--muted); font-size: .85rem; }
