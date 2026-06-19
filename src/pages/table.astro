@@ -1,0 +1,93 @@
+---
+import { COMMITMENTS } from '../data/commitments';
+import { LABS } from '../lib/types';
+import { computeStatus, sortByUrgency } from '../lib/status';
+import { commitmentsByLab, labSlug } from '../lib/labs';
+import { absUrl } from '../lib/urls';
+import { CANONICAL_ORIGIN } from '../lib/site';
+import StatusChip from '../components/StatusChip.astro';
+import '../styles/global.css';
+
+const now = Date.now();
+const rows = sortByUrgency(COMMITMENTS, now);
+// Slugs of labs that actually have a generated /labs page (≥1 track:'lab' commitment).
+const labPages = new Set([...commitmentsByLab(COMMITMENTS).keys()].map(labSlug));
+const labsInData = LABS.filter((l) => COMMITMENTS.some((c) => c.lab === l));
+const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Explore — Overdue</title>
+    <meta name="description" content="A sortable, filterable table of every dated AI-safety commitment Overdue tracks." />
+    <link rel="alternate" type="application/rss+xml" title="Overdue updates" href={absUrl('/feed.xml')} />
+    <link rel="canonical" href={`${CANONICAL_ORIGIN}/table`} />
+  </head>
+  <body>
+    <header class="masthead">
+      <h1>Explore</h1>
+      <p class="meta"><a href={withBase('')}>← Back to the board</a> · every commitment, sortable and filterable. Each row links to its detail page.</p>
+    </header>
+    <main>
+      <section class="controls" aria-label="Filter">
+        <label>Lab
+          <select id="ctable-lab"><option value="">All</option>{labsInData.map((l) => <option value={l}>{l}</option>)}</select>
+        </label>
+        <label>Status
+          <select id="ctable-status">
+            <option value="">All</option>
+            <option value="overdue">Overdue</option><option value="upcoming">Upcoming</option>
+            <option value="missed">Missed</option><option value="met">Met</option>
+            <option value="partial">Partial</option><option value="pending">Pending</option>
+          </select>
+        </label>
+        <label>Search
+          <input id="ctable-q" type="search" placeholder="title or category" />
+        </label>
+        <button id="ctable-reset" type="button">Reset</button>
+      </section>
+
+      <div class="table-wrap">
+        <table id="ctable">
+          <thead>
+            <tr>
+              <th data-sort="lab">Lab</th>
+              <th data-sort="title">Commitment</th>
+              <th data-sort="category">Category</th>
+              <th data-sort="committed">Committed</th>
+              <th data-sort="deadline">Deadline</th>
+              <th data-sort="status">Status</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((c) => {
+              const status = computeStatus(c, now);
+              const slug = labSlug(c.lab);
+              const deadline = c.deadline ?? (c.triggerText ? `trigger: ${c.triggerText}` : '—');
+              return (
+                <tr data-lab={c.lab} data-status={status} data-committed={c.committedOn}
+                    data-deadline={c.deadline ?? ''} data-title={c.title} data-category={c.category}>
+                  <td>{labPages.has(slug)
+                    ? <a href={withBase(`/labs/${slug}`)}>{c.lab}</a>
+                    : c.lab}</td>
+                  <td><a href={withBase(`/c/${c.id}`)}>{c.title}</a></td>
+                  <td>{c.category}</td>
+                  <td>{c.committedOn}</td>
+                  <td>{deadline}</td>
+                  <td><StatusChip status={status} /></td>
+                  <td><a href={c.evidenceUrl} target="_blank" rel="noopener noreferrer">{c.sourceLabel} ↗</a></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <p id="ctable-empty" class="empty" hidden>No commitments match these filters.</p>
+    </main>
+    <footer class="footer">
+      <p>Independent, best-effort, and unaffiliated with any lab. Open data: <a href={withBase('/commitments.json')}>JSON</a> · <a href={withBase('/commitments.csv')}>CSV</a> · <a href={withBase('/corrections')}>Corrections</a>.</p>
+    </footer>
+    <script>import '../scripts/table.ts';</script>
+  </body>
+</html>
