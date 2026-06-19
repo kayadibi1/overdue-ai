@@ -10,20 +10,10 @@ const status = computeStatus(c, now);
 const rel = relativeTime(c, now);
 const logo = labLogo(c.lab);
 const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
-const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-// Big metric (top-right): a day count for active commitments, else the ruling word.
-// data-kind drives board.ts (it ticks only 'overdue'/'upcoming', skips 'resolved'/'none').
+// Headline magnitude phrase for the deadline panel.
 const timerKind = rel ? rel.kind : 'none';
-let bigN = '—', bigL = '', bigWord = false;
-if (rel && (rel.kind === 'overdue' || rel.kind === 'upcoming')) {
-  bigN = `${Math.abs(rel.days)}d`;
-  bigL = rel.kind === 'overdue' ? 'overdue' : 'until due';
-} else if (rel && rel.kind === 'resolved') {
-  bigN = cap(status); bigL = c.resolvedOn ?? ''; bigWord = true;
-} else {
-  bigN = c.triggerText ? 'Pending' : '—'; bigL = c.triggerText ? 'awaiting trigger' : ''; bigWord = true;
-}
+const phrase = rel ? rel.label : (c.triggerText ? `Awaiting ${c.triggerText}` : 'Pending — no deadline yet');
 
 // Deadline timeline (committed → due → now), only for dated, active commitments.
 const pUTC = (d: string) => Date.parse(`${d}T00:00:00Z`);
@@ -39,52 +29,53 @@ if (c.deadline && (status === 'overdue' || status === 'upcoming')) {
     tl = { kind: 'upcoming', duePct: 100, nowPct: clampPct(((now - cm) / span) * 100) };
   }
 }
+const asOf = c.lastChecked ?? DATA_AS_OF;
 ---
 <article class={`card card--${status}`} id={`commitment-${c.id}`} data-lab={c.lab} data-status={status}
          data-committed={c.committedOn} data-deadline={c.deadline ?? ''} data-deadline-type={c.deadlineType}>
   <div class="card__top">
     {logo && <img class="card__logo" src={withBase(logo)} alt="" width="22" height="22" loading="lazy" decoding="async" />}
-    <a class="badge" href={withBase(`/labs/${labSlug(c.lab)}`)}>{c.lab}</a>
+    <a class="card__lab" href={withBase(`/labs/${labSlug(c.lab)}`)}>{c.lab}</a>
     <span class="tag">{c.category}</span>
     {c.contested && <span class="contested" title="Genuinely disputable ruling">⚠ contested</span>}
-    <span class="card__metric">
-      <StatusChip status={status} />
-      <span class={`card__big card__big--${status}${bigWord ? ' card__big--word' : ''}`} data-timer data-kind={timerKind}>
-        <span class="card__big-n" data-timer-n>{bigN}</span>
-        {bigL && <span class="card__big-l" data-timer-l>{bigL}</span>}
-      </span>
-    </span>
+    <StatusChip status={status} />
   </div>
+
   <h3 class="card__title"><a href={withBase(`/c/${c.id}`)}>{c.title}</a></h3>
   <p class="card__desc">{c.description}</p>
-  {tl && (
-    <div class="card__tlwrap" aria-hidden="true">
-      <div class="card__tl">
-        <div class="tl__track"></div>
-        {tl.kind === 'overdue' ? (
-          <Fragment>
-            <div class="tl__elapsed" style={`width:${tl.duePct}%`}></div>
-            <div class="tl__over" style={`left:${tl.duePct}%;width:${100 - tl.duePct}%`}></div>
-            <span class="tl__due" style={`left:${tl.duePct}%`}></span>
-            <span class="tl__now" style="left:100%"></span>
-          </Fragment>
-        ) : (
-          <Fragment>
-            <div class="tl__elapsed tl__elapsed--up" style={`width:${tl.nowPct}%`}></div>
-            <span class="tl__due" style="left:100%"></span>
-            <span class="tl__now tl__now--up" style={`left:${tl.nowPct}%`}></span>
-          </Fragment>
-        )}
+
+  <div class="card__deadline">
+    <div class={`card__metric card__metric--${status}`} data-timer data-kind={timerKind}>{phrase}</div>
+    {tl && (
+      <div class="card__tlbar">
+        <div class="card__tl" aria-hidden="true">
+          <div class="tl__track"></div>
+          {tl.kind === 'overdue' ? (
+            <Fragment>
+              <div class="tl__elapsed" style={`width:${tl.duePct}%`}></div>
+              <div class="tl__over" style={`left:${tl.duePct}%;width:${100 - tl.duePct}%`}></div>
+              <span class="tl__due" style={`left:${tl.duePct}%`}></span>
+              <span class="tl__now" style="left:100%"></span>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <div class="tl__elapsed tl__elapsed--up" style={`width:${tl.nowPct}%`}></div>
+              <span class="tl__due" style="left:100%"></span>
+              <span class="tl__now tl__now--up" style={`left:${tl.nowPct}%`}></span>
+            </Fragment>
+          )}
+        </div>
+        <div class="tl__labels">
+          <span>committed {c.committedOn}</span>
+          <span>due {c.deadline}{tl.kind === 'overdue' ? ' · now' : ''}</span>
+        </div>
       </div>
-      <div class="tl__labels">
-        <span>committed {c.committedOn}</span>
-        <span>due {c.deadline}{tl.kind === 'overdue' ? ' · now' : ''}</span>
-      </div>
-    </div>
-  )}
-  <footer class="card__foot">
+    )}
+  </div>
+
+  <div class="card__foot">
     <a href={c.evidenceUrl} target="_blank" rel="noopener noreferrer">Source: {c.sourceLabel} ↗</a>
-    <span> · as of {c.lastChecked ?? DATA_AS_OF}</span>
-  </footer>
+    <span> · as of {asOf}</span>
+  </div>
   {c.notes && <details class="card__why"><summary>Why this ruling</summary><p>{c.notes}</p></details>}
 </article>
