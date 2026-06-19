@@ -16,6 +16,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
+        env: { PAGES: '1' }   # backup build uses base /overdue-ai; canonical still points to the apex
       - uses: actions/upload-pages-artifact@v3
         with: { path: dist }
   deploy:

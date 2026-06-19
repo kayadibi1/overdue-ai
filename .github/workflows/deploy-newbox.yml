@@ -1,0 +1,23 @@
+name: Deploy to newbox
+on:
+  push: { branches: [main], paths-ignore: ['.watcher/**', 'docs/**', '**.md'] }
+  workflow_dispatch:
+permissions: { contents: read }
+concurrency: { group: deploy-newbox, cancel-in-progress: true }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm test
+      - run: npm run build          # default env → apex site/base (overduetracker.org)
+      - name: Deploy dist/ to newbox
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.NEWBOX_DEPLOY_KEY }}" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          printf '%s\n' "${{ secrets.NEWBOX_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          rsync -az --delete -e "ssh -i ~/.ssh/id_deploy -o StrictHostKeyChecking=yes" dist/ deploy@37.27.242.32:/var/www/overdue/
