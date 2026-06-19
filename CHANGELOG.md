@@ -2,6 +2,16 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-19 · M7 — coverage (data breadth)
+
+- **Backed the "all regimes / all labs" claim** by adding 6 web-verified, sourced commitment rows (lab rows 23 → 29) at the project's strict accuracy bar (specific + dated + lab-signed + rock-solid source + contested-flagged; no padding):
+  - **Amazon** — Seoul framework by Paris → met (Frontier Model Safety Framework, 2025-02-09) — first Amazon row.
+  - **Mistral** — Seoul framework by Paris → missed, contested (absent from METR's published-policy index) — first Mistral row.
+  - **xAI** — Seoul framework by Paris → missed, contested (watermarked draft, doc-dated 2025-02-20, ~10 days late) — a distinct 2nd xAI deadline.
+  - **White House 2023** — model-weight security → missed; third-party vulnerability reporting → partial; public capability/limitations reporting → partial/contested (rulings from the Stanford study, arXiv 2508.08345). Now 5/8 White House commitments tracked.
+- Each candidate came from a dedicated web-research agent, was curated against the no-padding bar (excluded OpenAI-Seoul, WH info-sharing, EU code-signings, non-enum signatories), then **adversarially fact-checked** (a second agent re-verified every date, source, and ruling).
+- 45 tests green; 49 pages built.
+
 ## 2026-06-19 · M6 — depth & credibility
 
 - **Per-lab report-card pages** (`/labs/<slug>`): each lab's commitments with its status counts (reusing `SummaryStats`) and a derived **kept-rate** (`met ÷ resolved`) always shown *with* the underlying counts and formula, so a single percentage can't be cited out of context (the CAT / GovTrack pattern).

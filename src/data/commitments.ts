@@ -321,4 +321,72 @@ export const COMMITMENTS: Commitment[] = [
     evidenceUrl: 'https://artificialintelligenceact.eu/article/112/',
     sourceLabel: 'EU AI Act',
     notes: 'Statutory review cycle (first due 2028-08-02, then every four years); shown as a countdown, not scored.' },
+
+  // ================= M7 (coverage): Amazon/Mistral/xAI Seoul + more White House commitments =================
+
+  // Amazon — Seoul framework by Paris (met) — fills Amazon coverage
+  { id: 'amazon-frontier-framework-seoul', lab: 'Amazon', track: 'lab',
+    title: 'Publish a frontier safety framework by the Paris AI Action Summit',
+    description: 'As a signatory of the Seoul Frontier AI Safety Commitments (2024-05-21), Amazon published its Frontier Model Safety Framework on 2025-02-09, ahead of the Paris AI Action Summit (2025-02-10/11).',
+    category: 'safety-framework', committedOn: '2024-05-21',
+    deadlineType: 'calendar', deadline: '2025-02-10',
+    resolution: 'met', resolvedOn: '2025-02-09', lastChecked: '2026-06-19',
+    evidenceUrl: 'https://www.amazon.science/publications/amazons-frontier-model-safety-framework',
+    sourceLabel: 'Amazon Science',
+    notes: 'Amazon is a named Seoul signatory; its Frontier Model Safety Framework (dated 2025-02-09) cites Amazon’s endorsement of the Korea Frontier AI Safety Commitments and was published the day before the Paris summit opened.' },
+
+  // xAI — Seoul framework by Paris (missed, contested) — the FIRST, externally-pledged deadline (distinct from the 3-month one)
+  { id: 'xai-frontier-framework-seoul', lab: 'xAI', track: 'lab',
+    title: 'Publish a frontier safety framework by the Paris AI Action Summit',
+    description: 'As a Seoul Frontier AI Safety Commitments signatory (2024-05-21), xAI was due to publish a severe-risk safety framework by the Paris AI Action Summit (2025-02-10). By the deadline it had only a watermarked DRAFT Risk Management Framework, document-dated 2025-02-20.',
+    category: 'safety-framework', committedOn: '2024-05-21',
+    deadlineType: 'calendar', deadline: '2025-02-10',
+    resolution: 'missed', resolvedOn: '2025-02-20', contested: true, lastChecked: '2026-06-19',
+    evidenceUrl: 'https://www.themidasproject.com/article-list/xai-misses-a-second-self-imposed-deadline-to-implement-a-frontier-safety-policy',
+    sourceLabel: 'The Midas Project',
+    notes: 'No finalized framework existed by the 2025-02-10 deadline; xAI’s draft RMF is document-dated 2025-02-20 (~10 days late), watermarked DRAFT, and per The Midas Project applied only to systems not yet in development (excluding Grok 3). A lenient reading would call this partial (a draft was published); scored missed because the committed deliverable did not exist by the deadline — hence contested.' },
+
+  // Mistral — Seoul framework by Paris (missed, contested) — fills Mistral coverage
+  { id: 'mistral-frontier-framework-seoul', lab: 'Mistral', track: 'lab',
+    title: 'Publish a frontier safety framework by the Paris AI Action Summit',
+    description: 'As a Seoul Frontier AI Safety Commitments signatory (2024-05-21), Mistral AI was due to publish a severe-risk safety framework by the Paris AI Action Summit (2025-02-10). As of mid-2026, no such framework appears on independent indexes of published frontier safety policies.',
+    category: 'safety-framework', committedOn: '2024-05-21',
+    deadlineType: 'calendar', deadline: '2025-02-10',
+    resolution: 'missed', resolvedOn: '2025-02-10', contested: true, lastChecked: '2026-06-19',
+    evidenceUrl: 'https://metr.org/common-elements',
+    sourceLabel: 'METR',
+    notes: 'Mistral is a named Seoul signatory but does not appear on METR’s index of companies that have published frontier safety policies, and SaferAI rates it as having no published framework with capability thresholds. The missed ruling rests on absence from these published-framework indexes rather than a positive non-publication statement — hence contested.' },
+
+  // White House 2023 — model-weight security (missed)
+  { id: 'wh-voluntary-weight-security-2023', lab: 'Multi-lab', track: 'lab',
+    title: 'Protect unreleased model weights (2023 voluntary commitments)',
+    description: 'Under the White House voluntary AI commitments (2023-07-21), signatories pledged to safeguard unreleased model weights — limiting access, running insider-threat detection, and securing storage. A 2025 study of 16 signatories found this the worst-performed of the eight commitments.',
+    category: 'security', committedOn: '2023-07-21',
+    deadlineType: 'trigger', deadline: null, triggerText: 'safeguard unreleased frontier model weights (cybersecurity + insider threat)',
+    resolution: 'missed', resolvedOn: '2025-08-11', lastChecked: '2026-06-19',
+    evidenceUrl: 'https://arxiv.org/abs/2508.08345',
+    sourceLabel: 'Wang, Huang, Klyman & Bommasani (AIES 2025)',
+    notes: 'Assessed against public disclosures through 2024-12-31 in the Stanford-affiliated study “Do AI Companies Make Good on Voluntary Commitments to the White House?” — the lowest-scoring commitment, with 11 of 16 companies scoring 0%. Corroborated by RAND’s “Securing AI Model Weights” (2024). Scored as broadly missed across signatories. (The commitment was first signed by 7 companies on 2023-07-21; later cohorts — Sept 2023 and 2024 — brought the study’s assessed set to 16.)' },
+
+  // White House 2023 — third-party vulnerability reporting (partial)
+  { id: 'wh-voluntary-vuln-reporting-2023', lab: 'Multi-lab', track: 'lab',
+    title: 'Incentivize third-party vulnerability reporting (2023 voluntary commitments)',
+    description: 'Under the White House voluntary AI commitments (2023-07-21), signatories pledged bounty systems or contests to incentivize responsible third-party discovery and reporting of model weaknesses.',
+    category: 'security', committedOn: '2023-07-21',
+    deadlineType: 'trigger', deadline: null, triggerText: 'run/expand bounty mechanisms covering in-scope AI systems',
+    resolution: 'partial', resolvedOn: '2025-08-11', lastChecked: '2026-06-19',
+    evidenceUrl: 'https://arxiv.org/abs/2508.08345',
+    sourceLabel: 'Wang, Huang, Klyman & Bommasani (AIES 2025)',
+    notes: 'The 2025 study (disclosures through 2024-12-31) scored this second-lowest, with 8 of 16 companies at 0%. Frontier labs do run AI bug bounties (OpenAI, Anthropic, Microsoft, Google), but coverage is uneven across signatories — recorded as partial.' },
+
+  // White House 2023 — public capability/limitations reporting (partial, contested)
+  { id: 'wh-voluntary-capability-reporting-2023', lab: 'Multi-lab', track: 'lab',
+    title: 'Publicly report model capabilities and limitations (2023 voluntary commitments)',
+    description: 'Under the White House voluntary AI commitments (2023-07-21), signatories pledged to publish reports for significant model releases covering capabilities, limitations, and domains of appropriate and inappropriate use.',
+    category: 'transparency', committedOn: '2023-07-21',
+    deadlineType: 'trigger', deadline: null, triggerText: 'publish a capabilities/limitations report with each significant model release',
+    resolution: 'partial', resolvedOn: '2025-08-11', contested: true, lastChecked: '2026-06-19',
+    evidenceUrl: 'https://arxiv.org/abs/2508.08345',
+    sourceLabel: 'Wang, Huang, Klyman & Bommasani (AIES 2025)',
+    notes: 'Shallow disclosure is near-universal — frontier labs publish system/model cards for major releases — but the 2025 study found deeper indicators (limitations, societal-risk discussion, adversarial-test results) met inconsistently. Recorded as partial; contested because the basic reporting bar is broadly met while the substantive bar is not.' },
 ];
