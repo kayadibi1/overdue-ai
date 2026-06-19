@@ -1,0 +1,16 @@
+[project]
+name = "overdue-subscribe"
+version = "1.0.0"
+description = "Owned email pipeline for Overdue: SQLite double opt-in + Resend SMTP send-on-publish."
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+# Flat layout: modules live in this dir (server/subscribe/) and use ABSOLUTE imports
+# (`from subscribers import ...`) so the box deploy (/opt/overdue-subscribe, run as
+# `python3 -m subscribe_server`) and pytest both resolve them. pythonpath=["."] makes
+# `pytest server/subscribe` import the modules without an install.
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
