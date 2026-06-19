@@ -205,14 +205,14 @@ body { overflow-x: clip; }   /* contain the 100vw band breakout */
 .masthead {
   width: 100vw; margin-left: calc(50% - 50vw); margin-top: -28px;
   background: var(--accent); color: #14130f;
-  padding: clamp(40px, 6vw, 76px) max(18px, calc(50vw - 442px)) clamp(28px, 3vw, 40px);
-  margin-bottom: 26px; border-bottom: 2px solid #14130f;
+  padding: clamp(22px, 3vw, 38px) max(18px, calc(50vw - 442px)) clamp(16px, 2vw, 24px);
+  margin-bottom: 22px; border-bottom: 2px solid #14130f;
 }
 .masthead > * { max-width: 884px; margin: 0; box-sizing: border-box; }   /* left-aligned to the content column */
 .masthead h1 { font-family: var(--display); font-weight: 700; color: #14130f;
-  font-size: clamp(3rem, 11vw, 6.4rem); line-height: .82; letter-spacing: -.05em; margin: 0; }
-.masthead .tagline { color: #14130f; font-weight: 500; margin-top: 18px;
-  font-size: clamp(1.05rem, 2.2vw, 1.35rem); max-width: 30ch; }
+  font-size: clamp(2.2rem, 7vw, 4rem); line-height: .85; letter-spacing: -.045em; margin: 0; }
+.masthead .tagline { color: #14130f; font-weight: 500; margin-top: 10px;
+  font-size: clamp(.98rem, 1.6vw, 1.1rem); max-width: 48ch; }
 .masthead .tagline em { color: #14130f; font-style: italic; }
 .masthead .meta { color: rgba(20,19,15,.72); margin-top: 20px; }
 .masthead .meta a { color: #14130f; text-decoration: underline; text-underline-offset: 2px; }
@@ -234,30 +234,45 @@ body { overflow-x: clip; }   /* contain the 100vw band breakout */
 .cta-band .btn { background: #14130f; color: var(--accent); }
 .cta-band .subscribe__status { color: rgba(20,19,15,.8); }
 
-/* ---- board commitments as hairline LEDGER ROWS (no boxes), with lab logos ---- */
-.board { display: block; border-top: 1px solid var(--line); }
+/* ---- board commitment = TIMELINE CARD (status edge + deadline bar + day count) ---- */
+.board { display: grid; gap: 14px; }
 .card {
-  display: grid; grid-template-columns: 176px 1fr 152px; gap: 22px; align-items: start;
-  background: transparent; border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
-  clip-path: none; padding: 20px 2px;
+  display: block; background: var(--panel); border: 1px solid var(--line);
+  border-left: 3px solid var(--pending); border-radius: 0; clip-path: none; padding: 15px 18px;
 }
-.card__lab { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
-.card__brand { display: flex; align-items: center; gap: 9px; }
-.card__logo { width: 22px; height: 22px; border-radius: 5px; background: #fff;
-  padding: 2px; object-fit: contain; flex: none; }
-.card__lab .badge { font-size: .92rem; }
-.card__lab .tag { align-self: flex-start; }
-.card__main { min-width: 0; }
-.card__title { margin: 0 0 4px; font-size: 1.05rem; font-weight: 600; }
-.card__desc { margin: 0 0 8px; }
+.card--overdue { border-left-color: var(--overdue); }
+.card--upcoming { border-left-color: var(--upcoming); }
+.card--met { border-left-color: var(--met); }
+.card--missed { border-left-color: var(--missed); }
+.card--partial { border-left-color: var(--partial); }
+.card--pending { border-left-color: var(--pending); }
+.card__top { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 8px; }
+.card__logo { width: 22px; height: 22px; border-radius: 5px; background: #fff; padding: 2px; object-fit: contain; flex: none; }
+.card__metric { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.card__big { font-family: var(--mono); font-weight: 700; font-size: 1.45rem; line-height: 1; text-align: right; color: var(--muted); }
+.card__big--overdue { color: var(--overdue); } .card__big--upcoming { color: var(--upcoming); }
+.card__big--met { color: var(--met); } .card__big--missed { color: var(--missed); }
+.card__big--partial { color: var(--partial); } .card__big--pending { color: var(--muted); }
+.card__big--word { font-family: var(--display); font-size: 1.05rem; }
+.card__big-n { display: block; }
+.card__big-l { display: block; font-family: var(--mono); font-size: .56rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted); font-weight: 500; margin-top: 4px; }
+.card__title { margin: 2px 0 4px; font-size: 1.08rem; font-weight: 600; }
+.card__desc { margin: 0; }
+/* deadline timeline bar */
+.card__tlwrap { margin: 12px 0 2px; }
+.card__tl { position: relative; height: 14px; }
+.tl__track { position: absolute; top: 6px; left: 0; right: 0; height: 3px; background: var(--line); }
+.tl__elapsed { position: absolute; top: 6px; left: 0; height: 3px; background: var(--muted); }
+.tl__elapsed--up { background: var(--upcoming); }
+.tl__over { position: absolute; top: 5px; height: 5px; background: var(--overdue); box-shadow: 0 0 10px var(--accent-dim); }
+.tl__due { position: absolute; top: 0; width: 2px; height: 14px; background: var(--ink); transform: translateX(-1px); }
+.tl__now { position: absolute; top: 2px; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--overdue); border: 2px solid var(--panel); transform: translateX(-50%); }
+.tl__now--up { background: var(--upcoming); }
+.tl__labels { display: flex; justify-content: space-between; font-family: var(--mono);
+  font-size: .6rem; color: var(--faint); margin-top: 4px; letter-spacing: .03em; }
 .card__foot { display: block; font-family: var(--mono); font-size: .74rem;
-  letter-spacing: .02em; color: var(--faint); text-transform: none; }
+  letter-spacing: .02em; color: var(--faint); text-transform: none; margin-top: 10px; }
 .card__foot a { color: var(--accent); text-decoration: none; }
 .card__foot a:hover { text-decoration: underline; }
-.card__status { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; text-align: right; }
-.card__timer { font-size: 1.05rem; }
-.card__timer[data-kind="resolved"], .card__timer[data-kind="none"] { font-size: .85rem; }
-@media (max-width: 680px) {
-  .card { grid-template-columns: 1fr; gap: 10px; }
-  .card__status { flex-direction: row; align-items: center; justify-content: flex-start; text-align: left; }
-}

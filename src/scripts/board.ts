@@ -39,16 +39,21 @@ if (!board) {
       const timer = card.querySelector<HTMLElement>('[data-timer]');
       // Only live (unresolved, dated) cards tick; resolved/none/pending stay static.
       if (!timer || timer.dataset.kind === 'resolved' || timer.dataset.kind === 'none' || !deadline) return;
-      const { label, kind } = liveLabel(deadline, now);   // SAME function the build used
-      timer.textContent = label;
+      const { kind, days } = liveLabel(deadline, now);   // SAME function the build used
+      const nEl = timer.querySelector<HTMLElement>('[data-timer-n]');
+      const lEl = timer.querySelector<HTMLElement>('[data-timer-l]');
+      if (nEl) nEl.textContent = days === 0 ? 'today' : `${days}d`;
+      if (lEl) lEl.textContent = kind === 'overdue' ? 'overdue' : 'until due';
       timer.dataset.kind = kind;
       if (kind === 'overdue') overdueNow++;
-      // Keep status + chip in sync if a card flips upcoming -> overdue live (so filters stay correct).
+      // Keep status + chip + colors in sync if a card flips upcoming -> overdue live.
       if (card.dataset.status !== kind) {
         card.dataset.status = kind;
         flipped = true;
         const chip = card.querySelector<HTMLElement>('.chip');
         if (chip) { chip.className = `chip chip--${kind}`; chip.textContent = CHIP_LABEL[kind]; }
+        timer.className = timer.className.replace(/card__big--\w+/, `card__big--${kind}`);
+        card.className = card.className.replace(/card--(overdue|upcoming|met|missed|partial|pending)/, `card--${kind}`);
       }
     });
     const n = document.querySelector<HTMLElement>('[data-stat-n="overdue"]');
