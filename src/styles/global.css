@@ -5,9 +5,9 @@
   --bg: #121211; --bg-2: #0c0c0b; --panel: #1c1b18; --panel-2: #242320;
   --ink: #f0ede6; --muted: #9c978c; --faint: #6c685f;
   --line: rgba(240,237,230,.14); --line-2: rgba(240,237,230,.08);
-  --accent: #f0502e; --accent-dim: rgba(240,80,46,.15);
+  --accent: #ff5c00; --accent-dim: rgba(255,92,0,.15);
   /* status palette, harmonized to the dark theme */
-  --overdue: #f0502e; --upcoming: #5b8cff; --met: #3ecf76; --missed: #ff5a45;
+  --overdue: #ff5c00; --upcoming: #5b8cff; --met: #3ecf76; --missed: #ff5a45;
   --partial: #f5a524; --pending: #9c978c;
   --chamfer: 12px;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -163,11 +163,10 @@ a { color: var(--accent); }
 .summary-hint { font-family: var(--mono); text-transform: uppercase; letter-spacing: .06em; }
 
 /* ---- chamfered static surfaces (NOT focusable elements, so outlines show) ---- */
-.card, .cite, .timeline li, .correction {
+.cite, .timeline li, .correction {
   border-radius: 0;
   clip-path: polygon(var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
     calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)); }
-.card { background: var(--panel); }
 .cite, .prose code { background: var(--panel-2); }
 
 /* ---- sharp technical rectangles for interactive bits (focus outline intact) ---- */
@@ -179,7 +178,7 @@ a { color: var(--accent); }
 
 .tag { background: var(--bg-2); border-color: var(--line); color: var(--muted); }
 .chip { color: #14130f; }
-.contested { color: var(--partial); }
+.contested { color: var(--partial); white-space: nowrap; }
 
 .btn { background: var(--accent); color: #14130f; }
 .btn:focus-visible { outline-color: var(--accent); }
@@ -234,3 +233,31 @@ body { overflow-x: clip; }   /* contain the 100vw band breakout */
 .cta-band .subscribe input::placeholder { color: rgba(240,237,230,.45); }
 .cta-band .btn { background: #14130f; color: var(--accent); }
 .cta-band .subscribe__status { color: rgba(20,19,15,.8); }
+
+/* ---- board commitments as hairline LEDGER ROWS (no boxes), with lab logos ---- */
+.board { display: block; border-top: 1px solid var(--line); }
+.card {
+  display: grid; grid-template-columns: 176px 1fr 152px; gap: 22px; align-items: start;
+  background: transparent; border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
+  clip-path: none; padding: 20px 2px;
+}
+.card__lab { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.card__brand { display: flex; align-items: center; gap: 9px; }
+.card__logo { width: 22px; height: 22px; border-radius: 5px; background: #fff;
+  padding: 2px; object-fit: contain; flex: none; }
+.card__lab .badge { font-size: .92rem; }
+.card__lab .tag { align-self: flex-start; }
+.card__main { min-width: 0; }
+.card__title { margin: 0 0 4px; font-size: 1.05rem; font-weight: 600; }
+.card__desc { margin: 0 0 8px; }
+.card__foot { display: block; font-family: var(--mono); font-size: .74rem;
+  letter-spacing: .02em; color: var(--faint); text-transform: none; }
+.card__foot a { color: var(--accent); text-decoration: none; }
+.card__foot a:hover { text-decoration: underline; }
+.card__status { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; text-align: right; }
+.card__timer { font-size: 1.05rem; }
+.card__timer[data-kind="resolved"], .card__timer[data-kind="none"] { font-size: .85rem; }
+@media (max-width: 680px) {
+  .card { grid-template-columns: 1fr; gap: 10px; }
+  .card__status { flex-direction: row; align-items: center; justify-content: flex-start; text-align: left; }
+}
