@@ -40,11 +40,9 @@ const latest = sortUpdates(UPDATES).slice(0, 2);
   <body>
     <Nav />
     <header class="masthead masthead--home">
-      <h1>Overdue</h1>
-      <p class="tagline">Are frontier AI labs keeping the dated safety promises <em>they</em> made? A per-promise, source-cited tracker.</p>
+      <h1>Are frontier AI labs keeping the dated safety promises <em>they</em> made?</h1>
+      <p class="tagline">A per-promise, source-cited tracker of every dated commitment — and which are overdue right now.</p>
       <p class="meta">{labRows.length} lab promises · {regulatoryRows.length} regulatory · updated {updated} ·
-        <a href={withBase('updates')}>Updates</a> ·
-        <a href={withBase('methodology')}>Methodology</a> ·
         <a href="https://github.com/kayadibi1/overdue-ai">GitHub</a> ·
         <a href={withBase('commitments.json')}>Open data (JSON)</a> ·
         <a href={absUrl('/feed.xml')}>RSS</a>

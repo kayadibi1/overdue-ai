@@ -62,15 +62,12 @@ h1, h2, h3, h4 { color: var(--ink); font-family: var(--display); letter-spacing:
 .meta a { color: var(--accent); }
 .meta a:hover { text-decoration: underline; }
 /* homepage: subtitle to the right of the wordmark */
-.masthead--home { display: grid; grid-template-columns: auto minmax(0, 1fr);
-  grid-template-areas: "title sub" "meta meta"; align-items: end; column-gap: clamp(18px, 3vw, 36px); row-gap: 10px; }
-.masthead--home h1 { grid-area: title; }
-.masthead--home .tagline { grid-area: sub; margin: 0 0 6px; max-width: 44ch; font-size: 1rem; }
-.masthead--home .meta { grid-area: meta; margin: 0; }
-@media (max-width: 640px) {
-  .masthead--home { grid-template-columns: 1fr; grid-template-areas: "title" "sub" "meta"; align-items: start; }
-  .masthead--home .tagline { margin: 8px 0 0; }
-}
+.masthead--home { padding: 6px 0 2px; }
+.masthead--home h1 { font-size: clamp(1.9rem, 3.8vw, 2.9rem); line-height: 1.1; letter-spacing: -.03em;
+  max-width: 19ch; margin: 0; }
+.masthead--home h1 em { color: var(--accent); font-style: normal; }
+.masthead--home .tagline { margin: 16px 0 0; font-size: 1.14rem; max-width: 56ch; color: var(--slate); }
+.masthead--home .meta { margin: 16px 0 0; }
 
 /* ---------- controls / filters ---------- */
 .controls { display: flex; gap: 14px; flex-wrap: wrap; margin: 18px 0; font-size: .9rem; align-items: center; }
