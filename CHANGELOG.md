@@ -2,6 +2,10 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-19 · Brand mark
+
+- **New logo** (`favicon.svg`, also the nav mark): an "overshoot ring" — a blue on-time arc that turns **red as it sweeps past the navy 12 o'clock deadline tick** into a red "now" head, echoing the blue→red deadline bars on the cards. Replaces the plain red clock.
+
 ## 2026-06-19 · Top navigation + CI bump
 
 - **Sticky header nav** on every page (new `Nav.astro`): the wordmark (→ home) + Explore / Methodology / Updates / Corrections + a blurple **Subscribe** CTA, as a blurred white bar under the gradient sliver. Links collapse on mobile (brand + CTA remain).
