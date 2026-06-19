@@ -2,6 +2,15 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-18 · M5 — our own email system
+
+- **Owned double-opt-in list:** a Python `subscribe_server` on the box (`server/subscribe/`) backs the on-site form with a SQLite store (`pending → verified → unsubscribed`) ported from `dc-frontier-events`. `/api/subscribe` speaks JSON to the inline fetch and is **enumeration-safe** (a valid email always returns `subscribed`, new or existing); verify/unsubscribe are server-rendered **form pages** whose state changes fire on **POST only**, so mail scanners and link prefetchers can't confirm or unsubscribe a human. Honeypot, per-IP rate limits, a 300s per-address verify cooldown, and a 48h pending TTL come along.
+- **Resend SMTP from a verified subdomain:** the emailer sends verify / welcome / update mail via `smtplib` + STARTTLS (`smtp.resend.com`) from `mail.overduetracker.org` (SPF/DKIM/DMARC), with `Reply-To` and one-click **`List-Unsubscribe` + `List-Unsubscribe-Post`** (RFC 8058) — the recipe that lands mail in the inbox. No SMTP creds → it degrades to inspectable dry-run `.eml` files.
+- **Send-on-publish:** a new `src/data/updates.ts` entry → `/updates.json` (prerendered, mirrors `commitments.json`) is deployed to the box, then CI runs `send_update` to mail the latest entry to confirmed subscribers. **Idempotent** via a `sent_updates(id)` marker so a re-run never double-sends; `--dry-run` lists recipients.
+- **Buttondown removed:** the M4 Node proxy (`server/subscribe/*.mjs`) and its frontend tests are gone; the site no longer hands the list to a SaaS.
+- **Two test stacks, both green:** the Python service is unit-tested with **pytest** (store state machine, `route()` with fakes, emailer dry-run + headers, idempotent send) and runs as a CI step; the site stays on **vitest**.
+- Trimmed all events-specific bits during the port (source preferences, subscriber profiles, calendar). pytest + vitest both green; apex + `PAGES=1` builds both green (build emits `dist/updates.json`). **Go-live (Resend domain + DNS + Caddy `/api/*` + systemd) is executed separately via `docs/runbooks/m5-email.md`.**
+
 ## 2026-06-18 · M4 — custom domain + newbox host + inline subscribe (repo side)
 
 - **Custom domain + apex move:** `astro.config` is env-driven — apex `overduetracker.org` (base `/`) by default, with `PAGES=1` keeping the GitHub Pages backup building at `/overdue-ai`. Canonical links pinned to the apex on every page so the backup never competes in search.
