@@ -10,6 +10,7 @@ import Subscribe from '../components/Subscribe.astro';
 import CommitmentCard from '../components/CommitmentCard.astro';
 import LabCard from '../components/LabCard.astro';
 import RegulatoryItem from '../components/RegulatoryItem.astro';
+import Nav from '../components/Nav.astro';
 import '../styles/global.css';
 
 const now = Date.now();
@@ -37,6 +38,7 @@ const latest = sortUpdates(UPDATES).slice(0, 2);
     <link rel="canonical" href={`${CANONICAL_ORIGIN}/`} />
   </head>
   <body>
+    <Nav />
     <header class="masthead masthead--home">
       <h1>Overdue</h1>
       <p class="tagline">Are frontier AI labs keeping the dated safety promises <em>they</em> made? A per-promise, source-cited tracker.</p>

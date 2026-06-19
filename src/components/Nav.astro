@@ -1,0 +1,21 @@
+---
+const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
+const links = [
+  { href: '/table', label: 'Explore' },
+  { href: 'methodology', label: 'Methodology' },
+  { href: 'updates', label: 'Updates' },
+  { href: '/corrections', label: 'Corrections' },
+];
+---
+<nav class="topnav" aria-label="Primary">
+  <div class="topnav__inner">
+    <a class="topnav__brand" href={withBase('')}>
+      <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" width="22" height="22" />
+      <span>Overdue</span>
+    </a>
+    <div class="topnav__links">
+      {links.map((l) => <a href={withBase(l.href)}>{l.label}</a>)}
+    </div>
+    <a class="btn topnav__cta" href={withBase('updates')}>Subscribe</a>
+  </div>
+</nav>

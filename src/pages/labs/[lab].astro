@@ -8,6 +8,7 @@ import { absUrl } from '../../lib/urls';
 import { CANONICAL_ORIGIN } from '../../lib/site';
 import CommitmentCard from '../../components/CommitmentCard.astro';
 import SummaryStats from '../../components/SummaryStats.astro';
+import Nav from '../../components/Nav.astro';
 import '../../styles/global.css';
 
 export const getStaticPaths = (() => {
@@ -36,6 +37,7 @@ const keptLine = k.rate == null
     <link rel="canonical" href={`${CANONICAL_ORIGIN}/labs/${labSlug(lab)}`} />
   </head>
   <body>
+    <Nav />
     <header class="masthead">
       <p class="meta"><a href={withBase('')}>← Back to the board</a> · <a href={withBase('/table')}>Table</a></p>
       <h1>{lab}</h1>
