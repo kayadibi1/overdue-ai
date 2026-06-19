@@ -2,6 +2,10 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-19 · Homepage hero
+
+- **Lead with the value prop, not the brand.** The hero `h1` was just the word "Overdue" — redundant with the nav wordmark. It's now the question ("Are frontier AI labs keeping the dated safety promises *they* made?") with the descriptor as the subtitle, and the meta line drops the Updates/Methodology links (already in the nav). Stronger first impression and a descriptive `h1` for SEO.
+
 ## 2026-06-19 · Layout fix + UI/UX audit
 
 - **Fixed prose pages rendering left-aligned:** methodology / updates / corrections / detail used a 720px column inside the 960px body with no centering, so the text sat ~100px left of centre with a wide right gutter. The prose column, its title block, and footer now centre together (`margin-inline:auto`, scoped via `body:has(main.prose)`).
