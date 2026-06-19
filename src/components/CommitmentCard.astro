@@ -7,7 +7,7 @@ const { c, now } = Astro.props;
 const status = computeStatus(c, now);
 const rel = relativeTime(c, now);
 ---
-<article class="card" data-lab={c.lab} data-status={status} data-committed={c.committedOn}
+<article class="card" id={`commitment-${c.id}`} data-lab={c.lab} data-status={status} data-committed={c.committedOn}
          data-deadline={c.deadline ?? ''} data-deadline-type={c.deadlineType}>
   <header class="card__top">
     <span class="badge">{c.lab}</span>

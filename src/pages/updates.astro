@@ -1,0 +1,51 @@
+---
+import { UPDATES } from '../data/updates';
+import { sortUpdates } from '../lib/updates';
+import { COMMITMENTS } from '../data/commitments';
+import { absUrl } from '../lib/urls';
+import '../styles/global.css';
+const updates = sortUpdates(UPDATES);
+const titleOf = (id: string) => COMMITMENTS.find((c) => c.id === id)?.title ?? id;
+// base-aware internal hrefs (base='/overdue-ai'); external URLs pass through unchanged
+const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
+const linkOf = (u: string) => (u.startsWith('/') ? withBase(u) : u);
+const fmtDate = (d: string) =>
+  new Date(`${d}T00:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Updates — Overdue</title>
+    <meta name="description" content="What changed in Overdue, the tracker of frontier AI safety commitments and their deadlines." />
+    <link rel="alternate" type="application/rss+xml" title="Overdue updates" href={absUrl('/feed.xml')} />
+  </head>
+  <body>
+    <header class="masthead">
+      <h1>Updates</h1>
+      <p class="meta"><a href={withBase('')}>← Back to the board</a> · <a href={absUrl('/feed.xml')}>RSS</a></p>
+    </header>
+    <main class="prose">
+      {updates.map((u) => (
+        <section id={u.id} class="update">
+          <p class="update__date">{fmtDate(u.date)}</p>
+          <h2>{u.title}</h2>
+          <p>{u.body}</p>
+          {u.commitmentIds && u.commitmentIds.length > 0 && (
+            <p class="update__refs">Related:{' '}
+              {u.commitmentIds.map((id, i) => (
+                <Fragment>{i > 0 ? ', ' : ''}<a href={withBase(`/#commitment-${id}`)}>{titleOf(id)}</a></Fragment>
+              ))}
+            </p>
+          )}
+          {u.sourceUrl && u.sourceLabel && (
+            <p class="update__source"><a href={linkOf(u.sourceUrl)}>{u.sourceLabel}</a></p>
+          )}
+        </section>
+      ))}
+    </main>
+    <footer class="footer">
+      <p>Independent, best-effort, and unaffiliated with any lab. Corrections welcome via a <a href="https://github.com/kayadibi1/overdue-ai/issues">GitHub issue</a>.</p>
+    </footer>
+  </body>
+</html>

@@ -1,10 +1,12 @@
 ---
 import '../styles/global.css';
+import { absUrl } from '../lib/urls';
 const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
 ---
 <html lang="en">
   <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Overdue — Methodology</title></head>
+    <title>Overdue — Methodology</title>
+    <link rel="alternate" type="application/rss+xml" title="Overdue updates" href={absUrl('/feed.xml')} /></head>
   <body>
     <header class="masthead"><h1>Methodology</h1>
       <p class="meta"><a href={withBase('')}>← Back to the board</a></p></header>
@@ -22,8 +24,8 @@ const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/
       <p>Phrasing is strictly factual and neutral: we state the deadline and what shipped by it, and avoid editorializing verbs. A ruling ships only with a rock-solid source. Statuses are curated as of the "updated" date on the board; only the timers update live.</p>
       <h2>Open data &amp; corrections</h2>
       <p>The full dataset is available as <a href={withBase('commitments.json')}>open JSON</a> for nonprofits, journalists, and researchers to reuse. Spotted an error? Open a <a href="https://github.com/kayadibi1/overdue-ai/issues">GitHub issue</a>.</p>
-      <h2>Related trackers</h2>
-      <p>Overdue complements existing work rather than replacing it. <a href="https://www.seoul-tracker.org/">The Midas Project's Seoul Tracker</a> grades one collective deadline; <a href="https://metr.org/fsp">METR's index</a> catalogs policy <em>documents</em>; <a href="https://ailabwatch.org/">AI Lab Watch</a>, the <a href="https://futureoflife.org/">FLI AI Safety Index</a>, and <a href="https://www.safer-ai.org/">SaferAI</a> grade overall posture. Overdue's contribution is breadth and a live per-promise counter: many individual dated commitments, each with a status and one source. It is not the first accountability project.</p>
+      <h2>How Overdue differs (related trackers)</h2>
+      <p>Overdue complements existing work rather than replacing it. <a href="https://www.seoul-tracker.org/">The Midas Project's Seoul Tracker</a> grades one collective deadline, and its <a href="https://www.themidasproject.com/watchtower">Watchtower</a> flags quiet policy changes; <a href="https://metr.org/fsp">METR's index</a> catalogs policy <em>documents</em>; the <a href="https://futureoflife.org/">FLI AI Safety Index</a> and <a href="https://www.safer-ai.org/">SaferAI</a> grade overall posture. <a href="https://ailabwatch.org/">AI Lab Watch</a> compiled the broadest commitment list, but has been unmaintained since September 2025. Overdue's contribution is to bring those regimes together with a live, per-promise deadline clock: many individual dated commitments — RSPs, frontier safety frameworks, the Seoul and White House commitments — each with a status, an explicit <em>upcoming / overdue</em> countdown, and one source. It is not the first accountability project.</p>
     </main>
   </body>
 </html>

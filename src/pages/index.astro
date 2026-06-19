@@ -2,6 +2,9 @@
 import { COMMITMENTS } from '../data/commitments';
 import { sortByUrgency, summarize } from '../lib/status';
 import { LABS } from '../lib/types';
+import { UPDATES } from '../data/updates';
+import { sortUpdates } from '../lib/updates';
+import { absUrl } from '../lib/urls';
 import CommitmentCard from '../components/CommitmentCard.astro';
 import SummaryStats from '../components/SummaryStats.astro';
 import RegulatoryItem from '../components/RegulatoryItem.astro';
@@ -16,6 +19,7 @@ const counts = summarize(labRows, now);        // headline = lab promises only
 const updated = new Date(now).toISOString().slice(0, 10);
 const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
 const labs = LABS.filter((l) => labRows.some((c) => c.lab === l));
+const latest = sortUpdates(UPDATES).slice(0, 2);
 ---
 <html lang="en">
   <head>
@@ -23,15 +27,18 @@ const labs = LABS.filter((l) => labRows.some((c) => c.lab === l));
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Overdue — Frontier AI Safety Commitment Tracker</title>
     <meta name="description" content="Which dated frontier-AI-safety commitments are being kept, and which are overdue right now? A per-commitment, source-cited tracker." />
+    <link rel="alternate" type="application/rss+xml" title="Overdue updates" href={absUrl('/feed.xml')} />
   </head>
   <body>
     <header class="masthead">
       <h1>Overdue</h1>
       <p class="tagline">Are frontier AI labs keeping the dated safety promises <em>they</em> made? A per-promise, source-cited tracker.</p>
       <p class="meta">{labRows.length} lab promises · {regulatoryRows.length} regulatory · updated {updated} ·
+        <a href={withBase('updates')}>Updates</a> ·
         <a href={withBase('methodology')}>Methodology</a> ·
         <a href="https://github.com/kayadibi1/overdue-ai">GitHub</a> ·
-        <a href={withBase('commitments.json')}>Open data (JSON)</a>
+        <a href={withBase('commitments.json')}>Open data (JSON)</a> ·
+        <a href={absUrl('/feed.xml')}>RSS</a>
       </p>
     </header>
 
@@ -70,6 +77,14 @@ const labs = LABS.filter((l) => labRows.some((c) => c.lab === l));
         <div class="reg-grid">
           {regulatoryRows.map((c) => <RegulatoryItem c={c} now={now} />)}
         </div>
+      </section>
+
+      <section class="updates-teaser" aria-label="Latest updates">
+        <h2>Latest updates</h2>
+        <ul>
+          {latest.map((u) => <li><a href={withBase(`/updates#${u.id}`)}>{u.title}</a> <span class="u-date">{u.date}</span></li>)}
+        </ul>
+        <p><a href={withBase('updates')}>All updates</a> · <a href={absUrl('/feed.xml')}>RSS</a> · email coming soon</p>
       </section>
     </main>
 
