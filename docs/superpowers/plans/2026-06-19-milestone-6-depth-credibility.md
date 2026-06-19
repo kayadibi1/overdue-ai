@@ -111,7 +111,7 @@ describe('toCsv', () => {
 
 ```ts
 import type { Commitment } from './types';
-const COLS = ['id','lab','track','title','category','committedOn','deadlineType','deadline','triggerText','resolution','resolvedOn','evidenceUrl','sourceLabel','contested','lastChecked'] as const;
+const COLS = ['id','lab','track','title','description','category','committedOn','deadlineType','deadline','triggerText','resolution','resolvedOn','evidenceUrl','sourceLabel','contested','lastChecked','notes'] as const;
 function esc(v: unknown): string { const s = v == null ? '' : String(v); return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; }
 export function toCsv(rows: Commitment[]): string {
   const lines = [COLS.join(','), ...rows.map((c) => COLS.map((k) => esc((c as Record<string, unknown>)[k])).join(','))];
@@ -160,7 +160,7 @@ export const GET: APIRoute = () => new Response(toCsv(COMMITMENTS), {
 
 **Files:** Create `src/pages/c/[id].astro`
 
-- [ ] **Step 1:** `getStaticPaths` over all `COMMITMENTS` (`params: { id }`, `props: { c }`). Render (reuse page chrome from `methodology.astro`): title, `StatusChip` (computeStatus), description, the **timeline rail** — a `<ol class="timeline">` with stages `Committed {committedOn}` · `Due {deadline ?? triggerText ?? '—'}` · `Evaluated {resolvedOn ?? '—'}` · `Ruling {resolution ?? '—'}`, each `<li>` gets `data-done={!!value}` (CSS ghosts undone). The `notes` provenance ("Why this ruling"), `contested` flag, Source (`evidenceUrl`/`sourceLabel`), `committedOn`, "as of {lastChecked ?? DATA_AS_OF}". Any `UPDATES` with `commitmentIds?.includes(id)` newest-first. A "Cite this commitment" line (`<author>. "<title>." Overdue, <year>. https://overduetracker.org/c/<id> (retrieved <date>)`). Canonical `<link rel="canonical" href={`${CANONICAL_ORIGIN}/c/${id}`}>`.
+- [ ] **Step 1:** `getStaticPaths` over all `COMMITMENTS` (`params: { id }`, `props: { c }`). Render (reuse page chrome from `methodology.astro`): title, `StatusChip` (computeStatus), description, the **timeline rail** — a `<ol class="timeline">` of four stages, each computed as `{label, done}` so the em-dash fallback NEVER marks a stage done: Committed `{label: committedOn, done: true}`; Due `{label: deadline ?? triggerText ?? '—', done: Boolean(deadline || triggerText)}`; Evaluated `{label: resolvedOn ?? '—', done: Boolean(resolvedOn)}`; Ruling `{label: resolution ?? '—', done: Boolean(resolution)}`. Render `<li data-done={stage.done}>{stage.label}</li>` (CSS ghosts `data-done="false"`). The `notes` provenance ("Why this ruling"), `contested` flag, Source (`evidenceUrl`/`sourceLabel`), `committedOn`, "as of {lastChecked ?? DATA_AS_OF}". Any `UPDATES` with `commitmentIds?.includes(id)` newest-first. A "Cite this commitment" line (`<author>. "<title>." Overdue, <year>. https://overduetracker.org/c/<id> (retrieved <date>)`). Canonical `<link rel="canonical" href={`${CANONICAL_ORIGIN}/c/${id}`}>`.
 - [ ] **Step 2:** `npm run build` → `dist/c/<id>/index.html` for all 29; spot-check one. Commit `feat(m6): /c/[id] per-commitment pages with timeline + cite`.
 
 ---
@@ -178,7 +178,7 @@ export const GET: APIRoute = () => new Response(toCsv(COMMITMENTS), {
 
 **Files:** Create `src/pages/table.astro`, `src/scripts/table.ts`
 
-- [ ] **Step 1:** `table.astro`: a `<table id="ctable">` with a `<thead>` of sortable headers (`<th data-sort="lab|title|category|committed|deadline|status">`) and a `<tbody>` of rows (one `<tr data-lab data-status data-committed data-deadline>` per `sortByUrgency(COMMITMENTS, now)`), columns Lab (link `/labs/<slug>`) · Commitment (link `/c/<id>`) · Category · Committed · Deadline · Status (`StatusChip`) · Source. Add lab + status `<select>` filters + a text `<input id="ctable-q">` + reset, mirroring the board controls. `<script>import '../scripts/table.ts'</script>`.
+- [ ] **Step 1:** `table.astro`: precompute `const labPages = new Set([...commitmentsByLab(COMMITMENTS).keys()].map(labSlug))`. A `<table id="ctable">` with a `<thead>` of sortable headers (`<th data-sort="lab|title|category|committed|deadline|status">`) and a `<tbody>` of rows (one `<tr data-lab data-status data-committed data-deadline data-title={c.title} data-category={c.category}>` per `sortByUrgency(COMMITMENTS, now)`). Columns: **Lab** — link to `withBase('/labs/'+labSlug(c.lab))` only if `labPages.has(labSlug(c.lab))`, else plain text (regulatory rows' lab may have no page) · **Commitment** — link `withBase('/c/'+c.id)` · Category · Committed · Deadline · Status (`StatusChip`) · Source (`evidenceUrl`/`sourceLabel`). Add lab + status `<select>` filters + a text `<input id="ctable-q">` + reset, mirroring the board controls. `<script>import '../scripts/table.ts'</script>`. **All internal hrefs via `withBase()`.**
 - [ ] **Step 2:** `table.ts` (guarded `if (typeof document!=='undefined')` for node-test safety; mirror `board.ts`): header click → sort the tbody rows by that column (toggle asc/desc); the selects + text input → filter rows (`tr.hidden`); reset clears. No new pure logic needed (DOM-only).
 - [ ] **Step 3:** `npm run build` green; `dist/table/index.html` has the table + controls. Commit `feat(m6): /table explore view (sortable/filterable island)`.
 
@@ -188,7 +188,7 @@ export const GET: APIRoute = () => new Response(toCsv(COMMITMENTS), {
 
 **Files:** Create `src/pages/corrections.astro`
 
-- [ ] **Step 1:** Filter `UPDATES` to `kind === 'correction'`, `sortUpdates` newest-first. Render each (date, title, body, links to `commitmentIds` → `/c/<id>`). Header: "When we change a ruling or fix an error, it's logged here." Empty-state copy when none. Canonical `/corrections`.
+- [ ] **Step 1:** Filter `UPDATES` to `kind === 'correction'`, `sortUpdates` newest-first. Render each (date, title, body, links to `commitmentIds` → `withBase('/c/'+id)`). Header: "When we change a ruling or fix an error, it's logged here." Empty-state copy when none. Canonical `${CANONICAL_ORIGIN}/corrections`. All internal hrefs via `withBase()`.
 - [ ] **Step 2:** `npm run build` green. Commit `feat(m6): /corrections transparency page`.
 
 ---
@@ -198,7 +198,7 @@ export const GET: APIRoute = () => new Response(toCsv(COMMITMENTS), {
 **Files:** Create `LICENSE-DATA`; Modify `src/pages/methodology.astro`, `src/pages/index.astro`
 
 - [ ] **Step 1:** `LICENSE-DATA` = the full **CC BY 4.0** legal text (or the standard short notice + the canonical URL `https://creativecommons.org/licenses/by/4.0/`), headed "Overdue dataset (src/data/*, /commitments.json, /commitments.csv) is licensed CC BY 4.0. Code is MIT (see LICENSE)."
-- [ ] **Step 2:** `methodology.astro`: add a **"Data, license & how to cite"** section — state CC BY 4.0 + "republish freely with attribution"; a pre-written citation string; **Download: [JSON](/commitments.json) · [CSV](/commitments.csv)**; links to `/corrections` and `/table`.
+- [ ] **Step 2:** `methodology.astro`: add a **"Data, license & how to cite"** section — state CC BY 4.0 + "republish freely with attribution"; a pre-written citation string; **Download:** JSON `withBase('/commitments.json')` · CSV `withBase('/commitments.csv')`; links to `withBase('/corrections')` and `withBase('/table')`. (methodology already imports a `withBase`; **all internal hrefs via it**.)
 - [ ] **Step 3:** `index.astro` + `SummaryStats.astro` + `src/scripts/board.ts`: make the scorecard counts **clickable filters of the on-page board**. In `SummaryStats.astro` add `data-filter-status={key}`, `role="button"`, `tabindex="0"` to each stat. In `board.ts` add a click (and Enter-key) handler on `[data-filter-status]` that sets `#filter-status.value` to that key, calls `applyControls()`, and scrolls to `#board`. Also in `index.astro`: a "**View as table**" link near the board controls, a "**Browse by lab:** OpenAI · Anthropic · …" line (each → `withBase('/labs/'+labSlug(lab))`), and **Download (JSON · CSV)** + **Corrections** links in the footer.
 - [ ] **Step 4:** `npm run build` green; methodology shows license+cite+downloads; homepage shows table/lab links + clickable stats. Commit `feat(m6): CC BY data license + how-to-cite + downloads + nav (table/labs/corrections)`.
 
