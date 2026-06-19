@@ -1,6 +1,6 @@
 ---
 import { COMMITMENTS } from '../data/commitments';
-import { sortByUrgency, summarize } from '../lib/status';
+import { sortByUrgency } from '../lib/status';
 import { labSlug } from '../lib/labs';
 import { LABS } from '../lib/types';
 import { UPDATES } from '../data/updates';
@@ -9,7 +9,6 @@ import { absUrl } from '../lib/urls';
 import { CANONICAL_ORIGIN } from '../lib/site';
 import Subscribe from '../components/Subscribe.astro';
 import CommitmentCard from '../components/CommitmentCard.astro';
-import SummaryStats from '../components/SummaryStats.astro';
 import RegulatoryItem from '../components/RegulatoryItem.astro';
 import '../styles/global.css';
 
@@ -18,7 +17,6 @@ const labRows = COMMITMENTS.filter((c) => c.track === 'lab');
 const regulatoryRows = COMMITMENTS.filter((c) => c.track === 'regulatory' && c.deadlineType === 'calendar' && c.deadline != null)
   .sort((a, b) => (a.deadline ?? '').localeCompare(b.deadline ?? ''));
 const sorted = sortByUrgency(labRows, now);   // board = lab promises only
-const counts = summarize(labRows, now);        // headline = lab promises only
 const updated = new Date(now).toISOString().slice(0, 10);
 const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
 const labs = LABS.filter((l) => labRows.some((c) => c.lab === l));
@@ -48,7 +46,6 @@ const latest = sortUpdates(UPDATES).slice(0, 2);
     </header>
 
     <main>
-      <SummaryStats counts={counts} />
 
       <section class="controls" aria-label="Filter and sort">
         <label>Lab
