@@ -2,3 +2,11 @@ node_modules/
 dist/
 .astro/
 .DS_Store
+
+# Python subscribe service (server/subscribe/)
+__pycache__/
+*.pyc
+.pytest_cache/
+# runtime SQLite store + dry-run .eml output — never commit the subscriber list
+server/subscribe/data/
+server/subscribe/out/
