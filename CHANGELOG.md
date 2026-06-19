@@ -2,6 +2,15 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-19 · Redesign — Stripe theme + lab dashboard
+
+Full visual + structural redesign (replaces the original light theme).
+
+- **Stripe-inspired theme:** light `#f6f9fc` ground, deep-navy headings over slate body, the blurple `#635bff` brand, Inter type, the signature gradient sliver across the top, soft layered shadows, and rounded cards. Explored against a rig.ai dark/orange direction first (kept on the `redesign/rig-inspired` branch).
+- **Homepage is now a lab dashboard,** not a 29-card feed: an "Overdue right now" hero (only the overdue commitments, as timeline cards) over a "By lab" grid of tiles — logo, kept-rate %, status distribution bar, counts — that drill into each lab. The full sortable list stays at `/table`.
+- **Commitment cards** became timeline cards: a status-colored edge, a big day-count, and a deadline bar (committed → due → now). Lab logos added throughout (`public/logos/`). The homepage filter board/scorecard were removed in favour of the dashboard.
+- Mobile pass (lab scorecard 6→3 cols, detail timeline 4→2). 52 vitest green; apex + `PAGES=1` builds green.
+
 ## 2026-06-19 · UI/UX polish
 
 A visual/interaction pass from a live browser review (desktop + mobile, seven page types). No new features or data changes. Specs in `docs/superpowers/specs/2026-06-19-ui-ux-polish-design.md`.

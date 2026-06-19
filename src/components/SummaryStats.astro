@@ -12,19 +12,28 @@ const ITEMS: { key: Status; label: string }[] = [
   { key: 'partial', label: 'Partial' },
   { key: 'pending', label: 'Pending' },
 ];
+const total = ITEMS.reduce((s, { key }) => s + counts[key], 0);
+const pct = (n: number) => (total ? (n / total) * 100 : 0);
 ---
-<div class="summary">
-  {ITEMS.map(({ key, label }) => (interactive ? (
-    <div class={`stat stat--${key}`} data-stat={key} data-filter-status={key} role="button" tabindex="0"
-         aria-label={`Filter the board to ${label}`}>
-      <span class="stat__n" data-stat-n={key}>{counts[key]}</span>
-      <span class="stat__label">{label}</span>
-    </div>
-  ) : (
-    <div class={`stat stat--${key}`} data-stat={key}>
-      <span class="stat__n" data-stat-n={key}>{counts[key]}</span>
-      <span class="stat__label">{label}</span>
-    </div>
-  )))}
+<div class="summary-wrap">
+  <div class="summary">
+    {ITEMS.map(({ key, label }) => (interactive ? (
+      <div class={`stat stat--${key}`} data-stat={key} data-filter-status={key} role="button" tabindex="0"
+           aria-label={`Filter the board to ${label}`}>
+        <span class="stat__n" data-stat-n={key}>{counts[key]}</span>
+        <span class="stat__label">{label}</span>
+      </div>
+    ) : (
+      <div class={`stat stat--${key}`} data-stat={key}>
+        <span class="stat__n" data-stat-n={key}>{counts[key]}</span>
+        <span class="stat__label">{label}</span>
+      </div>
+    )))}
+  </div>
+  <div class="distbar" role="img" aria-label="Distribution of commitment statuses">
+    {ITEMS.filter(({ key }) => counts[key] > 0).map(({ key }) => (
+      <span class={`distbar__seg distbar__seg--${key}`} style={`width:${pct(counts[key])}%`}></span>
+    ))}
+  </div>
 </div>
 {interactive && <p class="summary-hint" aria-hidden="true">Tap any metric to filter the board</p>}

@@ -1,0 +1,31 @@
+---
+import type { Commitment, Lab, Status } from '../lib/types';
+import { summarize } from '../lib/status';
+import { keptRate, labSlug, labLogo } from '../lib/labs';
+interface Props { lab: Lab; rows: Commitment[]; now: number }
+const { lab, rows, now } = Astro.props;
+const counts = summarize(rows, now);
+const k = keptRate(rows);
+const logo = labLogo(lab);
+const total = rows.length;
+const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
+const STATUSES: Status[] = ['overdue', 'upcoming', 'missed', 'met', 'partial', 'pending'];
+const pct = (n: number) => (total ? (n / total) * 100 : 0);
+---
+<a class="labcard" href={withBase(`/labs/${labSlug(lab)}`)}>
+  <div class="labcard__head">
+    {logo && <img class="labcard__logo" src={withBase(logo)} alt="" width="26" height="26" loading="lazy" decoding="async" />}
+    <span class="labcard__name">{lab}</span>
+    <span class="labcard__rate">{k.rate == null ? '—' : `${Math.round(k.rate * 100)}%`}<small>kept</small></span>
+  </div>
+  <div class="labcard__bar" role="img" aria-label="Status distribution">
+    {STATUSES.filter((s) => counts[s] > 0).map((s) => (
+      <span class={`distbar__seg distbar__seg--${s}`} style={`width:${pct(counts[s])}%`}></span>
+    ))}
+  </div>
+  <div class="labcard__foot">
+    <span class="labcard__total">{total} tracked</span>
+    {counts.overdue > 0 && <span class="labcard__flag labcard__flag--overdue">{counts.overdue} overdue</span>}
+    {counts.overdue === 0 && counts.upcoming > 0 && <span class="labcard__flag labcard__flag--upcoming">{counts.upcoming} due soon</span>}
+  </div>
+</a>
