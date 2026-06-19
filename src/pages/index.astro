@@ -96,6 +96,11 @@ const latest = sortUpdates(UPDATES).slice(0, 2);
           {latest.map((u) => <li><a href={withBase(`/updates#${u.id}`)}>{u.title}</a> <span class="u-date">{u.date}</span></li>)}
         </ul>
         <p><a href={withBase('updates')}>All updates</a> · <a href={absUrl('/feed.xml')}>RSS</a></p>
+      </section>
+
+      <section class="cta-band" aria-label="Subscribe to updates">
+        <h2>Hold them to it.</h2>
+        <p>One email when a tracked deadline flips overdue, or a ruling changes. No spam.</p>
         <Subscribe />
       </section>
     </main>

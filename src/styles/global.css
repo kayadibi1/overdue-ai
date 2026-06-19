@@ -194,3 +194,43 @@ a { color: var(--accent); }
 #ctable th[data-sort]:hover, .card__why summary { color: var(--accent); }
 .footer { border-color: var(--line); }
 .detail-meta dt { color: var(--ink); }
+
+/* ===================================================================
+   RIG-STYLE COLOR BLOCKING — full-bleed orange bands (hero + CTA) with
+   massive black type, the way rig.ai actually composes. The content
+   column stays centered/dark for readability; the BANDS go edge-to-edge.
+   =================================================================== */
+body { overflow-x: clip; }   /* contain the 100vw band breakout */
+
+/* ---- hero band: full-bleed solid orange, huge black wordmark ---- */
+.masthead {
+  width: 100vw; margin-left: calc(50% - 50vw); margin-top: -28px;
+  background: var(--accent); color: #14130f;
+  padding: clamp(40px, 6vw, 76px) max(18px, calc(50vw - 442px)) clamp(28px, 3vw, 40px);
+  margin-bottom: 26px; border-bottom: 2px solid #14130f;
+}
+.masthead > * { max-width: 884px; margin: 0; box-sizing: border-box; }   /* left-aligned to the content column */
+.masthead h1 { font-family: var(--display); font-weight: 700; color: #14130f;
+  font-size: clamp(3rem, 11vw, 6.4rem); line-height: .82; letter-spacing: -.05em; margin: 0; }
+.masthead .tagline { color: #14130f; font-weight: 500; margin-top: 18px;
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem); max-width: 30ch; }
+.masthead .tagline em { color: #14130f; font-style: italic; }
+.masthead .meta { color: rgba(20,19,15,.72); margin-top: 20px; }
+.masthead .meta a { color: #14130f; text-decoration: underline; text-underline-offset: 2px; }
+
+/* ---- closing CTA band: mirrors the hero, inverted subscribe ---- */
+.cta-band {
+  width: 100vw; margin-left: calc(50% - 50vw);
+  background: var(--accent); color: #14130f; text-align: center;
+  padding: clamp(40px, 5vw, 64px) 0; margin-top: 44px; border-top: 2px solid #14130f;
+}
+.cta-band > * { max-width: 640px; margin-inline: auto; padding-inline: 18px; }
+.cta-band h2 { font-family: var(--display); color: #14130f; margin: 0 auto 8px;
+  font-size: clamp(2rem, 6vw, 3.4rem); letter-spacing: -.03em; line-height: .95; }
+.cta-band p { color: rgba(20,19,15,.8); margin: 0 auto 20px; }
+.cta-band .subscribe { justify-content: center; }
+.cta-band .subscribe label { color: #14130f; }
+.cta-band .subscribe input { background: #14130f; color: var(--ink); border-color: #14130f; }
+.cta-band .subscribe input::placeholder { color: rgba(240,237,230,.45); }
+.cta-band .btn { background: #14130f; color: var(--accent); }
+.cta-band .subscribe__status { color: rgba(20,19,15,.8); }
