@@ -1,0 +1,54 @@
+---
+import type { GetStaticPaths } from 'astro';
+import type { Commitment, Lab } from '../../lib/types';
+import { COMMITMENTS } from '../../data/commitments';
+import { summarize, sortByUrgency } from '../../lib/status';
+import { commitmentsByLab, labSlug, keptRate } from '../../lib/labs';
+import { absUrl } from '../../lib/urls';
+import { CANONICAL_ORIGIN } from '../../lib/site';
+import CommitmentCard from '../../components/CommitmentCard.astro';
+import SummaryStats from '../../components/SummaryStats.astro';
+import '../../styles/global.css';
+
+export const getStaticPaths = (() => {
+  const byLab = commitmentsByLab(COMMITMENTS);
+  return [...byLab.entries()].map(([lab, rows]) => ({ params: { lab: labSlug(lab) }, props: { lab, rows } }));
+}) satisfies GetStaticPaths;
+
+interface Props { lab: Lab; rows: Commitment[] }
+const { lab, rows } = Astro.props;
+const now = Date.now();
+const counts = summarize(rows, now);
+const k = keptRate(rows);
+const sorted = sortByUrgency(rows, now);
+const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
+const keptLine = k.rate == null
+  ? 'No resolved commitments yet'
+  : `${Math.round(k.rate * 100)}% kept (${k.met}/${k.resolved} resolved)`;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{lab} — Overdue</title>
+    <meta name="description" content={`${lab}'s dated AI-safety commitments tracked by Overdue: status, deadlines, and kept-rate.`} />
+    <link rel="alternate" type="application/rss+xml" title="Overdue updates" href={absUrl('/feed.xml')} />
+    <link rel="canonical" href={`${CANONICAL_ORIGIN}/labs/${labSlug(lab)}`} />
+  </head>
+  <body>
+    <header class="masthead">
+      <p class="meta"><a href={withBase('')}>← Back to the board</a> · <a href={withBase('/table')}>Table</a></p>
+      <h1>{lab}</h1>
+    </header>
+    <main>
+      <SummaryStats counts={counts} />
+      <p class="kept-rate">{keptLine}</p>
+      <p class="kept-note">kept = met ÷ resolved (resolved = met + missed + partial; counts shown so the number always carries its context).</p>
+      <section class="board">
+        {sorted.map((c) => <CommitmentCard c={c} now={now} />)}
+      </section>
+    </main>
+    <footer class="footer">
+      <p>Independent, best-effort, and unaffiliated with any lab. Rulings are judgment calls; corrections welcome via a <a href="https://github.com/kayadibi1/overdue-ai/issues">GitHub issue</a> and logged on <a href={withBase('/corrections')}>Corrections</a>.</p>
+    </footer>
+  </body>
+</html>
