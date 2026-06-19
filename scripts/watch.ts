@@ -7,6 +7,7 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { extractText, hashText, diffSummary, isMeaningfulChange, dueDeadlines, issueMarker } from '../src/watcher/core';
 import { computeStatus } from '../src/lib/status';
+import { primarySource } from '../src/lib/sources';
 import { COMMITMENTS } from '../src/data/commitments';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -83,7 +84,7 @@ function checkDeadlines() {
     planned.push({
       marker: issueMarker('deadline', d.c.id),
       title: `Deadline check: ${d.c.title}`,
-      body: `${issueMarker('deadline', d.c.id)}\n\n**${d.c.lab} — ${d.c.title}**\nDeadline: ${d.c.deadline} (${d.kind}, ${d.days}d; computed status: ${status}).\nSource: ${d.c.evidenceUrl}\n\nVerify and set \`resolution\` in \`src/data/commitments.ts\`.`,
+      body: `${issueMarker('deadline', d.c.id)}\n\n**${d.c.lab} — ${d.c.title}**\nDeadline: ${d.c.deadline} (${d.kind}, ${d.days}d; computed status: ${status}).\nSource: ${primarySource(d.c).url}\n\nVerify and set \`resolution\` in \`src/data/commitments.ts\`.`,
     });
   }
 }

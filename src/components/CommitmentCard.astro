@@ -3,6 +3,7 @@ import type { Commitment } from '../lib/types';
 import { computeStatus, relativeTime } from '../lib/status';
 import { labSlug, labLogo } from '../lib/labs';
 import { DATA_AS_OF } from '../lib/site';
+import { primarySource } from '../lib/sources';
 import StatusChip from './StatusChip.astro';
 interface Props { c: Commitment; now: number }
 const { c, now } = Astro.props;
@@ -29,7 +30,7 @@ if (c.deadline && (status === 'overdue' || status === 'upcoming')) {
     tl = { kind: 'upcoming', duePct: 100, nowPct: clampPct(((now - cm) / span) * 100) };
   }
 }
-const asOf = c.lastChecked ?? DATA_AS_OF;
+const asOf = c.reviewedOn ?? DATA_AS_OF;
 ---
 <article class={`card card--${status}`} id={`commitment-${c.id}`} data-lab={c.lab} data-status={status}
          data-committed={c.committedOn} data-deadline={c.deadline ?? ''} data-deadline-type={c.deadlineType}>
@@ -74,7 +75,7 @@ const asOf = c.lastChecked ?? DATA_AS_OF;
   </div>
 
   <div class="card__foot">
-    <a href={c.evidenceUrl} target="_blank" rel="noopener noreferrer">Source: {c.sourceLabel} ↗</a>
+    <a href={primarySource(c).url} target="_blank" rel="noopener noreferrer">Source: {primarySource(c).label} ↗</a>
     <span> · as of {asOf}</span>
   </div>
   {c.notes && <details class="card__why"><summary>Why this ruling</summary><p>{c.notes}</p></details>}

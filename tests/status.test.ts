@@ -8,7 +8,8 @@ function make(over: Partial<Commitment>): Commitment {
   return {
     id: 'x', lab: 'OpenAI', track: 'lab', title: 't', description: 'd', category: 'governance',
     committedOn: '2024-01-01', deadlineType: 'calendar', deadline: '2024-06-01',
-    resolution: null, resolvedOn: null, evidenceUrl: 'https://example.com', sourceLabel: 'Src',
+    resolution: null, resolvedOn: null,
+    sources: [{ url: 'https://example.com', label: 'Src', tier: 'primary', role: 'obligation', quote: 'q' }],
     ...over,
   };
 }

@@ -1,6 +1,7 @@
 ---
 import type { Commitment } from '../lib/types';
 import { regulatoryLabel } from '../lib/status';
+import { primarySource } from '../lib/sources';
 interface Props { c: Commitment; now: number }
 const { c, now } = Astro.props;
 const rel = regulatoryLabel(c.deadline as string, now);
@@ -10,7 +11,7 @@ const rel = regulatoryLabel(c.deadline as string, now);
   <h4 class="reg__title">{c.title}</h4>
   <p class="reg__desc">{c.description}</p>
   <div class="reg__timer" data-reg-timer data-deadline={c.deadline}>{rel.label}</div>
-  <a class="reg__src" href={c.evidenceUrl} target="_blank" rel="noopener noreferrer">Source: {c.sourceLabel} ↗</a>
+  <a class="reg__src" href={primarySource(c).url} target="_blank" rel="noopener noreferrer">Source: {primarySource(c).label} ↗</a>
 </article>
 <style>
   .reg { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);

@@ -5,6 +5,7 @@ import { computeStatus, sortByUrgency } from '../lib/status';
 import { commitmentsByLab, labSlug } from '../lib/labs';
 import { absUrl } from '../lib/urls';
 import { CANONICAL_ORIGIN } from '../lib/site';
+import { primarySource } from '../lib/sources';
 import StatusChip from '../components/StatusChip.astro';
 import Nav from '../components/Nav.astro';
 import '../styles/global.css';
@@ -79,7 +80,7 @@ const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/
                   <td>{c.committedOn}</td>
                   <td>{deadline}</td>
                   <td><StatusChip status={status} /></td>
-                  <td><a href={c.evidenceUrl} target="_blank" rel="noopener noreferrer">{c.sourceLabel} ↗</a></td>
+                  <td><a href={primarySource(c).url} target="_blank" rel="noopener noreferrer">{primarySource(c).label} ↗</a></td>
                 </tr>
               );
             })}

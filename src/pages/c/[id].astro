@@ -8,6 +8,7 @@ import { computeStatus } from '../../lib/status';
 import { labSlug } from '../../lib/labs';
 import { absUrl } from '../../lib/urls';
 import { CANONICAL_ORIGIN, DATA_AS_OF } from '../../lib/site';
+import { primarySource } from '../../lib/sources';
 import StatusChip from '../../components/StatusChip.astro';
 import Nav from '../../components/Nav.astro';
 import '../../styles/global.css';
@@ -29,7 +30,7 @@ const stages: { stage: string; label: string; done: boolean }[] = [
   { stage: 'Ruling', label: c.resolution ? c.resolution[0].toUpperCase() + c.resolution.slice(1) : '—', done: Boolean(c.resolution) },
 ];
 
-const asOf = c.lastChecked ?? DATA_AS_OF;
+const asOf = c.reviewedOn ?? DATA_AS_OF;
 const related = sortUpdates(UPDATES.filter((u) => u.commitmentIds?.includes(c.id)));
 const fmtDate = (d: string) =>
   new Date(`${d}T00:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
@@ -79,7 +80,7 @@ const cite = `Overdue. "${c.title}." Overdue, ${year}. ${CANONICAL_ORIGIN}/c/${c
 
       <dl class="detail-meta">
         <dt>Source</dt>
-        <dd><a href={c.evidenceUrl} target="_blank" rel="noopener noreferrer">{c.sourceLabel} ↗</a></dd>
+        <dd><a href={primarySource(c).url} target="_blank" rel="noopener noreferrer">{primarySource(c).label} ↗</a></dd>
         <dt>Committed</dt>
         <dd>{c.committedOn}</dd>
         <dt>As of</dt>
