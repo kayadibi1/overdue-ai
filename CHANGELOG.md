@@ -2,6 +2,15 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-18 · M4 — custom domain + newbox host + inline subscribe (repo side)
+
+- **Custom domain + apex move:** `astro.config` is env-driven — apex `overduetracker.org` (base `/`) by default, with `PAGES=1` keeping the GitHub Pages backup building at `/overdue-ai`. Canonical links pinned to the apex on every page so the backup never competes in search.
+- **CI deploy to newbox:** a `deploy-newbox.yml` Action builds and `rsync`s `dist/` to the box over SSH (dedicated deploy key); the box serves static files behind Cloudflare/AOP.
+- **Inline email subscribe:** a small Node service (`server/subscribe/`) proxies signups to the Buttondown API with the key server-side; the page fetches it same-origin for inline status, no redirect. Pure logic (`normalizeEmail` / `mapButtondownResponse` / `subscribe` / `statusMessage`) is unit-tested; the Pages backup shows an apex link instead of a dead form.
+- **Go-live runbooks** (`docs/runbooks/`) for the Cloudflare + box + Buttondown steps.
+- Gauntlet (spec → Codex → plan → self-review ×2) caught real bugs pre-build: `absUrl()` breaking the same-origin subscribe action, a body-cap that could double-send, an implicit service-deploy path, and a per-request (vs startup) API-key check. Verified the Buttondown API contract (host `api.buttondown.com`, field `email_address`) against the docs.
+- 44 tests green; apex + `PAGES=1` builds both green. **Go-live (Cloudflare/box/Buttondown) is executed separately via the runbooks.**
+
 ## 2026-06-18 · M3 — updates log + RSS feed + launch writeup
 
 - **Curated updates log** (`src/data/updates.ts`): a typed, hand-written stream of "what changed" — the single source the feed (and M4's email) both render from. Helper `sortUpdates` + integrity tests (unique ids, real UTC calendar dates, valid commitment refs).

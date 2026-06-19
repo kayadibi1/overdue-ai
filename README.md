@@ -8,12 +8,12 @@ A static, source-cited board of specific, dated safety promises **the labs thems
 Existing trackers cover one collective deadline (The Midas Project's Seoul Tracker) or compare policy documents (METR). None tracks *many* individual dated promises across all labs with a live overdue counter and per-row evidence. This does — honestly: rulings are judgment calls, every row is sourced, and disputable ones are flagged. Not the first accountability project; see Methodology for prior work it builds on.
 
 ## Follow
-Changes are posted to an on-site **updates log** (`/updates`) and an **RSS feed** (`/feed.xml`); email subscribe is coming next.
+Changes are posted to an on-site **updates log** (`/updates`), an **RSS feed** (`/feed.xml`), and **email** (subscribe form on the site, delivered via Buttondown). The site is moving to **overduetracker.org** (served from a self-hosted box behind Cloudflare); the `kayadibi1.github.io/overdue-ai` Pages build stays as a backup.
 
 ## Run it
 ```bash
 npm install
-npm run dev      # http://localhost:4321/overdue-ai
+npm run dev      # http://localhost:4321/  (apex base; PAGES=1 builds the /overdue-ai backup)
 npm test         # pure-logic + data-integrity tests
 npm run build
 ```
