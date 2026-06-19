@@ -18,12 +18,13 @@
 
 ### Task 1: Scaffold the Python package; remove the Buttondown proxy
 
-**Files:** Create `server/subscribe/__init__.py`, `server/subscribe/pyproject.toml` (or `requirements-dev.txt` with pytest), `server/subscribe/tests/__init__.py`. Delete `server/subscribe/subscribe.mjs`, `server/subscribe/index.mjs`, `server/subscribe/package.json`.
+**Files:** Create `server/subscribe/__init__.py`, `server/subscribe/pyproject.toml`, `server/subscribe/tests/__init__.py`. Delete the Node Buttondown proxy AND clean its frontend test **in the same commit** (else `npm test` breaks between tasks).
 
 - [ ] **Step 1:** `git rm server/subscribe/subscribe.mjs server/subscribe/index.mjs server/subscribe/package.json`
-- [ ] **Step 2:** Create the package + a `pyproject.toml` declaring `pytest` as the only dev dep, `requires-python = ">=3.11"`.
-- [ ] **Step 3:** Verify `python3 -m pytest server/subscribe -q` runs (0 tests, exit 0).
-- [ ] **Step 4:** Commit `chore(m5): scaffold python subscribe package; drop buttondown proxy`.
+- [ ] **Step 2:** In `tests/subscribe.test.ts`, remove the `normalizeEmail`/`mapButtondownResponse`/`subscribe` describe blocks **and their import** of the deleted `.mjs`; keep the `statusMessage` block. Run `npm test` → green.
+- [ ] **Step 3:** Create the package + `pyproject.toml` (pytest dev dep, `requires-python=">=3.11"`, `[tool.pytest.ini_options]` `pythonpath=["."]`).
+- [ ] **Step 4:** Verify the package dir imports (don't run pytest yet — it exits 5 with no tests): `cd server/subscribe && python3 -c "print('ok')"`.
+- [ ] **Step 5:** Commit `chore(m5): scaffold python subscribe package; drop buttondown proxy + its frontend tests`.
 
 ---
 
@@ -55,9 +56,11 @@ Keep methods (signatures trimmed of `sources`/`profile`): `subscribe(email) -> S
 
 **Files:** Create `server/subscribe/subscribe_server.py`, `server/subscribe/tests/test_subscribe_server.py`
 
-Port the **pure `route(method, path, form, deps)`** + the `ThreadingHTTPServer` shell. Endpoints: `POST /api/subscribe` (email + honeypot `website`; enumeration-safe "check your inbox"; strict rate limit; calls `send_verify`), `GET /api/verify` (form) + `POST /api/verify` (→verified→`send_welcome`→"you're in"), `GET /api/unsubscribe` (form) + `POST /api/unsubscribe` (remove; RFC 8058 one-click). Trim: drop `/api/calendar.ics`, `/api/preferences`, profile/sources parsing. Keep the two rate limiters, honeypot short-circuit, and POST-only state changes.
+Port the **pure `route(method, path, form, deps)`** + the `ThreadingHTTPServer` shell. Endpoints: `POST /api/subscribe`, `GET/POST /api/verify`, `GET/POST /api/unsubscribe`. Trim: drop `/api/calendar.ics`, `/api/preferences`, profile/sources parsing. Keep the two rate limiters, honeypot short-circuit, and POST-only state changes.
 
-- [ ] **Step 1: Write failing pytest** with fake `deps` (in-memory store + recording `send_verify`/`send_welcome`): subscribe returns "check your inbox" + calls send_verify; honeypot filled → silently OK, no send; GET verify/unsubscribe render a form and DON'T mutate; POST verify with good token → verified + welcome; POST unsubscribe → removed; subscribe rate limit trips after N.
+**`/api/subscribe` speaks JSON to match the site's inline fetch** (`src/scripts/subscribe.ts` sends `{email}` JSON and reads `{status}`): parse `{email, website?}` from a JSON body, return `{"status":"subscribed"}` for a valid email (new OR existing — **enumeration-safe**, never reveal "already"), `{"status":"invalid"}` for a bad email; a filled honeypot returns `{"status":"subscribed"}` with no send. `GET /api/verify` and `GET /api/unsubscribe` render server-side HTML **form pages** (browser-navigated, not fetched); their **POST** performs the state change (→ `send_welcome` on verify; RFC 8058 one-click target on unsubscribe).
+
+- [ ] **Step 1: Write failing pytest** with fake `deps` (in-memory store + recording `send_verify`/`send_welcome`): subscribe (JSON body) → `{"status":"subscribed"}` + calls send_verify; bad email → `{"status":"invalid"}`, no send; honeypot filled → `{"status":"subscribed"}`, no send; existing verified email → still `{"status":"subscribed"}` (enumeration-safe, no leak); GET verify/unsubscribe render a form and DON'T mutate; POST verify with good token → verified + welcome; POST unsubscribe → removed; subscribe rate limit trips after N.
 - [ ] **Step 2:** Run → FAIL.
 - [ ] **Step 3:** Port `subscribe_server.py` trimmed (read source).
 - [ ] **Step 4:** Run → PASS.
@@ -93,13 +96,12 @@ Port `notify.py` (smtplib + STARTTLS; `SMTP_HOST/USER/PASS`, dry-run writes `.em
 
 ---
 
-### Task 6: Frontend cleanup
+### Task 6: Frontend contract check (verify only — cleanup moved to Task 1)
 
-**Files:** Modify `tests/subscribe.test.ts` (remove Buttondown cases, keep `statusMessage`); `src/components/Subscribe.astro` unchanged (already posts `/api/subscribe`).
+**Files:** verify `src/components/Subscribe.astro`, `src/scripts/subscribe.ts`.
 
-- [ ] **Step 1:** Strip the `normalizeEmail`/`mapButtondownResponse`/`subscribe` describe blocks (they reference the deleted `.mjs`); keep the `statusMessage` block.
-- [ ] **Step 2:** `npm test` → green (vitest no longer imports the removed module).
-- [ ] **Step 3:** Commit `chore(m5): drop buttondown frontend tests; keep statusMessage`.
+- [ ] **Step 1:** Confirm `Subscribe.astro` posts `action="/api/subscribe"` and `subscribe.ts` sends JSON `{email}` + reads `{status}` — matching Task 3's JSON contract. (No change expected; `statusMessage` already covers subscribed/already/invalid/error.)
+- [ ] **Step 2:** `npm test` + `npm run build` → green. Commit only if a fix was needed.
 
 ---
 
@@ -107,7 +109,7 @@ Port `notify.py` (smtplib + STARTTLS; `SMTP_HOST/USER/PASS`, dry-run writes `.em
 
 **Files:** Modify `.github/workflows/deploy-newbox.yml`
 
-- [ ] **Step 1:** Add a step after `npm test`: set up Python 3.11 + `pip install pytest` + `pytest server/subscribe -q`.
+- [ ] **Step 1:** Set `with: { fetch-depth: 0 }` on the `actions/checkout` step (default depth-1 lacks `github.event.before`, which the gate below needs). Add a step after `npm test`: set up Python 3.11 + `pip install pytest` + `pytest server/subscribe -q`.
 - [ ] **Step 2:** After the rsync deploy step, add a **gated** step: if `git diff --name-only ${{ github.event.before }} ${{ github.sha }}` includes `src/data/updates.ts` (skip if `before` is all-zeros / diff fails), `ssh` the box and run, sourcing the env file: `cd /opt/overdue-subscribe && set -a && . /etc/overdue-subscribe.env && set +a && python3 -m send_update --latest --updates /var/www/overdue/updates.json` (uses the box's subscribers.db + SMTP env). Guard on `env.DEPLOY_KEY != ''` like the deploy step.
 - [ ] **Step 3:** `node`-validate the YAML (no tabs); commit `ci(m5): run pytest + gated send-on-publish on updates changes`.
 
