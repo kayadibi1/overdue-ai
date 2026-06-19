@@ -74,6 +74,30 @@ h1, h2, h3, h4 { color: var(--ink); font-family: var(--display); letter-spacing:
 .btn--ghost { background: var(--panel); color: var(--accent); box-shadow: inset 0 0 0 1px var(--line); }
 .btn--ghost:hover { background: var(--bg-2); color: var(--accent); }
 
+/* ---------- homepage dashboard: overdue hero + lab grid ---------- */
+.eyebrow { font-size: 1rem; font-weight: 700; margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
+.eyebrow--alert { color: var(--overdue); }
+.overdue-hero { margin-top: 6px; }
+.overdue-hero--clear { background: rgba(24,168,122,.08); border-radius: var(--radius); padding: 16px 20px; }
+.overdue-hero--clear p { margin: 0; color: var(--met); font-weight: 600; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 36px 0 16px; }
+.section-head h2 { margin: 0; font-size: 1.35rem; font-weight: 800; }
+.section-head a { font-size: .9rem; }
+.labgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(228px, 1fr)); gap: 16px; }
+.labcard { display: block; background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow-md);
+  padding: 16px 18px; text-decoration: none; transition: transform .12s, box-shadow .12s; }
+.labcard:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); text-decoration: none; }
+.labcard__head { display: flex; align-items: center; gap: 10px; margin-bottom: 13px; }
+.labcard__logo { border-radius: 6px; box-shadow: var(--shadow); background: #fff; flex: none; }
+.labcard__name { font-weight: 700; color: var(--ink); font-size: 1.05rem; letter-spacing: -.01em; }
+.labcard__rate { margin-left: auto; font-family: var(--display); font-weight: 800; color: var(--ink); font-size: 1.15rem; }
+.labcard__rate small { font-size: .56rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-left: 3px; font-weight: 700; }
+.labcard__bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; background: var(--line); margin-bottom: 13px; }
+.labcard__foot { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: .82rem; color: var(--muted); }
+.labcard__flag { font-weight: 600; padding: 2px 9px; border-radius: 999px; font-size: .72rem; }
+.labcard__flag--overdue { background: rgba(226,73,63,.12); color: var(--overdue); }
+.labcard__flag--upcoming { background: var(--accent-dim); color: var(--accent); }
+
 /* ---------- board: commitment = timeline card ---------- */
 .board { display: grid; gap: 16px; }
 .card { background: var(--panel); border-radius: var(--radius); box-shadow: var(--shadow-md);

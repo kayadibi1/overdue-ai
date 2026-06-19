@@ -1,14 +1,14 @@
 ---
 import { COMMITMENTS } from '../data/commitments';
-import { sortByUrgency } from '../lib/status';
-import { labSlug } from '../lib/labs';
-import { LABS } from '../lib/types';
+import { sortByUrgency, computeStatus, summarize } from '../lib/status';
+import { commitmentsByLab } from '../lib/labs';
 import { UPDATES } from '../data/updates';
 import { sortUpdates } from '../lib/updates';
 import { absUrl } from '../lib/urls';
 import { CANONICAL_ORIGIN } from '../lib/site';
 import Subscribe from '../components/Subscribe.astro';
 import CommitmentCard from '../components/CommitmentCard.astro';
+import LabCard from '../components/LabCard.astro';
 import RegulatoryItem from '../components/RegulatoryItem.astro';
 import '../styles/global.css';
 
@@ -16,10 +16,14 @@ const now = Date.now();
 const labRows = COMMITMENTS.filter((c) => c.track === 'lab');
 const regulatoryRows = COMMITMENTS.filter((c) => c.track === 'regulatory' && c.deadlineType === 'calendar' && c.deadline != null)
   .sort((a, b) => (a.deadline ?? '').localeCompare(b.deadline ?? ''));
-const sorted = sortByUrgency(labRows, now);   // board = lab promises only
+const sorted = sortByUrgency(labRows, now);
+const overdue = sorted.filter((c) => computeStatus(c, now) === 'overdue');
+const upcomingCount = labRows.filter((c) => computeStatus(c, now) === 'upcoming').length;
+const labEntries = [...commitmentsByLab(labRows).entries()]
+  .map(([lab, rows]) => ({ lab, rows, c: summarize(rows, now) }))
+  .sort((a, b) => b.c.overdue - a.c.overdue || b.c.upcoming - a.c.upcoming || b.rows.length - a.rows.length);
 const updated = new Date(now).toISOString().slice(0, 10);
 const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
-const labs = LABS.filter((l) => labRows.some((c) => c.lab === l));
 const latest = sortUpdates(UPDATES).slice(0, 2);
 ---
 <html lang="en">
@@ -47,37 +51,26 @@ const latest = sortUpdates(UPDATES).slice(0, 2);
 
     <main>
 
-      <section class="controls" aria-label="Filter and sort">
-        <label>Lab
-          <select id="filter-lab"><option value="">All</option>{labs.map((l) => <option value={l}>{l}</option>)}</select>
-        </label>
-        <label>Status
-          <select id="filter-status">
-            <option value="">All</option>
-            <option value="overdue">Overdue</option><option value="upcoming">Upcoming</option>
-            <option value="missed">Missed</option><option value="met">Met</option>
-            <option value="partial">Partial</option><option value="pending">Pending</option>
-          </select>
-        </label>
-        <label>Sort
-          <select id="sort">
-            <option value="urgency">Most overdue first</option>
-            <option value="lab">Lab</option>
-            <option value="committed">Date committed</option>
-          </select>
-        </label>
-      </section>
+      {overdue.length > 0 ? (
+        <section class="overdue-hero" aria-label="Overdue right now">
+          <h2 class="eyebrow eyebrow--alert">⚠ Overdue right now · {overdue.length}</h2>
+          <div class="board">{overdue.map((c) => <CommitmentCard c={c} now={now} />)}</div>
+        </section>
+      ) : (
+        <section class="overdue-hero overdue-hero--clear" aria-label="Overdue status">
+          <p>✓ Nothing overdue right now — {upcomingCount} deadline{upcomingCount === 1 ? '' : 's'} coming up.</p>
+        </section>
+      )}
 
-      <p class="lab-nav">
-        <a href={withBase('/table')}>View as table ↗</a> ·
-        <strong>Browse by lab:</strong>{' '}
-        {labs.map((l, i) => <Fragment>{i > 0 ? ' · ' : ''}<a href={withBase(`/labs/${labSlug(l)}`)}>{l}</a></Fragment>)}
-      </p>
-
-      <section id="board" class="board">
-        {sorted.map((c) => <CommitmentCard c={c} now={now} />)}
+      <section class="labs-section" aria-label="By lab">
+        <div class="section-head">
+          <h2>By lab</h2>
+          <a href={withBase('/table')}>View all {labRows.length} as a table ↗</a>
+        </div>
+        <div class="labgrid">
+          {labEntries.map(({ lab, rows }) => <LabCard lab={lab} rows={rows} now={now} />)}
+        </div>
       </section>
-      <p id="empty" class="empty" hidden>No commitments match these filters.</p>
 
       <section class="reg-section" aria-label="Upcoming regulatory milestones">
         <h2>Upcoming regulatory milestones</h2>
@@ -107,7 +100,5 @@ const latest = sortUpdates(UPDATES).slice(0, 2);
       <p class="download-row">Open data (<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>): Download <a href={withBase('/commitments.json')}>JSON</a> · <a href={withBase('/commitments.csv')}>CSV</a> · <a href={withBase('/table')}>Table</a> · <a href={withBase('/corrections')}>Corrections</a> · <a href={withBase('methodology')}>How to cite</a></p>
       <p class="diff">Per-commitment, across all labs — not a single-deadline scorecard. Builds on prior work by <a href="https://www.seoul-tracker.org/">The Midas Project</a> and <a href="https://metr.org/fsp">METR</a>.</p>
     </footer>
-
-    <script>import '../scripts/board.ts';</script>
   </body>
 </html>
