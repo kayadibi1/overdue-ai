@@ -241,6 +241,8 @@ const PORT = Number(process.env.PORT || 8788);
 const API_KEY = process.env.BUTTONDOWN_API_KEY;
 const MAX_BODY = 4096;
 
+if (!API_KEY) { console.error('BUTTONDOWN_API_KEY is required'); process.exit(1); } // fail fast → systemd marks it failed
+
 function send(res, code, obj) {
   const b = JSON.stringify(obj);
   res.writeHead(code, { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(b) });
@@ -249,18 +251,21 @@ function send(res, code, obj) {
 
 createServer((req, res) => {
   if (req.method !== 'POST' || !req.url?.startsWith('/api/subscribe')) return send(res, 404, { status: 'error' });
-  let body = '';
+  const chunks = [];
+  let size = 0;
   let aborted = false;
+  req.on('error', () => {});                    // swallow post-destroy noise
   req.on('data', (c) => {
-    body += c;
-    if (body.length > MAX_BODY) { aborted = true; send(res, 413, { status: 'error' }); req.destroy(); }
+    if (aborted) return;                        // guard every chunk once over the cap
+    size += c.length;                           // c is a Buffer → byte length
+    if (size > MAX_BODY) { aborted = true; send(res, 413, { status: 'error' }); req.destroy(); }
+    else chunks.push(c);
   });
   req.on('end', async () => {
     if (aborted) return;
     try {
-      const email = normalizeEmail(JSON.parse(body || '{}').email);
+      const email = normalizeEmail(JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}').email);
       if (!email) return send(res, 422, { status: 'invalid' });
-      if (!API_KEY) return send(res, 500, { status: 'error' });
       send(res, 200, await subscribe(email, { apiKey: API_KEY }));
     } catch {
       send(res, 400, { status: 'error' });
@@ -353,16 +358,23 @@ Run: `npx vitest run tests/subscribe.test.ts` → PASS.
 
 ```astro
 ---
-import { absUrl } from '../lib/urls';
+// /api/subscribe is a same-origin ROOT-relative path the box's Caddy serves — NOT absUrl()
+// (absUrl would prepend the origin/base and break the same-origin fetch + the Pages build).
+// On the Pages backup (PAGES=1) there is no box, so show a link to the apex instead of a dead form.
+const onPages = process.env.PAGES === '1';
 ---
-<form class="subscribe" data-subscribe action={absUrl('/api/subscribe')} method="post">
-  <label>Get updates by email
-    <input type="email" name="email" required placeholder="you@example.com" autocomplete="email" />
-  </label>
-  <button type="submit">Subscribe</button>
-  <span class="subscribe__status" data-status aria-live="polite"></span>
-</form>
-<script>import '../scripts/subscribe.ts';</script>
+{onPages ? (
+  <p class="subscribe">Get updates by email at <a href="https://overduetracker.org/">overduetracker.org</a>.</p>
+) : (
+  <form class="subscribe" data-subscribe action="/api/subscribe" method="post">
+    <label>Get updates by email
+      <input type="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+    </label>
+    <button type="submit">Subscribe</button>
+    <span class="subscribe__status" data-status aria-live="polite"></span>
+  </form>
+)}
+<script>import '../scripts/subscribe.ts';</script>  {/* no-ops if no form[data-subscribe] present */}
 ```
 
 - [ ] **Step 6: Commit**
@@ -415,12 +427,13 @@ git commit -m "feat(m4): place Subscribe on homepage Follow block + /updates"
       }
     }
     ```
+    **Mirror the existing `sidaraslanoglu.com` / `emersus.ai` `tls`+AOP block** instead of trusting the syntax above verbatim (Caddy versions differ); run `caddy validate` before reload.
   - GitHub: add secrets `NEWBOX_DEPLOY_KEY` (private), `NEWBOX_KNOWN_HOSTS` (`ssh-keyscan 37.27.242.32`).
   - Verify: push → Action rsyncs → `https://overduetracker.org` serves the site.
 
 - [ ] **Step 2: `m4-subscribe.md`** — exact steps:
   - Buttondown (user): create account; copy API key to `/etc/overdue-subscribe.env` (`BUTTONDOWN_API_KEY=...`, `chmod 600`, root-only); enable RSS-to-email → `https://overduetracker.org/feed.xml`.
-  - Box: install Node 22; copy `server/subscribe/` (or git-pull); systemd unit:
+  - Box: install Node 22; deploy the service to a fixed path — `mkdir -p /opt/overdue-subscribe && rsync -az server/subscribe/ root@37.27.242.32:/opt/overdue-subscribe/` (re-run on service changes, then `systemctl restart overdue-subscribe`). systemd unit (its `ExecStart` path matches `/opt/overdue-subscribe/index.mjs`):
     ```ini
     [Unit]
     Description=Overdue subscribe proxy
