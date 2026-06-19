@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { COMMITMENTS } from '../src/data/commitments';
+import { UPDATES } from '../src/data/updates';
 import { LABS, CATEGORIES } from '../src/lib/types';
 import { computeStatus } from '../src/lib/status';
 
@@ -47,5 +48,30 @@ describe('COMMITMENTS dataset', () => {
   it('contains both tracks (the partition is real)', () => {
     expect(lab().length).toBeGreaterThan(0);
     expect(regulatory().length).toBeGreaterThan(0);
+  });
+});
+
+/** True when `iso` matches YYYY-MM-DD and is a real calendar date (rejects e.g. 2026-02-31). */
+function isRealUtcDate(iso: string): boolean {
+  if (!ISO.test(iso)) return false;
+  const [y, m, d] = iso.split('-').map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+}
+
+describe('M6 data-model fields', () => {
+  it('every lastChecked (where present) is a real UTC date', () => {
+    for (const c of COMMITMENTS) {
+      if (c.lastChecked !== undefined) {
+        expect(isRealUtcDate(c.lastChecked), c.id).toBe(true);
+      }
+    }
+  });
+  it('every UPDATES kind (where present) is update or correction', () => {
+    for (const u of UPDATES) {
+      if (u.kind !== undefined) {
+        expect(['update', 'correction'], u.id).toContain(u.kind);
+      }
+    }
   });
 });

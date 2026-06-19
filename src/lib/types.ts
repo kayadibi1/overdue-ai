@@ -37,4 +37,5 @@ export interface Commitment {
   sourceLabel: string;
   contested?: boolean;
   notes?: string;
+  lastChecked?: string;         // 'YYYY-MM-DD', when this row's status was last re-verified
 }

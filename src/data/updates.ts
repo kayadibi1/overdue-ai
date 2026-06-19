@@ -6,6 +6,7 @@ export interface Update {
   commitmentIds?: string[]; // optional refs into COMMITMENTS (renders links on /updates)
   sourceUrl?: string;    // optional source (internal path or external URL)
   sourceLabel?: string;  // label for sourceUrl
+  kind?: 'update' | 'correction'; // default 'update'; 'correction' = a ruling change / data fix (shown on /corrections)
 }
 
 export const UPDATES: Update[] = [
