@@ -10,6 +10,10 @@
 
 Give Overdue a public "what changed" channel so people can follow it without re-checking the site: a curated **updates log** on the site, an **RSS feed** built from it, and a **launch writeup** announcing it. (Email delivery of those updates is M4.)
 
+## Naming (locked)
+
+Brand: **Overdue**. Canonical page title / `<title>`: **"Overdue — AI Safety Commitment Tracker"** — the brand carries memorability; the SEO keywords (the queries people actually search) live in the title, H1, content, and domain, *not* the brand. Domain `overduetracker.org` is registered in **M4**.
+
 ## Positioning & prior art (why Overdue differs — drives the copy)
 
 A 5-scenario prior-art scan (see memory `overdue-competitive-landscape`) found **no exact twin**, but two efforts each do *half* of Overdue:
@@ -83,7 +87,7 @@ Add a compact **"Latest updates"** block (top 2 from `sortUpdates`, each linking
 
 `export const prerender = true`. Emits RSS 2.0:
 
-- `<channel>`: title "Overdue — frontier AI safety commitments", `<link>` to the site, `<description>`, `<atom:link rel="self">` to the feed URL, `<lastBuildDate>`.
+- `<channel>`: title = `FEED_TITLE` ("Overdue — AI Safety Commitment Tracker"), `<link>` to the site, `<description>`, `<atom:link rel="self">` to the feed URL, `<lastBuildDate>`.
 - `<item>` per update (newest-first): `<title>`, `<link>`=`<site>/updates#<id>`, `<guid isPermaLink="false">`=`<id>`, `<pubDate>`=RFC-822 from `date`, `<description>`=body.
 - Absolute URLs via `src/lib/urls.ts`: a **pure** `joinUrl(site, base, path)` (testable without Astro env) plus a thin `absUrl(path)` wrapper that supplies `import.meta.env.SITE` + `BASE_URL`. The unit test targets `joinUrl`. (M4 swaps the site constant to the custom domain — `joinUrl` stays.)
 - **XML escaping:** an `escapeXml()` helper escapes `& < > " '` in all interpolated text. Unit-tested with adversarial input (e.g. `Anthropic & Co. <test> "x"`).
@@ -103,7 +107,7 @@ Extend the existing "Related trackers" content into a short **"How Overdue diffe
 
 ```ts
 export const SITE_NAME = 'Overdue';
-export const FEED_TITLE = 'Overdue — frontier AI safety commitments';
+export const FEED_TITLE = 'Overdue — AI Safety Commitment Tracker';
 export const FEED_DESCRIPTION = 'Updates to the tracker of public AI-safety commitments and their deadlines.';
 ```
 (`SITE`/`BASE` come from `astro.config`; `absUrl()` reads them. Buttondown username is added here in M4.)
