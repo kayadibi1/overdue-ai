@@ -18,10 +18,12 @@ function c(over: Partial<Commitment>): Commitment {
   };
 }
 
-// Fetch fns return HTML; extractText() turns it into visible text the classifier sees.
-const htmlWithQuote: FetchFn = async () => `<body><p>Foreword. ${QUOTE} by 2026.</p></body>`;
-const htmlWithoutQuote: FetchFn = async () => `<body><p>Nothing relevant here at all.</p></body>`;
-const deadLink: FetchFn = async () => null;
+// Fetch fns return VerifyFetch; extractText() turns text into visible text the classifier sees.
+const htmlWithQuote: FetchFn = async () => ({ text: `<body><p>Foreword. ${QUOTE} by 2026.</p></body>`, via: 'live', dead: false });
+const htmlWithoutQuote: FetchFn = async () => ({ text: `<body><p>Nothing relevant here at all.</p></body>`, via: 'live', dead: false });
+const deadLink: FetchFn = async () => ({ text: null, via: 'none', dead: true });            // real 404/410
+const blockedLink: FetchFn = async () => ({ text: null, via: 'none', dead: false });        // 403/timeout, could not verify
+const archivedQuote: FetchFn = async () => ({ text: `<body><p>Foreword. ${QUOTE} by 2026.</p></body>`, via: 'archive', dead: false });
 
 describe('runChecks', () => {
   it('present quote → quoteCheck "ok" and no drift problem', async () => {
@@ -50,12 +52,28 @@ describe('runChecks', () => {
     expect(rows.x.problems).not.toContain('quote drifted: https://example.com/a');
   });
 
-  it('dead link → linkOk false + a "dead link" problem + inconclusive quote', async () => {
+  it('dead link (404) → linkOk false + a "dead link (404)" problem + inconclusive quote', async () => {
     const { issues, rows } = await runChecks([c({})], {}, NOW, deadLink);
     expect(rows.x.sources[0].linkOk).toBe(false);
     expect(rows.x.sources[0].quoteCheck).toBe('inconclusive');
-    expect(rows.x.problems).toContain('dead link: https://example.com/a');
+    expect(rows.x.problems).toContain('dead link (404): https://example.com/a');
     expect(issues).toHaveLength(1);
+  });
+
+  it('blocked link (403/timeout, not dead) → linkOk false + NO problem + inconclusive quote', async () => {
+    const { issues, rows } = await runChecks([c({})], {}, NOW, blockedLink);
+    expect(rows.x.sources[0].linkOk).toBe(false);
+    expect(rows.x.sources[0].quoteCheck).toBe('inconclusive');
+    expect(rows.x.problems).toEqual([]);                              // could not verify ≠ a problem
+    expect(rows.x.problems.some((p) => p.includes('dead link'))).toBe(false);
+    expect(issues).toEqual([]);                                       // no under-review flag
+  });
+
+  it('archived hit → quote checked normally against the snapshot text', async () => {
+    const { rows } = await runChecks([c({})], {}, NOW, archivedQuote);
+    expect(rows.x.sources[0].linkOk).toBe(true);
+    expect(rows.x.sources[0].quoteCheck).toBe('ok');
+    expect(rows.x.problems).toEqual([]);
   });
 
   it('carries forward archiveUrl and lastChangedOn from prev state', async () => {

@@ -37,6 +37,25 @@ async function fetchArtifact(url) {
   }
 }
 
+/** Wayback fallback: latest snapshot's text (tags stripped), or null. Never throws. Dependency-free. */
+async function fetchSnapshot(url) {
+  try {
+    const avail = await fetch(`https://archive.org/wayback/available?url=${encodeURIComponent(url)}`, {
+      signal: AbortSignal.timeout(15_000),
+    });
+    if (!avail.ok) return null;
+    const data = await avail.json();
+    const snap = data?.archived_snapshots?.closest?.url;
+    if (!snap) return null;
+    const page = await fetch(snap, { signal: AbortSignal.timeout(20_000) });
+    if (!page.ok) return null;
+    const html = await page.text();
+    return html.replace(/<[^>]+>/g, ' ');
+  } catch {
+    return null;
+  }
+}
+
 async function main() {
   // Auth guard: don't hang local/dev runs on a missing token.
   if (!process.env.CLAUDE_CODE_OAUTH_TOKEN && !process.env.ANTHROPIC_API_KEY) {
@@ -75,13 +94,22 @@ async function main() {
 
   for (const c of batch) {
     const url = c.fulfillmentCheck?.url;
-    const text = url ? await fetchArtifact(url) : null;
+    let text = url ? await fetchArtifact(url) : null;
+    let viaArchive = false;
+    if (text == null && url) {
+      // Live fetch failed/blocked — fall back to the latest Wayback snapshot before flagging.
+      text = await fetchSnapshot(url);
+      if (text != null) {
+        viaArchive = true;
+        console.log(`[${c.id}] live fetch failed for ${url} — using archived snapshot`);
+      }
+    }
     if (text == null) {
-      console.log(`[${c.id}] fetch failed for ${url} — problem flagged`);
+      console.log(`[${c.id}] fetch failed (live + archive) for ${url} — problem flagged`);
       pushProblem(rows, c.id);
       continue;
     }
-    const prompt = buildPrompt(c, text);
+    const prompt = buildPrompt(c, viaArchive ? `[verified against archived Wayback snapshot]\n${text}` : text);
     const r = await runClaude(prompt);
     if (!r.ok) {
       console.log(`[${c.id}] claude failed (${r.reason}) — problem flagged`);
@@ -95,8 +123,8 @@ async function main() {
       continue;
     }
     const row = ensureRow(rows, c.id);
-    row.proposals.push({ kind: 'class-B', ...v });
-    console.log(`[${c.id}] proposal: ${v.verdict}`);
+    row.proposals.push({ kind: 'class-B', ...v, ...(viaArchive ? { via: 'archive' } : {}) });
+    console.log(`[${c.id}] proposal: ${v.verdict}${viaArchive ? ' (via archive)' : ''}`);
   }
 
   const after = JSON.stringify(state);

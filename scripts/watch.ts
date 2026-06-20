@@ -7,6 +7,7 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { extractText, hashText, diffSummary, isMeaningfulChange, dueDeadlines, issueMarker, fetchHtml } from '../src/watcher/core';
 import { runChecks } from '../src/watcher/checks';
+import { fetchVerifiable } from '../src/watcher/verify-fetch';
 import { archive } from '../src/watcher/wayback';
 import { mergeVerification } from '../src/watcher/merge';
 import { parseVerification } from '../src/lib/verify/schema';
@@ -121,7 +122,7 @@ async function main() {
   let prevState;
   try { prevState = parseVerification(JSON.parse(readFileSync(resolve(ROOT, 'src/data/verification.json'), 'utf8'))); }
   catch { prevState = { rows: {} }; }
-  const { issues, rows } = await runChecks(COMMITMENTS, prevState.rows, now, fetchHtml);
+  const { issues, rows } = await runChecks(COMMITMENTS, prevState.rows, now, fetchVerifiable);
   for (const it of issues) planned.push(it);                 // already {marker,title,body}
 
   // ---- Capped Wayback archive pass: archive un-archived OBLIGATION sources ----

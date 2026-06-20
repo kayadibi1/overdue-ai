@@ -8,6 +8,24 @@ export function snapshotUrl(timestamp: string, originalUrl: string): string {
   return `https://web.archive.org/web/${timestamp}/${originalUrl}`;
 }
 
+/** Fetch the latest Wayback snapshot's text for a URL. Returns null if no snapshot / fetch fails. Never throws. Injectable fetch. */
+export async function fetchSnapshotText(
+  url: string,
+  deps: { fetch?: typeof globalThis.fetch } = {},
+): Promise<string | null> {
+  const f = deps.fetch ?? fetch;
+  try {
+    const res = await f(`https://archive.org/wayback/available?url=${encodeURIComponent(url)}`, { signal: AbortSignal.timeout(15000) });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const snap = data?.archived_snapshots?.closest?.url;
+    if (!snap) return null;
+    const page = await f(snap, { signal: AbortSignal.timeout(20000) });
+    if (!page.ok) return null;
+    return await page.text();
+  } catch { return null; }
+}
+
 export interface ArchiveResult {
   url: string | null;
   note?: string;

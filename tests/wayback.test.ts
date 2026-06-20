@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { snapshotUrl, archive } from '../src/watcher/wayback';
+import { snapshotUrl, archive, fetchSnapshotText } from '../src/watcher/wayback';
 
 const noopSleep = async () => {};
 
@@ -75,5 +75,38 @@ describe('archive (SPN2 async flow)', () => {
     const res = await archive('https://x', { fetch, sleep: noopSleep, maxWaitMs: 10 });
     expect(res.url).toBeNull();
     expect(res.note).toBe('unarchived (SPN failed, no snapshot)');
+  });
+});
+
+describe('fetchSnapshotText', () => {
+  it('returns the snapshot HTML when availability has a closest.url', async () => {
+    const SNAP = 'https://web.archive.org/web/20200101/https://x';
+    const fetch = (async (input: RequestInfo | URL) => {
+      const url = String(input);
+      if (url.includes('/wayback/available')) {
+        return new Response(
+          JSON.stringify({ archived_snapshots: { closest: { url: SNAP, available: true } } }),
+          { status: 200 },
+        );
+      }
+      // the snapshot page itself
+      return new Response('<html><body>archived obligation text</body></html>', { status: 200 });
+    }) as unknown as typeof globalThis.fetch;
+
+    const text = await fetchSnapshotText('https://x', { fetch });
+    expect(text).toBe('<html><body>archived obligation text</body></html>');
+  });
+
+  it('returns null when availability has no snapshot', async () => {
+    const fetch = (async () =>
+      new Response(JSON.stringify({ archived_snapshots: {} }), { status: 200 })) as unknown as typeof globalThis.fetch;
+    expect(await fetchSnapshotText('https://x', { fetch })).toBeNull();
+  });
+
+  it('returns null (never throws) when fetch throws', async () => {
+    const fetch = (async () => {
+      throw new Error('network down');
+    }) as unknown as typeof globalThis.fetch;
+    await expect(fetchSnapshotText('https://x', { fetch })).resolves.toBeNull();
   });
 });
