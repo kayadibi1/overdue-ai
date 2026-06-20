@@ -56,7 +56,8 @@
         {
           "url": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260616171234/https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
         }
       ],
       "problems": [],
@@ -67,7 +68,8 @@
         {
           "url": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy",
           "linkOk": true,
-          "quoteCheck": "ok"
+          "quoteCheck": "ok",
+          "archiveUrl": "http://web.archive.org/web/20260616171234/https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
         }
       ],
       "problems": [],
@@ -134,7 +136,8 @@
         {
           "url": "https://deepmind.google/blog/updating-the-frontier-safety-framework/",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260509182004/https://deepmind.google/blog/updating-the-frontier-safety-framework/"
         }
       ],
       "problems": [],
@@ -145,7 +148,8 @@
         {
           "url": "https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/introducing-the-frontier-safety-framework/fsf-technical-report.pdf",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260616170618/https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/introducing-the-frontier-safety-framework/fsf-technical-report.pdf"
         }
       ],
       "problems": [],
@@ -156,7 +160,8 @@
         {
           "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260604163547/https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf"
         }
       ],
       "problems": [],
@@ -167,7 +172,8 @@
         {
           "url": "https://www.nist.gov/news-events/news/2024/08/us-ai-safety-institute-signs-agreements-regarding-ai-safety-research",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260616223537/https://www.nist.gov/news-events/news/2024/08/us-ai-safety-institute-signs-agreements-regarding-ai-safety-research"
         }
       ],
       "problems": [],
@@ -178,7 +184,8 @@
         {
           "url": "https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260520005629/https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration"
         },
         {
           "url": "https://newsletter.safe.ai/p/ai-safety-newsletter-34-new-military",
@@ -216,7 +223,8 @@
         {
           "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260613085944/https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024"
         },
         {
           "url": "https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/final/en-us/microsoft-brand/documents/Microsoft-Frontier-Governance-Framework.pdf",
@@ -323,9 +331,7 @@
           "quoteCheck": "inconclusive"
         }
       ],
-      "problems": [
-        "dead link: https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules"
-      ],
+      "problems": [],
       "lastChangedOn": "2026-06-20"
     },
     "eu-aia-highrisk-annex1": {
@@ -336,9 +342,7 @@
           "quoteCheck": "inconclusive"
         }
       ],
-      "problems": [
-        "dead link: https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules"
-      ],
+      "problems": [],
       "lastChangedOn": "2026-06-20"
     },
     "eu-aia-gpai-legacy-2027": {
