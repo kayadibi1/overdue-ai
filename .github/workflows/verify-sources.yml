@@ -46,9 +46,10 @@ jobs:
       # Class-B adjudication on the maintainer's Claude subscription. The script
       # strips ANTHROPIC_API_KEY/ANTHROPIC_AUTH_TOKEN so the OAuth token (sub) pays,
       # times out, and degrades to "needs manual adjudication" on any failure.
-      - name: Class-B adjudication (subscription-billed)
+      - name: Class-B adjudication (subscription-billed, or metered if only ANTHROPIC_API_KEY is set)
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           npm i -g @anthropic-ai/claude-code@2.1.183
           npm run adjudicate || echo "adjudication skipped (see report/issues)"
