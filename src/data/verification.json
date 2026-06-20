@@ -113,11 +113,17 @@
           "archiveUrl": "http://web.archive.org/web/20260520152355/https://openai.com/index/updating-our-preparedness-framework/"
         }
       ],
-      "problems": [
-        "Class-B adjudication unavailable — needs manual adjudication"
-      ],
+      "problems": [],
       "lastChangedOn": "2026-06-20",
-      "proposals": []
+      "proposals": [
+        {
+          "kind": "class-B",
+          "verdict": "met",
+          "rationale": "OpenAI published an updated Preparedness Framework on April 15, 2025, which is within one year of the original framework's release, satisfying the commitment to review and potentially update it at least annually.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ (archived at web.archive.org, snapshot 20260520152355)",
+          "via": "archive"
+        }
+      ]
     },
     "openai-ssc-90-days": {
       "sources": [
@@ -264,7 +270,8 @@
         {
           "url": "https://www.anthropic.com/news/activating-asl3-protections",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260618165831/https://www.anthropic.com/news/activating-asl3-protections"
         }
       ],
       "problems": [],
@@ -275,7 +282,8 @@
         {
           "url": "https://www.darioamodei.com/post/the-urgency-of-interpretability",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260613100720/https://darioamodei.com/post/the-urgency-of-interpretability"
         }
       ],
       "problems": [],
@@ -298,7 +306,8 @@
         {
           "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260604163547/https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf"
         }
       ],
       "problems": [],
@@ -332,8 +341,8 @@
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": true,
-          "quoteCheck": "ok"
+          "linkOk": false,
+          "quoteCheck": "inconclusive"
         }
       ],
       "problems": [],
@@ -343,8 +352,8 @@
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": true,
-          "quoteCheck": "ok"
+          "linkOk": false,
+          "quoteCheck": "inconclusive"
         }
       ],
       "problems": [],
@@ -428,7 +437,8 @@
         {
           "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260604163547/https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf"
         },
         {
           "url": "https://arxiv.org/abs/2508.08345",
@@ -444,7 +454,8 @@
         {
           "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260604163547/https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf"
         },
         {
           "url": "https://arxiv.org/abs/2508.08345",
@@ -460,7 +471,8 @@
         {
           "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260604163547/https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf"
         },
         {
           "url": "https://arxiv.org/abs/2508.08345",
