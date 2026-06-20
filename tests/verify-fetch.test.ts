@@ -46,4 +46,24 @@ describe('fetchVerifiable', () => {
     const r = await fetchVerifiable('https://x', { live, archive });
     expect(r).toEqual({ text: null, via: 'none', dead: false });
   });
+
+  it('.pdf URL + deps.pdf returns text → {via:"pdf"} and does NOT consult live/archive', async () => {
+    let liveCalled = false;
+    let archiveCalled = false;
+    const live = async () => { liveCalled = true; return { text: 'live', status: 200 }; };
+    const archive = async () => { archiveCalled = true; return 'snap'; };
+    const pdf = async () => 'extracted pdf text';
+    const r = await fetchVerifiable('https://x/doc.pdf', { live, archive, pdf });
+    expect(r).toEqual({ text: 'extracted pdf text', via: 'pdf', dead: false });
+    expect(liveCalled).toBe(false);
+    expect(archiveCalled).toBe(false);
+  });
+
+  it('.pdf URL + deps.pdf returns null → {via:"none", dead:false} (inconclusive, not dead)', async () => {
+    const live = async () => ({ text: 'live', status: 200 });
+    const archive = async () => 'snap';
+    const pdf = async () => null;
+    const r = await fetchVerifiable('https://x/doc.pdf', { live, archive, pdf });
+    expect(r).toEqual({ text: null, via: 'none', dead: false });
+  });
 });
