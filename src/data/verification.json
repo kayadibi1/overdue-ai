@@ -113,17 +113,11 @@
           "archiveUrl": "http://web.archive.org/web/20260520152355/https://openai.com/index/updating-our-preparedness-framework/"
         }
       ],
-      "problems": [],
+      "problems": [
+        "Class-B adjudication unavailable — needs manual adjudication"
+      ],
       "lastChangedOn": "2026-06-20",
-      "proposals": [
-        {
-          "kind": "class-B",
-          "verdict": "met",
-          "rationale": "OpenAI published an updated Preparedness Framework on April 15, 2025, which is within one year of the original framework's release, satisfying the commitment to review and potentially update it at least annually.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ (archived at web.archive.org, snapshot 20260520152355)",
-          "via": "archive"
-        }
-      ]
+      "proposals": []
     },
     "openai-ssc-90-days": {
       "sources": [
