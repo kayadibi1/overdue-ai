@@ -284,7 +284,8 @@
         {
           "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260613085944/https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024"
         }
       ],
       "problems": [],
@@ -306,7 +307,8 @@
         {
           "url": "https://www.anthropic.com/rsp-updates",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260220175916/https://www.anthropic.com/rsp-updates"
         }
       ],
       "problems": [],
@@ -317,7 +319,8 @@
         {
           "url": "https://www.anthropic.com/rsp-updates",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260220175916/https://www.anthropic.com/rsp-updates"
         }
       ],
       "problems": [],
@@ -327,8 +330,8 @@
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": false,
-          "quoteCheck": "inconclusive"
+          "linkOk": true,
+          "quoteCheck": "ok"
         }
       ],
       "problems": [],
@@ -338,8 +341,8 @@
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": false,
-          "quoteCheck": "inconclusive"
+          "linkOk": true,
+          "quoteCheck": "ok"
         }
       ],
       "problems": [],
@@ -372,7 +375,8 @@
         {
           "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260613085944/https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024"
         },
         {
           "url": "https://www.amazon.science/publications/amazons-frontier-model-safety-framework",
@@ -388,7 +392,8 @@
         {
           "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
           "linkOk": true,
-          "quoteCheck": "inconclusive"
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260613085944/https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024"
         },
         {
           "url": "https://www.themidasproject.com/article-list/xai-misses-a-second-self-imposed-deadline-to-implement-a-frontier-safety-policy",
