@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "watch": "tsx scripts/watch.ts"
+    "watch": "tsx scripts/watch.ts",
+    "adjudicate": "node scripts/adjudicate.mjs"
   },
   "dependencies": {
     "astro": "^5.14.4"
