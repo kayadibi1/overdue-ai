@@ -35,8 +35,14 @@ export function parseVerdict(stdout) {
 export function runClaude(prompt, { timeoutMs = 120_000 } = {}) {
   return new Promise((resolve) => {
     const env = { ...process.env };
-    delete env.ANTHROPIC_API_KEY;     // both outrank CLAUDE_CODE_OAUTH_TOKEN in precedence — strip so the SUB pays
-    delete env.ANTHROPIC_AUTH_TOKEN;
+    if (env.CLAUDE_CODE_OAUTH_TOKEN) {
+      // Subscription mode: the API-key vars outrank the OAuth token in precedence, so
+      // strip them — otherwise an accidentally-set key would bill the metered API.
+      delete env.ANTHROPIC_API_KEY;
+      delete env.ANTHROPIC_AUTH_TOKEN;
+    }
+    // Else (no OAuth token): metered mode — leave ANTHROPIC_API_KEY in place (sanctioned
+    // for automation). Switching sub→metered is then a pure secret change, no code edit.
     // stdio[0]='ignore' redirects the child's stdin to /dev/null — otherwise `claude`
     // waits ~forever for piped stdin (we pass the prompt as a -p arg, not via stdin).
     const child = spawn('claude', ['-p', prompt, '--output-format', 'json', '--dangerously-skip-permissions'],
