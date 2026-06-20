@@ -55,17 +55,27 @@ export function issueMarker(kind: 'src' | 'deadline' | 'source' | 'stale' | 'ful
   return `<!-- watcher:${kind}:${id} -->`;
 }
 
-/** Shared HTML fetch: browser UA, 15s timeout, 2MB cap, one retry on 5xx. Returns null on failure. */
-export async function fetchHtml(url: string): Promise<string | null> {
+/**
+ * Shared HTML fetch exposing the HTTP status: browser UA, 15s timeout, 2MB cap, one retry on 5xx.
+ * `text` is the body on 2xx (within cap) else null; `status` is res.status, or null on network error/timeout.
+ */
+export async function fetchWithStatus(url: string): Promise<{ text: string | null; status: number | null }> {
+  let lastStatus: number | null = null;
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const res = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(15000), headers: { 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', accept: 'text/html' } });
-      if (!res.ok) { if (res.status >= 500 && attempt === 0) continue; return null; }
-      if (Number(res.headers.get('content-length') ?? '0') > 2_000_000) return null; // reject oversized early when advertised
+      lastStatus = res.status;
+      if (!res.ok) { if (res.status >= 500 && attempt === 0) continue; return { text: null, status: res.status }; }
+      if (Number(res.headers.get('content-length') ?? '0') > 2_000_000) return { text: null, status: res.status }; // reject oversized early when advertised
       const buf = await res.arrayBuffer();
-      if (buf.byteLength > 2_000_000) return null;                                     // hard cap if length absent/wrong
-      return new TextDecoder().decode(buf);
-    } catch { if (attempt === 0) continue; return null; }
+      if (buf.byteLength > 2_000_000) return { text: null, status: res.status };        // hard cap if length absent/wrong
+      return { text: new TextDecoder().decode(buf), status: res.status };
+    } catch { if (attempt === 0) continue; return { text: null, status: null }; }       // network error / timeout → null status
   }
-  return null;
+  return { text: null, status: lastStatus };
+}
+
+/** Shared HTML fetch: browser UA, 15s timeout, 2MB cap, one retry on 5xx. Returns null on failure. */
+export async function fetchHtml(url: string): Promise<string | null> {
+  return (await fetchWithStatus(url)).text;
 }

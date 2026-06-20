@@ -5,9 +5,10 @@ import { classifyQuote } from '../lib/verify/classify';
 import { isStale } from '../lib/verify/staleness';
 import { checkInvariants } from '../lib/verify/invariants';
 import { proposeFulfillment } from '../lib/verify/fulfillment';
+import type { VerifyFetch } from './verify-fetch';
 
 export interface PlannedIssue { marker: string; title: string; body: string; }
-export type FetchFn = (url: string) => Promise<string | null>;
+export type FetchFn = (url: string) => Promise<VerifyFetch>;
 
 export async function runChecks(
   commitments: Commitment[],
@@ -22,14 +23,17 @@ export async function runChecks(
     const sources: SourceState[] = [];
     for (const s of c.sources) {
       const prevSrc = prev[c.id]?.sources.find((p) => p.url === s.url);
-      const html = await fetchFn(s.url);
-      const linkOk = html != null;
+      const r = await fetchFn(s.url);
+      const linkOk = r.text != null;
       let quoteCheck: 'ok' | 'inconclusive' | 'drifted' = 'ok';
-      if (!linkOk) {
-        problems.push(`dead link: ${s.url}`);
+      if (r.dead) {
+        problems.push(`dead link (404): ${s.url}`);
         quoteCheck = 'inconclusive';
-      } else if (s.role === 'obligation' && s.quote) {
-        quoteCheck = classifyQuote(extractText(html), s.quote, prevSrc?.quoteCheck === 'ok');
+      } else if (!linkOk) {
+        // blocked / unreachable — could not verify, NOT a problem (no under-review flag)
+        quoteCheck = 'inconclusive';
+      } else if (s.role === 'obligation' && s.quote && r.text != null) {
+        quoteCheck = classifyQuote(extractText(r.text), s.quote, prevSrc?.quoteCheck === 'ok');
         if (quoteCheck === 'drifted') problems.push(`quote drifted: ${s.url}`);
       }
       sources.push({ url: s.url, linkOk, quoteCheck, archiveUrl: prevSrc?.archiveUrl });
@@ -43,7 +47,7 @@ export async function runChecks(
     if (c.resolution === null && c.fulfillmentCheck && c.fulfillmentCheck.type !== 'changed-since') {
       const fc = c.fulfillmentCheck;
       let artifactFound = false;
-      const html = await fetchFn(fc.url);
+      const html = (await fetchFn(fc.url)).text;
       if (fc.type === 'url-exists') {
         artifactFound = html != null;
       } else if (fc.type === 'page-contains') {
