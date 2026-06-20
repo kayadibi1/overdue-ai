@@ -38,7 +38,7 @@ export const COMMITMENTS: Commitment[] = [
     fulfillmentCheck: { type: 'url-exists', url: 'https://about.fb.com/news/2025/02/meta-approach-frontier-ai/', by: '2025-02-10' },
     sources: [
       { url: 'https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024', label: 'GOV.UK', tier: 'primary', role: 'obligation',
-        quote: 'publish a safety framework focused on severe risks' }, // TODO verify quote
+        quote: 'a safety framework focused on severe risks' },
       { url: 'https://about.fb.com/news/2025/02/meta-approach-frontier-ai/', label: 'Meta', tier: 'primary', role: 'fulfillment' },
     ] },
 
@@ -112,7 +112,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://www.anthropic.com/news/the-long-term-benefit-trust', label: 'Anthropic', tier: 'primary', role: 'obligation',
-        quote: 'elect a majority of the board within four years' }, // TODO verify quote
+        quote: 'a majority of our Board' },
       { url: 'https://www.anthropic.com/news/narasimhan-board', label: 'Anthropic', tier: 'primary', role: 'fulfillment' },
     ],
     notes: 'Commitment: a Trust-appointed majority within ~4 years of the mid-2023 Series C. Majority reached with the Narasimhan appointment, within the window.' },
@@ -146,7 +146,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://openai.com/index/update-on-safety-and-security-practices/', label: 'OpenAI', tier: 'primary', role: 'obligation',
-        quote: '90 days to make recommendations' }, // TODO verify quote
+        quote: 'a 90-day review' },
     ],
     notes: 'Recommendations were adopted and published; published a few weeks after the 90-day mark.' },
 
@@ -204,7 +204,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://www.nist.gov/news-events/news/2024/08/us-ai-safety-institute-signs-agreements-regarding-ai-safety-research', label: 'NIST', tier: 'primary', role: 'obligation',
-        quote: 'agreements ... for AI safety research, testing, and evaluation' }, // TODO verify quote
+        quote: 'formal collaboration on AI safety research, testing and evaluation' },
     ],
     notes: 'A bilateral access agreement the labs entered with NIST / the US AI Safety Institute (government-announced), counted here as a commitment the labs signed onto.' },
 
@@ -261,7 +261,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024', label: 'GOV.UK', tier: 'primary', role: 'obligation',
-        quote: 'publish a safety framework focused on severe risks' }, // TODO verify quote
+        quote: 'a safety framework focused on severe risks' },
       { url: 'https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/final/en-us/microsoft-brand/documents/Microsoft-Frontier-Governance-Framework.pdf', label: 'Microsoft', tier: 'primary', role: 'fulfillment' },
     ],
     notes: 'Document change log records 2025-02-08 as the first version, ahead of the Paris AI Action Summit.' },
@@ -319,7 +319,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://www.darioamodei.com/post/the-urgency-of-interpretability', label: 'Dario Amodei (Anthropic)', tier: 'primary', role: 'obligation',
-        quote: "we have a goal of getting to 'interpretability can reliably detect most model problems' by 2027" },
+        quote: 'we have a goal of getting to "interpretability can reliably detect most model problems" by 2027' },
     ],
     notes: 'A CEO-stated organizational goal rather than a precise, falsifiable deliverable; "by 2027" encoded as a 2027-12-31 checkpoint. Whether "most model problems" is measurable is debatable.' },
 
@@ -333,7 +333,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024', label: 'GOV.UK', tier: 'primary', role: 'obligation',
-        quote: 'publish a safety framework focused on severe risks' }, // TODO verify quote
+        quote: 'a safety framework focused on severe risks' },
     ],
     notes: 'Most signatories published a framework by the Paris Summit (Meta, Google DeepMind, Microsoft, OpenAI, Amazon, G42 and others); coverage was uneven across the 16+ signatories and some frameworks arrived close to or just after the summit, so the collective ruling is debatable.' },
 
@@ -451,7 +451,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-19',
     sources: [
       { url: 'https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024', label: 'GOV.UK', tier: 'primary', role: 'obligation',
-        quote: 'publish a safety framework focused on severe risks' }, // TODO verify quote
+        quote: 'a safety framework focused on severe risks' },
       { url: 'https://www.amazon.science/publications/amazons-frontier-model-safety-framework', label: 'Amazon Science', tier: 'primary', role: 'fulfillment' },
     ],
     notes: 'Amazon is a named Seoul signatory; its Frontier Model Safety Framework (dated 2025-02-09) cites Amazon’s endorsement of the Korea Frontier AI Safety Commitments and was published the day before the Paris summit opened.' },
@@ -466,7 +466,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-19',
     sources: [
       { url: 'https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024', label: 'GOV.UK', tier: 'primary', role: 'obligation',
-        quote: 'publish a safety framework focused on severe risks' }, // TODO verify quote
+        quote: 'a safety framework focused on severe risks' },
       { url: 'https://www.themidasproject.com/article-list/xai-misses-a-second-self-imposed-deadline-to-implement-a-frontier-safety-policy', label: 'The Midas Project', tier: 'secondary', role: 'fulfillment' },
     ],
     notes: 'No finalized framework existed by the 2025-02-10 deadline; xAI’s draft RMF is document-dated 2025-02-20 (~10 days late), watermarked DRAFT, and per The Midas Project applied only to systems not yet in development (excluding Grok 3). A lenient reading would call this partial (a draft was published); scored missed because the committed deliverable did not exist by the deadline — hence contested.' },
@@ -481,7 +481,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-19',
     sources: [
       { url: 'https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024', label: 'GOV.UK', tier: 'primary', role: 'obligation',
-        quote: 'publish a safety framework focused on severe risks' }, // TODO verify quote
+        quote: 'a safety framework focused on severe risks' },
       { url: 'https://metr.org/common-elements', label: 'METR', tier: 'secondary', role: 'fulfillment' },
     ],
     notes: 'Mistral is a named Seoul signatory but does not appear on METR’s index of companies that have published frontier safety policies, and SaferAI rates it as having no published framework with capability thresholds. The missed ruling rests on absence from these published-framework indexes rather than a positive non-publication statement — hence contested.' },
