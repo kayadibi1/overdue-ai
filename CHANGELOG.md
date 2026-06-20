@@ -2,6 +2,16 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-19 · Verification automation
+
+Every ruling is now archived, multi-sourced, quote-pinned, and freshness-tracked — with the bookkeeping automated and the verdict still human.
+
+- **Multi-source schema (breaking).** Each commitment moved from a single `evidenceUrl`/`sourceLabel` to a `sources[]` array (obligation / fulfillment / context) carrying the verbatim promise quote. The public `commitments.json` and CSV change shape accordingly — reusers should build against `sources[]`.
+- **Daily source verification.** A scheduled GitHub Action checks link health and verbatim-quote drift on every cited source, Wayback-archives each one, flags rulings overdue for human re-review (30 days contested/unresolved, 180 settled), watches lab policy pages for new dated promises, and proposes "shipped by deadline?" fulfillment verdicts — including a Class-B pass that runs headless `claude` on the maintainer's subscription. Findings surface as deduped GitHub issues and an `⚠ under review` badge on affected rows. **No verdict is ever issued by automation — detection and bookkeeping only.**
+- **Fired triggers no longer hide.** A trigger-type promise whose condition has occurred (e.g. Anthropic's "define ASL-4 before reaching ASL-3", with ASL-3 activated 2025-05-22) now shows as **overdue** instead of a benign "pending" — the front-page overdue count reflects it.
+- **The bot can't break the build.** `verification.json` is read through a defensive runtime loader, so a malformed write degrades to "no badges" rather than failing the deploy.
+- **Methodology** now states the Met/Missed/Partial/Contested rubric and documents how the daily checks work.
+
 ## 2026-06-19 · Teal palette
 
 Recolor only — layout and type unchanged. Moving the brand off the literal Stripe blurple to a distinctive teal (none of the peer trackers use it).

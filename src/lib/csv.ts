@@ -13,7 +13,7 @@ function esc(v: unknown): string { const s = v == null ? '' : String(v); return 
 export function toCsv(rows: Commitment[]): string {
   const lines = [HEADER.join(',')];
   for (const c of rows) {
-    const base = BASE.map((k) => esc((c as Record<string, unknown>)[k]));
+    const base = BASE.map((k) => esc((c as unknown as Record<string, unknown>)[k]));
     const src: string[] = [];
     for (let i = 0; i < SOURCE_SLOTS; i++) {
       const s: Source | undefined = c.sources[i];

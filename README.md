@@ -2,7 +2,7 @@
 
 **Are frontier AI labs keeping the dated safety promises *they* made — and which are overdue right now?**
 
-A static, source-cited board of specific, dated safety promises **the labs themselves made or signed** (RSP/Preparedness/Frontier-Safety milestones, the Seoul and White House voluntary commitments). Each row shows a status (Met / Missed / Partial / Overdue / Upcoming / Pending), a **live timer** (counts up if overdue, down if upcoming), and one evidence link. Government **laws** (e.g. the EU AI Act) are tracked separately, beneath the board, as countdown-only *regulatory milestones* — never scored kept or broken.
+A static, source-cited board of specific, dated safety promises **the labs themselves made or signed** (RSP/Preparedness/Frontier-Safety milestones, the Seoul and White House voluntary commitments). Each row shows a status (Met / Missed / Partial / Overdue / Upcoming / Pending), a **live timer** (counts up if overdue, down if upcoming), and **source-cited evidence** (an obligation source carrying the verbatim promise, plus fulfillment/context sources where relevant, each Wayback-archived). Government **laws** (e.g. the EU AI Act) are tracked separately, beneath the board, as countdown-only *regulatory milestones* — never scored kept or broken.
 
 ## Why this exists
 Existing trackers cover one collective deadline (The Midas Project's Seoul Tracker) or compare policy documents (METR). None tracks *many* individual dated promises across all labs with a live overdue counter and per-row evidence. This does — honestly: rulings are judgment calls, every row is sourced, and disputable ones are flagged. Not the first accountability project; see Methodology for prior work it builds on.
@@ -24,10 +24,12 @@ Beyond the homepage card board, the site offers:
 - **Per-lab report cards** (`/labs/<slug>`) — each lab's commitments with its status counts and a kept-rate (`met ÷ resolved`, shown with the underlying counts).
 - **An explore table** (`/table`) — every commitment, sortable by any column and filterable by lab / status / text.
 - **A corrections log** (`/corrections`) — when a ruling changes or an error is fixed, it's recorded here.
-- **Open data downloads** — `/commitments.json` and `/commitments.csv`.
+- **Open data downloads** — `/commitments.json` and `/commitments.csv`. Each row carries a `sources[]` array (obligation / fulfillment / context, with the verbatim quote and a Wayback `archive_url`), replacing the former single `evidenceUrl`/`sourceLabel`.
 
 ## How it's built
 Astro (static) + TypeScript. Pure logic in `src/lib/status.ts` is imported by both the build and one client island, so server HTML and live timers never diverge. Data is a typed array in `src/data/commitments.ts`, also published as open JSON at `/commitments.json` and CSV at `/commitments.csv`.
+
+**Staying current:** a scheduled GitHub Action re-checks every cited source — link health, verbatim-quote drift (catching silent edits), Wayback archival, and ruling staleness (30 days for contested/unresolved, 180 for settled) — watches lab policy pages for new dated promises, and *proposes* (never decides) fulfillment verdicts, including a Class-B pass that runs headless `claude` on the maintainer's subscription. Anything needing a human surfaces as an `⚠ under review` badge and a GitHub issue. Machine state lives in `src/data/verification.json` (read defensively at build time, so a bad write degrades to "no badges" rather than breaking the build). **Detection and bookkeeping are automated; every Met/Missed/Partial verdict stays human.**
 
 ## Licenses
 The **code** is MIT licensed (see `LICENSE`). The **dataset** (`src/data/*`, `/commitments.json`, `/commitments.csv`) is licensed **[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)** (see `LICENSE-DATA`) — republish freely with attribution.

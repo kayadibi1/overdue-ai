@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-// @ts-expect-error — plain .mjs helper, no type declarations
 import { buildPrompt, parseVerdict } from '../scripts/lib/claude.mjs';
 
 const COMMITMENT = {
