@@ -68,8 +68,9 @@ export const COMMITMENTS: Commitment[] = [
     resolution: null, resolvedOn: null, contested: true,
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
-      { url: 'https://www.anthropic.com/news/anthropics-responsible-scaling-policy', label: 'Anthropic', tier: 'primary', role: 'obligation',
-        quote: 'define ASL-4 measures before training a model that reaches ASL-3' }, // TODO verify quote
+      { url: 'https://www-cdn.anthropic.com/1adf000c8f675958c2ee23805d91aaade1cd4613/responsible-scaling-policy.pdf', label: 'Anthropic (RSP v1.0)', tier: 'primary', role: 'obligation',
+        quote: 'define ASL-4 evaluations before we first train ASL-3 models' },
+      { url: 'https://www.anthropic.com/news/anthropics-responsible-scaling-policy', label: 'Anthropic', tier: 'primary', role: 'context' },
     ],
     notes: 'The original v1.0 trigger is documented. The trigger has since elapsed — Anthropic activated ASL-3 with Claude Opus 4 on 2025-05-22 — and v3.0 (Feb 2026) restructured away from the ASL-4 framing; whether the loosely-specified ASL-4 commitment was satisfied is genuinely disputed.' },
 
@@ -98,7 +99,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://www.anthropic.com/rsp-updates', label: 'Anthropic', tier: 'primary', role: 'obligation',
-        quote: 'regular re-assessment of model capabilities' }, // TODO verify quote
+        quote: 'regular re-assessment of model capabilities', synthesized: true }, // summary of a cadence that changed across RSP versions; no single verbatim clause
     ],
     notes: 'The interval was extended from three to six months; current policy frames Risk Reports as every 3–6 months. Whether this is a relaxation is debated.' },
 
@@ -129,8 +130,9 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     fulfillmentCheck: { type: 'changed-since', url: 'https://openai.com/index/updating-our-preparedness-framework/', by: '2026-04-15' },
     sources: [
-      { url: 'https://openai.com/index/updating-our-preparedness-framework/', label: 'OpenAI', tier: 'primary', role: 'obligation',
-        quote: 'we will review and potentially update the Preparedness Framework at least once a year' }, // TODO verify quote
+      { url: 'https://cdn.openai.com/pdf/18a02b5d-6b67-4cec-ab64-68cdfbddebcd/preparedness-framework-v2.pdf', label: 'OpenAI (Preparedness Framework v2)', tier: 'primary', role: 'obligation',
+        quote: 'review and potentially update the Preparedness Framework for continued sufficiency at least once a year' },
+      { url: 'https://openai.com/index/updating-our-preparedness-framework/', label: 'OpenAI', tier: 'primary', role: 'context' },
     ],
     notes: 'The 2026-04-15 deadline is derived from the v2 "at least once a year" annual-review cadence (Preparedness Framework v2, 2025-04-15), not an OpenAI-stated date. No 2026 Preparedness Framework review had been published as of 2026-06-18. The May 2026 Frontier Governance Framework is a separate document and does not update the Preparedness Framework.' },
 
@@ -161,8 +163,9 @@ export const COMMITMENTS: Commitment[] = [
     resolution: 'met', resolvedOn: '2025-02-04', contested: true,
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
-      { url: 'https://deepmind.google/blog/updating-the-frontier-safety-framework/', label: 'Google DeepMind', tier: 'primary', role: 'obligation',
-        quote: 'fully implemented by early 2025' }, // TODO verify quote
+      { url: 'https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/introducing-the-frontier-safety-framework/fsf-technical-report.pdf', label: 'Google DeepMind (FSF v1.0)', tier: 'primary', role: 'obligation',
+        quote: 'implemented by early 2025' },
+      { url: 'https://deepmind.google/blog/updating-the-frontier-safety-framework/', label: 'Google DeepMind', tier: 'primary', role: 'context' },
     ],
     notes: 'FSF v1.0 stated an aim to have the framework "fully implemented by early 2025"; v2.0 (2025-02-04) specified the promised protocols and capability levels. Whether publishing v2.0 fulfills a commitment to "implement" is debatable; "early 2025" encoded as a 2025-03-01 checkpoint.' },
 
@@ -218,7 +221,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration', label: 'GOV.UK', tier: 'primary', role: 'obligation',
-        quote: 'pre-deployment access for state safety institutes' }, // TODO verify quote
+        quote: 'pre-deployment access for state safety institutes', synthesized: true }, // paraphrase of the aspirational Bletchley Declaration; no verbatim clause
       { url: 'https://newsletter.safe.ai/p/ai-safety-newsletter-34-new-military', label: 'Center for AI Safety', tier: 'secondary', role: 'fulfillment' },
     ],
     notes: 'As of late April 2024, only Google DeepMind had provided the UK AISI pre-deployment access; OpenAI, Anthropic and Meta had not. Access expanded later in 2024 (e.g. a joint US/UK evaluation). The underlying Bletchley commitment was a voluntary aspiration to deepen access, not a firm dated deadline — hence partial and contested.' },
@@ -362,8 +365,9 @@ export const COMMITMENTS: Commitment[] = [
     resolution: null, resolvedOn: null, contested: true,
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
-      { url: 'https://www.anthropic.com/rsp-updates', label: 'Anthropic', tier: 'primary', role: 'obligation',
-        quote: 'Risk Reports will be published online (with some redactions) every 3–6 months' }, // TODO verify quote
+      { url: 'https://cdn.sanity.io/files/4zrzovbb/website/c11e84981d0a7281a1b229f3fa6af0da66eaf43f.pdf', label: 'Anthropic (RSP v3.3)', tier: 'primary', role: 'obligation',
+        quote: 'publish a Risk Report every 3-6 months' },
+      { url: 'https://www.anthropic.com/rsp-updates', label: 'Anthropic', tier: 'primary', role: 'context' },
     ],
     notes: 'Cadence derived from the RSP v3.0 clause "Risk Reports will be published online (with some redactions) every 3–6 months." Six-month outer bound from the 2026-02-24 report gives ~2026-08-24 (a derived next-date, not a lab-stated one).' },
 
@@ -378,8 +382,9 @@ export const COMMITMENTS: Commitment[] = [
     resolution: null, resolvedOn: null, contested: true,
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
-      { url: 'https://www.anthropic.com/rsp-updates', label: 'Anthropic', tier: 'primary', role: 'obligation',
-        quote: 'annual third-party review of compliance with its main procedural commitments' }, // TODO verify quote
+      { url: 'https://cdn.sanity.io/files/4zrzovbb/website/c11e84981d0a7281a1b229f3fa6af0da66eaf43f.pdf', label: 'Anthropic (RSP v3.3)', tier: 'primary', role: 'obligation',
+        quote: 'commission a third-party review that assesses whether we adhered to this policy' },
+      { url: 'https://www.anthropic.com/rsp-updates', label: 'Anthropic', tier: 'primary', role: 'context' },
     ],
     notes: 'Cadence derived from the RSP v3.0 commitment to an annual third-party procedural-compliance review; next-due ~2027-02-24 (one year from the v3.0 effective date, a derived date rather than a lab-stated one).' },
 
