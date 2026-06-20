@@ -115,7 +115,8 @@
         {
           "url": "https://cdn.openai.com/pdf/18a02b5d-6b67-4cec-ab64-68cdfbddebcd/preparedness-framework-v2.pdf",
           "linkOk": true,
-          "quoteCheck": "ok"
+          "quoteCheck": "ok",
+          "archiveUrl": "http://web.archive.org/web/20260616170222/https://cdn.openai.com/pdf/18a02b5d-6b67-4cec-ab64-68cdfbddebcd/preparedness-framework-v2.pdf"
         },
         {
           "url": "https://openai.com/index/updating-our-preparedness-framework/",
@@ -130,8 +131,8 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 framework update that originally made the annual-review commitment, not evidence of a subsequent review conducted by the 2026-04-15 trigger; its content describes only the 2025 update with no 2026 review documented.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ (dated April 15, 2025)",
+          "rationale": "The artifact is the April 15, 2025 v2 framework publication that established the 'at least once a year' cadence itself — it is the source of the commitment, not evidence of a subsequent annual review conducted by the derived 2026-04-15 deadline.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
       ]
