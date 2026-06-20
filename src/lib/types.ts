@@ -29,6 +29,7 @@ export interface Source {
   tier: SourceTier;
   role: SourceRole;
   quote?: string;        // REQUIRED when role === 'obligation' (enforced by invariants, not the type)
+  synthesized?: boolean; // true = paraphrased obligation; exempt from quote-drift checking (link health still applies)
 }
 
 export interface FulfillmentCheck {

@@ -36,6 +36,7 @@ if (c.deadline && (status === 'overdue' || status === 'upcoming')) {
 }
 const asOf = c.reviewedOn ?? DATA_AS_OF;
 const obligationQuote = primarySource(c).quote;
+const obligationSynthesized = primarySource(c).synthesized;
 const underReview = isUnderReview(c.id);
 ---
 <article class={`card card--${status}`} id={`commitment-${c.id}`} data-lab={c.lab} data-status={status}
@@ -88,6 +89,6 @@ const underReview = isUnderReview(c.id);
     })}</span>
     <span class="card__asof"> · auto-checked daily · reviewed {asOf}</span>
   </div>
-  {obligationQuote && <details class="card__quote"><summary>Committed text</summary><blockquote>“{obligationQuote}”</blockquote></details>}
+  {obligationQuote && <details class="card__quote"><summary>{obligationSynthesized ? 'Obligation (summarized)' : 'Committed text'}</summary><blockquote>“{obligationQuote}”</blockquote></details>}
   {c.notes && <details class="card__why"><summary>Why this ruling</summary><p>{c.notes}</p></details>}
 </article>

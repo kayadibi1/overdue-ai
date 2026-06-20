@@ -12,7 +12,8 @@
     "adjudicate": "node scripts/adjudicate.mjs"
   },
   "dependencies": {
-    "astro": "^5.14.4"
+    "astro": "^5.14.4",
+    "unpdf": "^1.6.2"
   },
   "devDependencies": {
     "@types/node": "^22.19.21",

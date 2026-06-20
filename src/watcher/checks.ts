@@ -25,13 +25,17 @@ export async function runChecks(
       const prevSrc = prev[c.id]?.sources.find((p) => p.url === s.url);
       const r = await fetchFn(s.url);
       const linkOk = r.text != null;
-      let quoteCheck: 'ok' | 'inconclusive' | 'drifted' = 'ok';
+      let quoteCheck: 'ok' | 'inconclusive' | 'drifted' | 'n/a' = 'ok';
       if (r.dead) {
+        // link health is independent of quote-drift: a synthesized source that's ALSO dead still flags here
         problems.push(`dead link (404): ${s.url}`);
-        quoteCheck = 'inconclusive';
+        quoteCheck = s.synthesized ? 'n/a' : 'inconclusive';
       } else if (!linkOk) {
         // blocked / unreachable — could not verify, NOT a problem (no under-review flag)
-        quoteCheck = 'inconclusive';
+        quoteCheck = s.synthesized ? 'n/a' : 'inconclusive';
+      } else if (s.synthesized) {
+        // paraphrased obligation: exempt from quote-drift checking — skip classifyQuote, never a quote problem
+        quoteCheck = 'n/a';
       } else if (s.role === 'obligation' && s.quote && r.text != null) {
         quoteCheck = classifyQuote(extractText(r.text), s.quote, prevSrc?.quoteCheck === 'ok');
         if (quoteCheck === 'drifted') problems.push(`quote drifted: ${s.url}`);
