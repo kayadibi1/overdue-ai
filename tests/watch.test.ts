@@ -72,4 +72,9 @@ describe('issueMarker', () => {
     expect(issueMarker('src', 'anthropic-rsp')).toBe('<!-- watcher:src:anthropic-rsp -->');
     expect(issueMarker('deadline', 'openai-x')).toBe('<!-- watcher:deadline:openai-x -->');
   });
+  it('supports the verification kinds', () => {
+    expect(issueMarker('source', 'x')).toBe('<!-- watcher:source:x -->');
+    expect(issueMarker('stale', 'y')).toBe('<!-- watcher:stale:y -->');
+    expect(issueMarker('fulfillment', 'z')).toBe('<!-- watcher:fulfillment:z -->');
+  });
 });

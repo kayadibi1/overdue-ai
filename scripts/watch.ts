@@ -5,7 +5,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { extractText, hashText, diffSummary, isMeaningfulChange, dueDeadlines, issueMarker } from '../src/watcher/core';
+import { extractText, hashText, diffSummary, isMeaningfulChange, dueDeadlines, issueMarker, fetchHtml } from '../src/watcher/core';
 import { computeStatus } from '../src/lib/status';
 import { primarySource } from '../src/lib/sources';
 import { COMMITMENTS } from '../src/data/commitments';
@@ -30,25 +30,11 @@ interface Planned { marker: string; title: string; body: string; }
 const planned: Planned[] = [];
 const pendingSnapshots = new Map<string, string>(); // flushed to disk only after all issues succeed
 
-async function fetchText(url: string): Promise<string | null> {
-  for (let attempt = 0; attempt < 2; attempt++) {
-    try {
-      const res = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(15000), headers: { 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', accept: 'text/html' } });
-      if (!res.ok) { if (res.status >= 500 && attempt === 0) continue; return null; }
-      if (Number(res.headers.get('content-length') ?? '0') > 2_000_000) return null; // reject oversized early when advertised
-      const buf = await res.arrayBuffer();
-      if (buf.byteLength > 2_000_000) return null;                                     // hard cap if length absent/wrong
-      return new TextDecoder().decode(buf);
-    } catch { if (attempt === 0) continue; return null; }
-  }
-  return null;
-}
-
 function snapPath(id: string) { return W(`.watcher/snapshots/${id}.txt`); }
 
 async function checkSources() {
   for (const w of watchlist) {
-    const html = await fetchText(w.url);
+    const html = await fetchHtml(w.url);
     if (html == null) { console.warn(`skip (fetch failed): ${w.id}`); continue; }
     const text = extractText(html, w.stripSelectors).slice(0, 100_000); // 100 KB cap
     const hash = hashText(text);
