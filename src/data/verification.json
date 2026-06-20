@@ -1,1 +1,463 @@
-{ "rows": {} }
+{
+  "rows": {
+    "xai-updated-policy-2025": {
+      "sources": [
+        {
+          "url": "https://x.ai/documents/2025.02.20-RMF-Draft.pdf",
+          "linkOk": true,
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260429031103/https://x.ai/documents/2025.02.20-RMF-Draft.pdf"
+        },
+        {
+          "url": "https://techcrunch.com/2025/05/13/xais-promised-safety-report-is-mia/",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "meta-frontier-framework-seoul": {
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
+          "linkOk": true,
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260613085944/https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024"
+        },
+        {
+          "url": "https://about.fb.com/news/2025/02/meta-approach-frontier-ai/",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "openai-superalignment-compute": {
+      "sources": [
+        {
+          "url": "https://openai.com/index/introducing-superalignment/",
+          "linkOk": true,
+          "quoteCheck": "ok",
+          "archiveUrl": "http://web.archive.org/web/20260608105430/https://openai.com/index/introducing-superalignment/"
+        },
+        {
+          "url": "https://fortune.com/2024/05/21/openai-superalignment-20-compute-commitment-never-fulfilled-sutskever-leike-altman-brockman-murati/",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "anthropic-asl4-before-asl3": {
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "anthropic-rsp-v1": {
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "anthropic-eval-cadence": {
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/rsp-updates",
+          "linkOk": true,
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260220175916/https://www.anthropic.com/rsp-updates"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "anthropic-ltbt-majority": {
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/news/the-long-term-benefit-trust",
+          "linkOk": true,
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260615165835/https://www.anthropic.com/news/the-long-term-benefit-trust"
+        },
+        {
+          "url": "https://www.anthropic.com/news/narasimhan-board",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "openai-preparedness-annual-review": {
+      "sources": [
+        {
+          "url": "https://openai.com/index/updating-our-preparedness-framework/",
+          "linkOk": true,
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260520152355/https://openai.com/index/updating-our-preparedness-framework/"
+        }
+      ],
+      "problems": [
+        "Class-B adjudication unavailable — needs manual adjudication"
+      ],
+      "lastChangedOn": "2026-06-20",
+      "proposals": []
+    },
+    "openai-ssc-90-days": {
+      "sources": [
+        {
+          "url": "https://openai.com/index/update-on-safety-and-security-practices/",
+          "linkOk": true,
+          "quoteCheck": "inconclusive",
+          "archiveUrl": "http://web.archive.org/web/20260602131121/https://openai.com/index/update-on-safety-and-security-practices/"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "deepmind-fsf-early-2025": {
+      "sources": [
+        {
+          "url": "https://deepmind.google/blog/updating-the-frontier-safety-framework/",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "deepmind-fsf-eval-cadence": {
+      "sources": [
+        {
+          "url": "https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/introducing-the-frontier-safety-framework/fsf-technical-report.pdf",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "wh-voluntary-redteam-2023": {
+      "sources": [
+        {
+          "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "nist-aisi-mou-2024": {
+      "sources": [
+        {
+          "url": "https://www.nist.gov/news-events/news/2024/08/us-ai-safety-institute-signs-agreements-regarding-ai-safety-research",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "uk-aisi-predeployment": {
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        },
+        {
+          "url": "https://newsletter.safe.ai/p/ai-safety-newsletter-34-new-military",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "eu-gpai-cop-finalized": {
+      "sources": [
+        {
+          "url": "https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "eu-aia-gpai-apply-2025": {
+      "sources": [
+        {
+          "url": "https://artificialintelligenceact.eu/article/113/",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "microsoft-frontier-governance-v1": {
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        },
+        {
+          "url": "https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/final/en-us/microsoft-brand/documents/Microsoft-Frontier-Governance-Framework.pdf",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "anthropic-rsp-v3": {
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/rsp-updates",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "anthropic-sabotage-reports": {
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/rsp-updates",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "anthropic-asl3-opus4": {
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/news/activating-asl3-protections",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "anthropic-interpretability-2027": {
+      "sources": [
+        {
+          "url": "https://www.darioamodei.com/post/the-urgency-of-interpretability",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "seoul-frameworks-by-paris": {
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "wh-voluntary-watermarking-2023": {
+      "sources": [
+        {
+          "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "anthropic-risk-report-next": {
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/rsp-updates",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "anthropic-annual-procedural-review": {
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/rsp-updates",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "eu-aia-highrisk-annex3": {
+      "sources": [
+        {
+          "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
+          "linkOk": false,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [
+        "dead link: https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules"
+      ],
+      "lastChangedOn": "2026-06-20"
+    },
+    "eu-aia-highrisk-annex1": {
+      "sources": [
+        {
+          "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
+          "linkOk": false,
+          "quoteCheck": "inconclusive"
+        }
+      ],
+      "problems": [
+        "dead link: https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules"
+      ],
+      "lastChangedOn": "2026-06-20"
+    },
+    "eu-aia-gpai-legacy-2027": {
+      "sources": [
+        {
+          "url": "https://artificialintelligenceact.eu/article/111/",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "eu-aia-commission-eval-2028": {
+      "sources": [
+        {
+          "url": "https://artificialintelligenceact.eu/article/112/",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "amazon-frontier-framework-seoul": {
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        },
+        {
+          "url": "https://www.amazon.science/publications/amazons-frontier-model-safety-framework",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "xai-frontier-framework-seoul": {
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        },
+        {
+          "url": "https://www.themidasproject.com/article-list/xai-misses-a-second-self-imposed-deadline-to-implement-a-frontier-safety-policy",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "mistral-frontier-framework-seoul": {
+      "sources": [
+        {
+          "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        },
+        {
+          "url": "https://metr.org/common-elements",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "wh-voluntary-weight-security-2023": {
+      "sources": [
+        {
+          "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        },
+        {
+          "url": "https://arxiv.org/abs/2508.08345",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "wh-voluntary-vuln-reporting-2023": {
+      "sources": [
+        {
+          "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        },
+        {
+          "url": "https://arxiv.org/abs/2508.08345",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    },
+    "wh-voluntary-capability-reporting-2023": {
+      "sources": [
+        {
+          "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
+          "linkOk": true,
+          "quoteCheck": "inconclusive"
+        },
+        {
+          "url": "https://arxiv.org/abs/2508.08345",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        }
+      ],
+      "problems": [],
+      "lastChangedOn": "2026-06-20"
+    }
+  }
+}
