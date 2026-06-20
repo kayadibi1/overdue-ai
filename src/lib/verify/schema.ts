@@ -1,7 +1,7 @@
 export interface SourceState {
   url: string;
   linkOk: boolean;
-  quoteCheck: 'ok' | 'inconclusive' | 'drifted';
+  quoteCheck: 'ok' | 'inconclusive' | 'drifted' | 'n/a';
   archiveUrl?: string;
 }
 export interface RowState {
@@ -28,7 +28,7 @@ export function parseVerification(raw: unknown): VerificationState {
         if (!s || typeof s !== 'object') return { rows: {} };
         const so = s as Record<string, unknown>;
         if (typeof so.url !== 'string' || typeof so.linkOk !== 'boolean') return { rows: {} };
-        if (so.quoteCheck !== 'ok' && so.quoteCheck !== 'inconclusive' && so.quoteCheck !== 'drifted') return { rows: {} };
+        if (so.quoteCheck !== 'ok' && so.quoteCheck !== 'inconclusive' && so.quoteCheck !== 'drifted' && so.quoteCheck !== 'n/a') return { rows: {} };
         sources.push({ url: so.url, linkOk: so.linkOk, quoteCheck: so.quoteCheck,
           archiveUrl: typeof so.archiveUrl === 'string' ? so.archiveUrl : undefined });
       }

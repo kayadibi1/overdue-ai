@@ -12,6 +12,24 @@ describe('parseVerification (defensive core)', () => {
     expect(parseVerification({ rows: { a: { sources: [{ url: 1 }], problems: [] } } })).toEqual({ rows: {} });
   });
 
+  it("preserves a row whose source has quoteCheck:'n/a' (synthesized exemption)", () => {
+    const valid = {
+      rows: {
+        x: {
+          sources: [{ url: 'u', linkOk: true, quoteCheck: 'n/a' }],
+          problems: [],
+        },
+      },
+    };
+    const out = parseVerification(valid);
+    expect(out.rows.x).toBeDefined();
+    expect(out.rows.x.sources).toEqual([{ url: 'u', linkOk: true, quoteCheck: 'n/a', archiveUrl: undefined }]);
+  });
+
+  it("rejects an invalid quoteCheck value → {rows:{}}", () => {
+    expect(parseVerification({ rows: { a: { sources: [{ url: 'u', linkOk: true, quoteCheck: 'maybe' }], problems: [] } } })).toEqual({ rows: {} });
+  });
+
   it('preserves a valid object round-trip', () => {
     const valid = {
       rows: {
