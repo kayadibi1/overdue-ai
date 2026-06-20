@@ -37,7 +37,10 @@ export function runClaude(prompt, { timeoutMs = 120_000 } = {}) {
     const env = { ...process.env };
     delete env.ANTHROPIC_API_KEY;     // both outrank CLAUDE_CODE_OAUTH_TOKEN in precedence — strip so the SUB pays
     delete env.ANTHROPIC_AUTH_TOKEN;
-    const child = spawn('claude', ['-p', prompt, '--output-format', 'json', '--dangerously-skip-permissions'], { env });
+    // stdio[0]='ignore' redirects the child's stdin to /dev/null — otherwise `claude`
+    // waits ~forever for piped stdin (we pass the prompt as a -p arg, not via stdin).
+    const child = spawn('claude', ['-p', prompt, '--output-format', 'json', '--dangerously-skip-permissions'],
+      { env, stdio: ['ignore', 'pipe', 'pipe'] });
     let out = '', err = '';
     const tail = () => (err || out || '').replace(/\s+/g, ' ').trim().slice(-600);
     const timer = setTimeout(() => { try { child.kill('SIGKILL'); } catch {} resolve({ ok: false, reason: 'timeout', detail: tail() }); }, timeoutMs);
