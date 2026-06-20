@@ -39,14 +39,15 @@ export function runClaude(prompt, { timeoutMs = 120_000 } = {}) {
     delete env.ANTHROPIC_AUTH_TOKEN;
     const child = spawn('claude', ['-p', prompt, '--output-format', 'json', '--dangerously-skip-permissions'], { env });
     let out = '', err = '';
-    const timer = setTimeout(() => { try { child.kill('SIGKILL'); } catch {} resolve({ ok: false, reason: 'timeout' }); }, timeoutMs);
+    const tail = () => (err || out || '').replace(/\s+/g, ' ').trim().slice(-600);
+    const timer = setTimeout(() => { try { child.kill('SIGKILL'); } catch {} resolve({ ok: false, reason: 'timeout', detail: tail() }); }, timeoutMs);
     child.stdout.on('data', (d) => { out += d; });
     child.stderr.on('data', (d) => { err += d; });
-    child.on('error', () => { clearTimeout(timer); resolve({ ok: false, reason: 'spawn-error' }); });
+    child.on('error', (e) => { clearTimeout(timer); resolve({ ok: false, reason: 'spawn-error', detail: String(e) }); });
     child.on('close', (code) => {
       clearTimeout(timer);
       if (code !== 0 || /authentication_failed|401|invalid.*token/i.test(out + err))
-        return resolve({ ok: false, reason: `exit-${code}` });
+        return resolve({ ok: false, reason: `exit-${code}`, detail: tail() });
       resolve({ ok: true, raw: out });
     });
   });

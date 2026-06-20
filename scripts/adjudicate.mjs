@@ -113,6 +113,7 @@ async function main() {
     const r = await runClaude(prompt);
     if (!r.ok) {
       console.log(`[${c.id}] claude failed (${r.reason}) — problem flagged`);
+      if (r.detail) console.log(`[${c.id}] claude detail: ${r.detail}`);
       pushProblem(rows, c.id);
       continue;
     }
