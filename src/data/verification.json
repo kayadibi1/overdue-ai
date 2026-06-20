@@ -5,7 +5,7 @@
         {
           "url": "https://x.ai/documents/2025.02.20-RMF-Draft.pdf",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260429031103/https://x.ai/documents/2025.02.20-RMF-Draft.pdf"
         },
         {
@@ -130,8 +130,8 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is OpenAI's April 15, 2025 framework update that established the 'at least once a year' review commitment, not evidence of a subsequent annual review occurring by the 2026-04-15 trigger.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
+          "rationale": "The artifact is the April 15, 2025 framework update that originally made the annual-review commitment, not evidence of a subsequent review conducted by the 2026-04-15 trigger; its content describes only the 2025 update with no 2026 review documented.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ (dated April 15, 2025)",
           "via": "archive"
         }
       ]
@@ -171,7 +171,7 @@
         {
           "url": "https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/introducing-the-frontier-safety-framework/fsf-technical-report.pdf",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "n/a",
           "archiveUrl": "http://web.archive.org/web/20260616170618/https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/introducing-the-frontier-safety-framework/fsf-technical-report.pdf"
         }
       ],
@@ -275,7 +275,7 @@
         {
           "url": "https://www.anthropic.com/rsp-updates",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "n/a",
           "archiveUrl": "http://web.archive.org/web/20260220175916/https://www.anthropic.com/rsp-updates"
         }
       ],
@@ -287,7 +287,7 @@
         {
           "url": "https://www.anthropic.com/news/activating-asl3-protections",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260618165831/https://www.anthropic.com/news/activating-asl3-protections"
         }
       ],
@@ -466,7 +466,7 @@
         {
           "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260604163547/https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf"
         },
         {
@@ -483,7 +483,7 @@
         {
           "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260604163547/https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf"
         },
         {
