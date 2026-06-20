@@ -15,6 +15,7 @@ on:
 permissions:
   contents: write
   issues: write
+  actions: write   # to explicitly dispatch the deploy after a badge refresh
 
 concurrency:
   group: verify-sources-main
@@ -67,17 +68,22 @@ jobs:
             echo "no watcher state change"
           fi
 
-      #  - src/data/verification.json is committed WITHOUT [skip ci] only when it
-      #    changed, so it deliberately triggers the deploys to refresh the badges.
-      - name: Commit verification badges (refresh deploy)
+      #  - src/data/verification.json is committed when it changed, then we EXPLICITLY
+      #    dispatch the deploys to refresh badges. (We can't rely on the push-trigger:
+      #    the preceding watcher [skip ci] commit suppresses CI for the same push.)
+      - name: Commit verification badges + dispatch deploy
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if ! git diff --quiet src/data/verification.json; then
             git config user.name 'overdue-watcher'
             git config user.email 'actions@github.com'
             git add src/data/verification.json
-            git commit -m 'chore(verify): refresh verification badges'
+            git commit -m 'chore(verify): refresh verification badges [skip ci]'
             git pull --rebase origin main || true
             git push origin HEAD:main || (git pull --rebase origin main && git push origin HEAD:main)
+            gh workflow run deploy-newbox.yml || echo "newbox dispatch failed"
+            gh workflow run deploy.yml || echo "pages dispatch failed"
           else
             echo "no verification change"
           fi
