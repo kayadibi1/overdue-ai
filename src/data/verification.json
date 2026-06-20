@@ -22,7 +22,7 @@
         {
           "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260613085944/https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024"
         },
         {
@@ -54,9 +54,15 @@
     "anthropic-asl4-before-asl3": {
       "sources": [
         {
+          "url": "https://www-cdn.anthropic.com/1adf000c8f675958c2ee23805d91aaade1cd4613/responsible-scaling-policy.pdf",
+          "linkOk": true,
+          "quoteCheck": "ok",
+          "archiveUrl": "http://web.archive.org/web/20260616170620/https://www-cdn.anthropic.com/1adf000c8f675958c2ee23805d91aaade1cd4613/responsible-scaling-policy.pdf"
+        },
+        {
           "url": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260616171234/https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
         }
       ],
@@ -80,7 +86,7 @@
         {
           "url": "https://www.anthropic.com/rsp-updates",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "n/a",
           "archiveUrl": "http://web.archive.org/web/20260220175916/https://www.anthropic.com/rsp-updates"
         }
       ],
@@ -92,7 +98,7 @@
         {
           "url": "https://www.anthropic.com/news/the-long-term-benefit-trust",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260615165835/https://www.anthropic.com/news/the-long-term-benefit-trust"
         },
         {
@@ -107,9 +113,14 @@
     "openai-preparedness-annual-review": {
       "sources": [
         {
+          "url": "https://cdn.openai.com/pdf/18a02b5d-6b67-4cec-ab64-68cdfbddebcd/preparedness-framework-v2.pdf",
+          "linkOk": true,
+          "quoteCheck": "ok"
+        },
+        {
           "url": "https://openai.com/index/updating-our-preparedness-framework/",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260520152355/https://openai.com/index/updating-our-preparedness-framework/"
         }
       ],
@@ -119,7 +130,7 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 v2 Preparedness Framework publication that established the 'at least once a year' commitment itself — it shows no subsequent review or update performed by the 2026-04-15 annual deadline.",
+          "rationale": "The artifact is OpenAI's April 15, 2025 framework update that established the 'at least once a year' review commitment, not evidence of a subsequent annual review occurring by the 2026-04-15 trigger.",
           "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
@@ -130,7 +141,7 @@
         {
           "url": "https://openai.com/index/update-on-safety-and-security-practices/",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260602131121/https://openai.com/index/update-on-safety-and-security-practices/"
         }
       ],
@@ -140,9 +151,15 @@
     "deepmind-fsf-early-2025": {
       "sources": [
         {
+          "url": "https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/introducing-the-frontier-safety-framework/fsf-technical-report.pdf",
+          "linkOk": true,
+          "quoteCheck": "ok",
+          "archiveUrl": "http://web.archive.org/web/20260616170618/https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/introducing-the-frontier-safety-framework/fsf-technical-report.pdf"
+        },
+        {
           "url": "https://deepmind.google/blog/updating-the-frontier-safety-framework/",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260509182004/https://deepmind.google/blog/updating-the-frontier-safety-framework/"
         }
       ],
@@ -166,7 +183,7 @@
         {
           "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260604163547/https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf"
         }
       ],
@@ -178,7 +195,7 @@
         {
           "url": "https://www.nist.gov/news-events/news/2024/08/us-ai-safety-institute-signs-agreements-regarding-ai-safety-research",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260616223537/https://www.nist.gov/news-events/news/2024/08/us-ai-safety-institute-signs-agreements-regarding-ai-safety-research"
         }
       ],
@@ -190,7 +207,7 @@
         {
           "url": "https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "n/a",
           "archiveUrl": "http://web.archive.org/web/20260520005629/https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration"
         },
         {
@@ -229,7 +246,7 @@
         {
           "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260613085944/https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024"
         },
         {
@@ -282,7 +299,7 @@
         {
           "url": "https://www.darioamodei.com/post/the-urgency-of-interpretability",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260613100720/https://darioamodei.com/post/the-urgency-of-interpretability"
         }
       ],
@@ -294,7 +311,7 @@
         {
           "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260613085944/https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024"
         }
       ],
@@ -306,7 +323,7 @@
         {
           "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260604163547/https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf"
         }
       ],
@@ -316,9 +333,15 @@
     "anthropic-risk-report-next": {
       "sources": [
         {
+          "url": "https://cdn.sanity.io/files/4zrzovbb/website/c11e84981d0a7281a1b229f3fa6af0da66eaf43f.pdf",
+          "linkOk": true,
+          "quoteCheck": "ok",
+          "archiveUrl": "http://web.archive.org/web/20260616170618/https://cdn.sanity.io/files/4zrzovbb/website/c11e84981d0a7281a1b229f3fa6af0da66eaf43f.pdf"
+        },
+        {
           "url": "https://www.anthropic.com/rsp-updates",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260220175916/https://www.anthropic.com/rsp-updates"
         }
       ],
@@ -328,9 +351,15 @@
     "anthropic-annual-procedural-review": {
       "sources": [
         {
+          "url": "https://cdn.sanity.io/files/4zrzovbb/website/c11e84981d0a7281a1b229f3fa6af0da66eaf43f.pdf",
+          "linkOk": true,
+          "quoteCheck": "ok",
+          "archiveUrl": "http://web.archive.org/web/20260616170618/https://cdn.sanity.io/files/4zrzovbb/website/c11e84981d0a7281a1b229f3fa6af0da66eaf43f.pdf"
+        },
+        {
           "url": "https://www.anthropic.com/rsp-updates",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260220175916/https://www.anthropic.com/rsp-updates"
         }
       ],
@@ -341,8 +370,8 @@
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": false,
-          "quoteCheck": "inconclusive"
+          "linkOk": true,
+          "quoteCheck": "ok"
         }
       ],
       "problems": [],
@@ -352,8 +381,8 @@
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": false,
-          "quoteCheck": "inconclusive"
+          "linkOk": true,
+          "quoteCheck": "ok"
         }
       ],
       "problems": [],
@@ -386,7 +415,7 @@
         {
           "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260613085944/https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024"
         },
         {
@@ -403,7 +432,7 @@
         {
           "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260613085944/https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024"
         },
         {
@@ -420,7 +449,7 @@
         {
           "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260613085944/https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024"
         },
         {
@@ -471,7 +500,7 @@
         {
           "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf",
           "linkOk": true,
-          "quoteCheck": "inconclusive",
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260604163547/https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf"
         },
         {
