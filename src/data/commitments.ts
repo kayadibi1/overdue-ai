@@ -22,7 +22,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://x.ai/documents/2025.02.20-RMF-Draft.pdf', label: 'xAI', tier: 'primary', role: 'obligation',
-        quote: 'release an updated version of the policy within three months' }, // TODO verify quote
+        quote: 'release an updated version of this policy within three months' },
       { url: 'https://techcrunch.com/2025/05/13/xais-promised-safety-report-is-mia/', label: 'TechCrunch', tier: 'secondary', role: 'fulfillment' },
     ],
     notes: 'No updated policy was published by the ~2025-05-10 deadline; xAI published an updated Risk Management Framework on 2025-08-20, about three months late.' },
@@ -179,7 +179,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/introducing-the-frontier-safety-framework/fsf-technical-report.pdf', label: 'Google DeepMind', tier: 'primary', role: 'obligation',
-        quote: 'every 6x increase in effective compute and every three months of fine-tuning' }, // TODO verify quote
+        quote: 'every 6x increase in effective compute and every three months of fine-tuning', synthesized: true }, // FSF v1.0 cadence; v2.0 replaced the specific numbers — no stable verbatim clause
     ],
     notes: 'This 6x / 3-month wording is v1.0 language; FSF v2.0 (2025) replaced the specific numbers with more flexible criteria.' },
 
@@ -292,7 +292,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://www.anthropic.com/rsp-updates', label: 'Anthropic', tier: 'primary', role: 'obligation',
-        quote: 'publish sabotage risk reports for future frontier models' }, // TODO verify quote
+        quote: 'publish sabotage risk reports for future frontier models', synthesized: true }, // commitment stated at the Opus 4.5 launch; no single verbatim public clause
     ],
     notes: 'Commitment made at the Opus 4.5 launch; first report fulfilling it covered Opus 4.6 (2026-02-10).' },
 
@@ -306,7 +306,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://www.anthropic.com/news/activating-asl3-protections', label: 'Anthropic', tier: 'primary', role: 'obligation',
-        quote: 'apply ASL-3 Security and Deployment Standards' }, // TODO verify quote
+        quote: 'The ASL-3 Security Standard involves increased internal security measures' },
     ],
     notes: 'Claude Opus 4 was the first Anthropic model deployed under ASL-3; Anthropic applied the standard as a precautionary measure without definitively determining the threshold had been crossed.' },
 
@@ -501,7 +501,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-19',
     sources: [
       { url: 'https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf', label: 'The White House (archive)', tier: 'primary', role: 'obligation',
-        quote: 'safeguarding unreleased model weights' }, // TODO verify quote
+        quote: 'protect proprietary and unreleased model weights' },
       { url: 'https://arxiv.org/abs/2508.08345', label: 'Wang, Huang, Klyman & Bommasani (AIES 2025)', tier: 'secondary', role: 'fulfillment' },
     ],
     notes: 'Assessed against public disclosures through 2024-12-31 in the Stanford-affiliated study “Do AI Companies Make Good on Voluntary Commitments to the White House?” — the lowest-scoring commitment, with 11 of 16 companies scoring 0%. Corroborated by RAND’s “Securing AI Model Weights” (2024). Scored as broadly missed across signatories. (The commitment was first signed by 7 companies on 2023-07-21; later cohorts — Sept 2023 and 2024 — brought the study’s assessed set to 16.)' },
@@ -516,7 +516,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-19',
     sources: [
       { url: 'https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf', label: 'The White House (archive)', tier: 'primary', role: 'obligation',
-        quote: 'incentivize third-party discovery and reporting of issues and vulnerabilities' }, // TODO verify quote
+        quote: 'third-party discovery and reporting of issues and vulnerabilities' },
       { url: 'https://arxiv.org/abs/2508.08345', label: 'Wang, Huang, Klyman & Bommasani (AIES 2025)', tier: 'secondary', role: 'fulfillment' },
     ],
     notes: 'The 2025 study (disclosures through 2024-12-31) scored this second-lowest, with 8 of 16 companies at 0%. Frontier labs do run AI bug bounties (OpenAI, Anthropic, Microsoft, Google), but coverage is uneven across signatories — recorded as partial.' },
