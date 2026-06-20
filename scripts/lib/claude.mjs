@@ -36,6 +36,7 @@ export function runClaude(prompt, { timeoutMs = 120_000 } = {}) {
   return new Promise((resolve) => {
     const env = { ...process.env };
     if (env.CLAUDE_CODE_OAUTH_TOKEN) {
+      env.CLAUDE_CODE_OAUTH_TOKEN = env.CLAUDE_CODE_OAUTH_TOKEN.trim();   // strip stray newline/space from the secret (a real 401 cause)
       // Subscription mode: the API-key vars outrank the OAuth token in precedence, so
       // strip them — otherwise an accidentally-set key would bill the metered API.
       delete env.ANTHROPIC_API_KEY;
