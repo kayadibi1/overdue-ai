@@ -69,4 +69,33 @@ describe('runChecks', () => {
     expect(rows.x.sources[0].archiveUrl).toBe('https://web.archive.org/x');
     expect(rows.x.lastChangedOn).toBe('2026-01-01');
   });
+
+  it('unresolved row with url-exists fulfillmentCheck + absent artifact past deadline → "missed" proposal + fulfillment issue', async () => {
+    const row = c({
+      resolution: null,
+      fulfillmentCheck: { type: 'url-exists', url: 'u', by: '2020-01-01' },
+    });
+    const { issues, rows } = await runChecks([row], {}, NOW, deadLink); // deadLink returns null → artifact absent
+    expect(rows.x.proposals).toEqual([
+      { kind: 'class-A', status: 'missed', evidence: 'no artifact at u by 2020-01-01' },
+    ]);
+    const fi = issues.find((i) => i.marker === '<!-- watcher:fulfillment:x -->');
+    expect(fi).toBeDefined();
+    expect(fi!.title).toBe('Fulfillment proposal: t');
+    expect(fi!.body).toContain('missed');
+    expect(fi!.body).toContain('no artifact at u by 2020-01-01');
+    expect(fi!.body).toContain('automation never rules');
+    // a proposal is NOT a problem
+    expect(rows.x.problems).not.toContain('no artifact at u by 2020-01-01');
+  });
+
+  it('resolved row (resolution:"met") with a fulfillmentCheck → NO proposal (resolution short-circuits)', async () => {
+    const row = c({
+      resolution: 'met',
+      fulfillmentCheck: { type: 'url-exists', url: 'u', by: '2020-01-01' },
+    });
+    const { issues, rows } = await runChecks([row], {}, NOW, deadLink);
+    expect(rows.x.proposals).toBeUndefined();
+    expect(issues.find((i) => i.marker === '<!-- watcher:fulfillment:x -->')).toBeUndefined();
+  });
 });

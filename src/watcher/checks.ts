@@ -4,6 +4,7 @@ import { extractText, issueMarker } from './core';
 import { classifyQuote } from '../lib/verify/classify';
 import { isStale } from '../lib/verify/staleness';
 import { checkInvariants } from '../lib/verify/invariants';
+import { proposeFulfillment } from '../lib/verify/fulfillment';
 
 export interface PlannedIssue { marker: string; title: string; body: string; }
 export type FetchFn = (url: string) => Promise<string | null>;
@@ -36,6 +37,30 @@ export async function runChecks(
     if (isStale(c, now)) problems.push(`ruling not reviewed since ${c.reviewedOn ?? 'never'} — re-review due`);
     for (const p of checkInvariants(c)) problems.push(`invariant ${p.rule}: ${p.detail}`);
     rows[c.id] = { sources, problems, lastChangedOn: prev[c.id]?.lastChangedOn };
+
+    // Class-A deterministic fulfillment: only for UNRESOLVED rows with a machine-checkable check.
+    // A human still rules — we only PROPOSE met/missed; resolution is never set here.
+    if (c.resolution === null && c.fulfillmentCheck && c.fulfillmentCheck.type !== 'changed-since') {
+      const fc = c.fulfillmentCheck;
+      let artifactFound = false;
+      const html = await fetchFn(fc.url);
+      if (fc.type === 'url-exists') {
+        artifactFound = html != null;
+      } else if (fc.type === 'page-contains') {
+        artifactFound = html != null && extractText(html).toLowerCase().includes((fc.pattern ?? '').toLowerCase());
+      }
+      const proposal = proposeFulfillment(fc, { artifactFound }, now); // foundOn unknown → undefined
+      if (proposal) {
+        rows[c.id].proposals = [proposal];
+        const marker = issueMarker('fulfillment', c.id);
+        issues.push({
+          marker,
+          title: `Fulfillment proposal: ${c.title}`,
+          body: `${marker}\n\n**${c.lab} — ${c.title}**\n\nProposed status: **${proposal.status}**\nEvidence: ${proposal.evidence}\n\nConfirm and set \`resolution\` in \`src/data/commitments.ts\` — automation never rules.`,
+        });
+      }
+    }
+
     if (problems.length) {
       issues.push({
         marker: issueMarker('source', c.id),
