@@ -37,6 +37,20 @@ async function fetchArtifact(url) {
   }
 }
 
+/** Fetch a known snapshot URL directly (tags stripped), or null. CDN content — not the rate-limited availability API. */
+async function fetchArchiveUrl(snapUrl) {
+  try {
+    const page = await fetch(snapUrl, {
+      signal: AbortSignal.timeout(20_000),
+      headers: { 'user-agent': 'Mozilla/5.0 (compatible; OverdueBot/1.0; +https://overduetracker.org)' },
+    });
+    if (!page.ok) return null;
+    return (await page.text()).replace(/<[^>]+>/g, ' ');
+  } catch {
+    return null;
+  }
+}
+
 /** Wayback fallback: latest snapshot's text (tags stripped), or null. Never throws. Dependency-free. */
 async function fetchSnapshot(url) {
   try {
@@ -97,11 +111,17 @@ async function main() {
     let text = url ? await fetchArtifact(url) : null;
     let viaArchive = false;
     if (text == null && url) {
-      // Live fetch failed/blocked — fall back to the latest Wayback snapshot before flagging.
-      text = await fetchSnapshot(url);
-      if (text != null) {
-        viaArchive = true;
-        console.log(`[${c.id}] live fetch failed for ${url} — using archived snapshot`);
+      // Live fetch failed/blocked. Prefer the snapshot we ALREADY archived (stored in
+      // verification.json) — a direct CDN fetch, not the rate-limited availability API.
+      const stored = rows[c.id]?.sources?.find((s) => s.url === url)?.archiveUrl;
+      if (stored) {
+        text = await fetchArchiveUrl(stored);
+        if (text != null) { viaArchive = true; console.log(`[${c.id}] live fetch failed — using stored archive snapshot`); }
+      }
+      // Else ask the availability API for any snapshot (may 429 under load).
+      if (text == null) {
+        text = await fetchSnapshot(url);
+        if (text != null) { viaArchive = true; console.log(`[${c.id}] live fetch failed — using availability-API snapshot`); }
       }
     }
     if (text == null) {
