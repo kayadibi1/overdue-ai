@@ -2,6 +2,14 @@
 
 Human-facing history of Overdue, an accountability tracker for frontier AI safety commitments. Newest first. Fine-grained detail lives in git; this file records each wave of work.
 
+## 2026-06-20 · Quote-drift coverage (PDFs + re-pointing)
+
+Extending the daily quote-drift check to sources it couldn't read before — no new infrastructure (an earlier "render everything via a Cloudflare Worker" design was dropped after review: the PDFs aren't blocked, and a Worker would have cost money + added an SSRF surface for no gain).
+
+- **PDF sources are now read** (via `unpdf`): the checker fetches the bytes and extracts text, so commitments cited to a PDF (White House voluntary commitments, frameworks, the RSP/FSF/Preparedness policy docs) get drift-checked like any web page.
+- **Re-pointed 5 obligations to the document that actually contains the clause** — DeepMind (v2 blog → FSF v1.0 PDF), OpenAI (blog → Preparedness Framework v2 PDF), and three Anthropic RSP rows (landing/changelog pages → the RSP v1.0 / v3.3 PDFs) — each with the verbatim clause confirmed against the checker's own extraction. (This also fixed a couple of subtly-wrong quotes, e.g. DeepMind's "fully implemented" → the PDF's "implemented by early 2025".)
+- **`synthesized` flag** — obligations summarized from aspirational/multi-part commitments with no single verbatim clause (the Bletchley pre-deployment-access pledge; the RSP eval-cadence change) are labeled "summarized" and exempt from quote-drift, instead of sitting permanently "inconclusive".
+
 ## 2026-06-19 · Verification automation
 
 Every ruling is now archived, multi-sourced, quote-pinned, and freshness-tracked — with the bookkeeping automated and the verdict still human.
