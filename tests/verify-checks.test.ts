@@ -69,6 +69,28 @@ describe('runChecks', () => {
     expect(issues).toEqual([]);                                       // no under-review flag
   });
 
+  it('synthesized obligation source (link OK) → quoteCheck "n/a", classifyQuote skipped, no quote/drift problem', async () => {
+    const row = c({
+      sources: [{ url: 'https://example.com/a', label: 'S', tier: 'primary', role: 'obligation', quote: QUOTE, synthesized: true }],
+    });
+    // htmlWithoutQuote would normally flag drift (if a prior 'ok' existed) or be inconclusive — synthesized must short-circuit to n/a.
+    const { issues, rows } = await runChecks([row], {}, NOW, htmlWithoutQuote);
+    expect(rows.x.sources[0].quoteCheck).toBe('n/a');
+    expect(rows.x.problems).toEqual([]);
+    expect(rows.x.problems.some((p) => p.includes('quote drifted'))).toBe(false);
+    expect(issues).toEqual([]);
+  });
+
+  it('synthesized source with a dead link → still gets a "dead link" problem (link health is independent)', async () => {
+    const row = c({
+      sources: [{ url: 'https://example.com/a', label: 'S', tier: 'primary', role: 'obligation', quote: QUOTE, synthesized: true }],
+    });
+    const { issues, rows } = await runChecks([row], {}, NOW, deadLink);
+    expect(rows.x.sources[0].linkOk).toBe(false);
+    expect(rows.x.problems).toContain('dead link (404): https://example.com/a');
+    expect(issues).toHaveLength(1);
+  });
+
   it('archived hit → quote checked normally against the snapshot text', async () => {
     const { rows } = await runChecks([c({})], {}, NOW, archivedQuote);
     expect(rows.x.sources[0].linkOk).toBe(true);
