@@ -33,6 +33,8 @@
 ## Task 2: checks.ts honors `synthesized`
 **Files:** `src/watcher/checks.ts`; Test `tests/verify-checks.test.ts`
 
+> **Depends on Task 1 (hard ordering).** `checks.ts` will write `quoteCheck:'n/a'`. If the schema (Task 1) doesn't yet allow `'n/a'`, `parseVerification` rejects the assembled state and `scripts/watch.ts`'s round-trip validation guard **silently refuses every `verification.json` write** (no error, no badge update). Task 1 must be present before this lands.
+
 - [ ] **Step 1:** Failing test — a source with `synthesized:true` (and a quote) → `quoteCheck:'n/a'`, NO `classifyQuote` call, NO problem; the row isn't flagged.
 - [ ] **Step 2:** Run → FAIL.
 - [ ] **Step 3:** In the `runChecks` source loop, before the obligation/quote branch: `if (s.synthesized) { quoteCheck = 'n/a'; }` and skip the `classifyQuote` path (guard the existing `else if (s.role === 'obligation' && s.quote)` with `&& !s.synthesized`). A dead link on a synthesized source is still a problem (link health is independent).
@@ -73,25 +75,40 @@ export function isPdfUrl(url: string): boolean {
 
 - [ ] **Step 1:** Failing tests — `fetchVerifiable` on a `.pdf` URL routes to PDF extraction (injected) → `{text:'pdf text', via:'pdf', dead:false}`; an HTML URL keeps the existing live/archive behavior unchanged; a PDF whose extract returns `''` → `{text:null, via:'none', dead:false}` (inconclusive, not crash).
 - [ ] **Step 2:** Run → FAIL.
-- [ ] **Step 3:** Add a PDF branch at the TOP of `fetchVerifiable`, with an injectable extractor (default = real fetch + `extractPdfText`):
+- [ ] **Step 3a (REQUIRED — or `tsc` breaks at the gate):** widen the `VerifyFetch.via` union in `verify-fetch.ts` to include `'pdf'`: `via: 'live' | 'archive' | 'none' | 'pdf'`. Add `pdf?: (url: string) => Promise<string | null>` to the `deps` type.
+- [ ] **Step 3b:** Add a concrete (NOT pseudocode) byte-fetching PDF helper + branch at the TOP of `fetchVerifiable`. Note `fetchWithStatus` returns `{text,status}` (text, NOT bytes) — the PDF path needs its own `arrayBuffer` fetch:
 ```ts
-// deps: { live?, archive?, pdf? }  where pdf(url) => Promise<string|null>
+import { extractPdfText, isPdfUrl } from './pdf';
+
+async function fetchPdfText(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url, {
+      headers: { 'user-agent': 'Mozilla/5.0 (compatible; OverdueBot/1.0; +https://overduetracker.org)' },
+      redirect: 'follow',
+      signal: AbortSignal.timeout(25_000),
+    });
+    if (!res.ok) return null;
+    const text = await extractPdfText(new Uint8Array(await res.arrayBuffer()));
+    return text || null;        // '' (extract failure) → null → inconclusive, not a crash
+  } catch {
+    return null;
+  }
+}
+
+// first branch inside fetchVerifiable(url, deps):
 if (isPdfUrl(url)) {
-  const pdf = deps.pdf ?? (async (u: string) => {
-    const r = await fetchWithStatus(u);                // status only; we need bytes:
-    // (implementation: do a real arrayBuffer fetch here, 25s timeout, browser UA)
-    ...
-  });
-  const text = await pdf(url);
+  const text = await (deps.pdf ?? fetchPdfText)(url);
   return text ? { text, via: 'pdf', dead: false } : { text: null, via: 'none', dead: false };
 }
 ```
-Implement the default `pdf` as: `fetch(url, {headers: browser UA, signal: AbortSignal.timeout(25000)})` → if `!res.ok` return null → `extractPdfText(new Uint8Array(await res.arrayBuffer()))` → return text or null. Never throws.
+Confirm the existing callers in `checks.ts` are unaffected (they call `fetchVerifiable` and read `.text`/`.dead`; the new `via:'pdf'` is additive).
 - [ ] **Step 4:** Run → PASS. Update `tests/verify-checks.test.ts`/`tests/verify-fulfillment.test.ts` only if the injected `fetchFn` shape changed (it shouldn't — `checks.ts` still calls `fetchVerifiable`). Full suite green; `npm run build` green; `npm run watch -- --dry-run` runs.
 - [ ] **Step 5:** Commit (`feat(verify): fetchVerifiable reads PDF sources`).
 
 ## Task 5: Lever B — re-point to clause-bearing PDFs (MINE — judgment)
 **Files:** `src/data/commitments.ts`
+
+**Caveats (review-flagged):** the existing dataset has at least one **404 path** and a **typo'd OpenAI hash** — every PDF URL here must be confirmed live (`200`/`application/pdf`) before use; re-pointing will also **expose pre-existing wrong quotes** (e.g. `deepmind-fsf-early-2025`'s current "fully implemented by early 2025" may not be verbatim — the PDF may say "implemented by early 2025"), so **re-extract and re-pick every quote from the actual PDF**, don't trust the current text. **Graceful degradation:** any PDF that 404s/blocks/has no text layer → **leave that row as-is** (it joins the §residual); this applies to **all** rows here, not just OpenAI. (The OpenAI Preparedness PDF is confirmed fetchable with the clause present.)
 
 For each row below: find the PDF that contains the verbatim clause, confirm it's fetchable (`200`/`application/pdf`), extract its text (reuse the Task-3 `extractPdfText` via a throwaway `npx tsx -e` dump), pick a verbatim phrase, and re-point the obligation `url` + `quote` (keep the old landing page as a `context` source if useful). Rows:
 - [ ] `deepmind-fsf-early-2025` → re-point obligation to `storage.googleapis.com/...fsf-technical-report.pdf` (the v1.0 FSF PDF, already cited by `deepmind-fsf-eval-cadence`, confirmed `200`); quote the verbatim "early 2025 / fully implemented" phrase from the PDF (or, if the PDF says it differently, the actual clause).
