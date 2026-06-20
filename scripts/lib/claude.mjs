@@ -3,16 +3,23 @@ import { spawn } from 'node:child_process';
 /** Pure. Build the adjudication prompt. */
 export function buildPrompt(commitment, artifactText) {
   const oblig = (commitment.sources || []).find((s) => s.role === 'obligation') || commitment.sources?.[0] || {};
+  const deadline = commitment.deadline || commitment.triggerText || 'unspecified';
   return [
-    `You are adjudicating whether a published artifact satisfies a specific dated AI-safety commitment.`,
+    `You are adjudicating whether a published artifact satisfies ONE specific, DATED AI-safety commitment.`,
+    `Be strict: only the specific dated obligation below counts — not adjacent, earlier, or similar facts.`,
     `COMMITMENT: ${commitment.title}`,
     `LAB: ${commitment.lab}`,
     oblig.quote ? `VERBATIM PROMISE: "${oblig.quote}"` : '',
-    `ARTIFACT (extracted text, may be truncated):`,
+    `DEADLINE / TRIGGER: ${deadline}${commitment.deadlineBasis === 'derived' && commitment.derivationNote ? ` (derived — ${commitment.derivationNote})` : ''}`,
+    `COMMITTED ON: ${commitment.committedOn}`,
+    ``,
+    `ARTIFACT (extracted text — this may be the LIVE page OR an older ARCHIVED snapshot; judge only what it actually evidences, and note its own date if shown):`,
     (artifactText || '').slice(0, 8000),
     ``,
-    `Does the artifact satisfy the promise? Respond with ONLY a JSON object, no prose, exactly:`,
-    `{"verdict":"met"|"partial"|"no","rationale":"one sentence","citation":"the URL or section you relied on"}`,
+    `Decide: does this artifact give POSITIVE evidence that THIS specific obligation was fulfilled BY its deadline/trigger?`,
+    `Answer "no" if the artifact predates the obligation, only shows an earlier/different action, or does not clearly evidence the specific dated deliverable. Do NOT infer fulfillment from adjacent facts or from the obligation merely existing.`,
+    `Respond with ONLY a JSON object, no prose, exactly:`,
+    `{"verdict":"met"|"partial"|"no","rationale":"one sentence citing what in the artifact supports this","citation":"the URL or section you relied on"}`,
   ].filter(Boolean).join('\n');
 }
 
@@ -46,7 +53,13 @@ export function runClaude(prompt, { timeoutMs = 120_000 } = {}) {
     // for automation). Switching sub→metered is then a pure secret change, no code edit.
     // stdio[0]='ignore' redirects the child's stdin to /dev/null — otherwise `claude`
     // waits ~forever for piped stdin (we pass the prompt as a -p arg, not via stdin).
-    const child = spawn('claude', ['-p', prompt, '--output-format', 'json', '--dangerously-skip-permissions'],
+    // Pin the model + reasoning effort (env-overridable). Default: Opus 4.8 at xhigh
+    // effort — a judgment task wants deep reasoning; --effort is the only CLI lever
+    // (extended-thinking budget is API-only). Pinning the full ID keeps runs reproducible.
+    const model = process.env.CLAUDE_MODEL || 'claude-opus-4-8';
+    const effort = process.env.CLAUDE_EFFORT || 'xhigh';
+    const child = spawn('claude',
+      ['-p', prompt, '--model', model, '--effort', effort, '--output-format', 'json', '--dangerously-skip-permissions'],
       { env, stdio: ['ignore', 'pipe', 'pipe'] });
     let out = '', err = '';
     const tail = () => (err || out || '').replace(/\s+/g, ' ').trim().slice(-600);
