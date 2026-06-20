@@ -5,8 +5,13 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { extractText, hashText, diffSummary, isMeaningfulChange, dueDeadlines, issueMarker } from '../src/watcher/core';
+import { extractText, hashText, diffSummary, isMeaningfulChange, dueDeadlines, issueMarker, fetchHtml } from '../src/watcher/core';
+import { runChecks } from '../src/watcher/checks';
+import { archive } from '../src/watcher/wayback';
+import { mergeVerification } from '../src/watcher/merge';
+import { parseVerification } from '../src/lib/verify/schema';
 import { computeStatus } from '../src/lib/status';
+import { primarySource } from '../src/lib/sources';
 import { COMMITMENTS } from '../src/data/commitments';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -29,25 +34,11 @@ interface Planned { marker: string; title: string; body: string; }
 const planned: Planned[] = [];
 const pendingSnapshots = new Map<string, string>(); // flushed to disk only after all issues succeed
 
-async function fetchText(url: string): Promise<string | null> {
-  for (let attempt = 0; attempt < 2; attempt++) {
-    try {
-      const res = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(15000), headers: { 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', accept: 'text/html' } });
-      if (!res.ok) { if (res.status >= 500 && attempt === 0) continue; return null; }
-      if (Number(res.headers.get('content-length') ?? '0') > 2_000_000) return null; // reject oversized early when advertised
-      const buf = await res.arrayBuffer();
-      if (buf.byteLength > 2_000_000) return null;                                     // hard cap if length absent/wrong
-      return new TextDecoder().decode(buf);
-    } catch { if (attempt === 0) continue; return null; }
-  }
-  return null;
-}
-
 function snapPath(id: string) { return W(`.watcher/snapshots/${id}.txt`); }
 
 async function checkSources() {
   for (const w of watchlist) {
-    const html = await fetchText(w.url);
+    const html = await fetchHtml(w.url);
     if (html == null) { console.warn(`skip (fetch failed): ${w.id}`); continue; }
     const text = extractText(html, w.stripSelectors).slice(0, 100_000); // 100 KB cap
     const hash = hashText(text);
@@ -83,7 +74,7 @@ function checkDeadlines() {
     planned.push({
       marker: issueMarker('deadline', d.c.id),
       title: `Deadline check: ${d.c.title}`,
-      body: `${issueMarker('deadline', d.c.id)}\n\n**${d.c.lab} — ${d.c.title}**\nDeadline: ${d.c.deadline} (${d.kind}, ${d.days}d; computed status: ${status}).\nSource: ${d.c.evidenceUrl}\n\nVerify and set \`resolution\` in \`src/data/commitments.ts\`.`,
+      body: `${issueMarker('deadline', d.c.id)}\n\n**${d.c.lab} — ${d.c.title}**\nDeadline: ${d.c.deadline} (${d.kind}, ${d.days}d; computed status: ${status}).\nSource: ${primarySource(d.c).url}\n\nVerify and set \`resolution\` in \`src/data/commitments.ts\`.`,
     });
   }
 }
@@ -124,6 +115,72 @@ async function upsert(open: Map<string, number>, p: Planned) {
 async function main() {
   await checkSources();   // updates `state` + `pendingSnapshots` IN MEMORY only
   checkDeadlines();
+
+  // ---- Verification checks → rides along in `planned`; writes verification.json behind a guard ----
+  // Prior state (missing/bad file → empty), then run the checks and merge over it.
+  let prevState;
+  try { prevState = parseVerification(JSON.parse(readFileSync(resolve(ROOT, 'src/data/verification.json'), 'utf8'))); }
+  catch { prevState = { rows: {} }; }
+  const { issues, rows } = await runChecks(COMMITMENTS, prevState.rows, now, fetchHtml);
+  for (const it of issues) planned.push(it);                 // already {marker,title,body}
+
+  // ---- Capped Wayback archive pass: archive un-archived OBLIGATION sources ----
+  // Build a worklist of obligation sources whose computed row has no archiveUrl yet,
+  // then archive at most ARCHIVE_CAP per run (politely, 5s apart). Skipped in DRY.
+  const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+  const ARCHIVE_CAP = 10;
+  if (DRY) {
+    console.log('skip archiving (dry-run)');
+  } else {
+    const auth = process.env.IA_ACCESS_KEY && process.env.IA_SECRET_KEY
+      ? `LOW ${process.env.IA_ACCESS_KEY}:${process.env.IA_SECRET_KEY}`
+      : undefined;
+    type Job = { id: string; k: number; url: string };
+    const worklist: Job[] = [];
+    for (const c of COMMITMENTS) {
+      const row = rows[c.id];
+      if (!row) continue;
+      for (let i = 0; i < c.sources.length; i++) {
+        if (c.sources[i].role !== 'obligation') continue;
+        const k = row.sources.findIndex((rs) => rs.url === c.sources[i].url);
+        if (k < 0) continue;
+        if (row.sources[k].archiveUrl === undefined) worklist.push({ id: c.id, k, url: c.sources[i].url });
+      }
+    }
+    const toRun = worklist.slice(0, ARCHIVE_CAP);
+    const deferred = worklist.length - toRun.length;
+    console.log(`archiving ${toRun.length} obligation source(s); ${deferred} deferred to a later run`);
+    for (let n = 0; n < toRun.length; n++) {
+      const job = toRun[n];
+      if (n > 0) await sleep(5000); // be polite to Save-Page-Now
+      const result = await archive(job.url, { auth });
+      if (result.url) rows[job.id].sources[job.k].archiveUrl = result.url;
+      console.log(`archive ${job.id} [${job.url}] → ${result.url ?? `(none) ${result.note ?? ''}`.trim()}`);
+    }
+  }
+
+  const { next, changed } = mergeVerification(prevState, rows, today);
+  // Validate `next` round-trips before any write: corruption drops row keys → refuse + flag.
+  const valid = parseVerification(next);
+  const validates = Object.keys(valid.rows).length === Object.keys(next.rows).length;
+  if (!validates) {
+    planned.push({
+      marker: issueMarker('stale', 'verification-json'),
+      title: 'verification.json failed validation',
+      body: `${issueMarker('stale', 'verification-json')}\n\nThe freshly-computed verification state did not round-trip through \`parseVerification\` (row keys dropped). The file was NOT written. Inspect \`src/watcher/checks.ts\` / \`merge.ts\` output.`,
+    });
+  }
+  if (DRY) {
+    console.log(`verification: would write (changed=${changed}, validates=${validates})`);
+  } else if (!validates) {
+    console.log('verification: validation refused — verification.json NOT written');
+  } else if (changed) {
+    writeFileSync(resolve(ROOT, 'src/data/verification.json'), JSON.stringify(next, null, 2) + '\n');
+    console.log('verification: wrote verification.json');
+  } else {
+    console.log('verification: no verification change');
+  }
+
   console.log(`\n${planned.length} issue(s) planned; dryRun=${DRY}`);
   if (DRY) { for (const p of planned) console.log(`  • ${p.title}`); return; }
   // Create/refresh issues FIRST. upsert() throws on any API failure, so a failed

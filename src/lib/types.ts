@@ -20,6 +20,24 @@ export type Resolution = 'met' | 'missed' | 'partial' | null;
 export type Status = 'met' | 'missed' | 'partial' | 'overdue' | 'upcoming' | 'pending';
 export type Track = 'lab' | 'regulatory';
 
+export type SourceTier = 'primary' | 'secondary';
+export type SourceRole = 'obligation' | 'fulfillment' | 'context';
+
+export interface Source {
+  url: string;
+  label: string;
+  tier: SourceTier;
+  role: SourceRole;
+  quote?: string;        // REQUIRED when role === 'obligation' (enforced by invariants, not the type)
+}
+
+export interface FulfillmentCheck {
+  type: 'url-exists' | 'page-contains' | 'changed-since';
+  url: string;
+  pattern?: string;
+  by: string;            // 'YYYY-MM-DD'
+}
+
 export interface Commitment {
   id: string;
   lab: Lab;
@@ -33,9 +51,14 @@ export interface Commitment {
   triggerText?: string;
   resolution: Resolution;       // null = unresolved
   resolvedOn: string | null;
-  evidenceUrl: string;
-  sourceLabel: string;
+  sources: Source[];
+  deadlineBasis?: 'stated' | 'derived';
+  derivationNote?: string;
+  triggerFired?: boolean;
+  triggerFiredOn?: string | null;
+  reviewedBy?: string;
+  reviewedOn?: string | null;
+  fulfillmentCheck?: FulfillmentCheck;
   contested?: boolean;
   notes?: string;
-  lastChecked?: string;         // 'YYYY-MM-DD', when this row's status was last re-verified
 }

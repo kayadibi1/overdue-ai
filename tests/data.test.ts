@@ -3,6 +3,8 @@ import { COMMITMENTS } from '../src/data/commitments';
 import { UPDATES } from '../src/data/updates';
 import { LABS, CATEGORIES } from '../src/lib/types';
 import { computeStatus } from '../src/lib/status';
+import { primarySource } from '../src/lib/sources';
+import { checkInvariants } from '../src/lib/verify/invariants';
 
 const NOW = Date.UTC(2026, 5, 18);
 const ISO = /^\d{4}-\d{2}-\d{2}$/;
@@ -23,10 +25,20 @@ describe('COMMITMENTS dataset', () => {
       if (c.deadlineType === 'calendar') expect(isRealUtcDate(c.deadline ?? ''), c.id).toBe(true);
       if (c.deadlineType === 'trigger') expect(c.triggerText).toBeTruthy();
       if (c.resolution) expect(isRealUtcDate(c.resolvedOn ?? ''), c.id).toBe(true);
-      const u = new URL(c.evidenceUrl);
+      const u = new URL(primarySource(c).url);
       expect(/^https?:$/.test(u.protocol), c.id).toBe(true);   // real http(s) URL, not foo:bar / mailto:
       expect(u.hostname.includes('.'), c.id).toBe(true);        // has a dotted hostname
-      expect(c.sourceLabel).toBeTruthy();
+      expect(primarySource(c).label).toBeTruthy();
+    }
+  });
+  it('every row satisfies checkInvariants (no problems)', () => {
+    for (const c of COMMITMENTS) {
+      expect(checkInvariants(c), c.id).toEqual([]);
+    }
+  });
+  it('no row carries the removed evidenceUrl field', () => {
+    for (const c of COMMITMENTS) {
+      expect(Object.prototype.hasOwnProperty.call(c, 'evidenceUrl'), c.id).toBe(false);
     }
   });
   it('resolvedOn is set iff resolution is set, and falls on/after committedOn', () => {
@@ -68,10 +80,10 @@ function isRealUtcDate(iso: string): boolean {
 }
 
 describe('M6 data-model fields', () => {
-  it('every lastChecked (where present) is a real UTC date', () => {
+  it('every reviewedOn (where present) is a real UTC date', () => {
     for (const c of COMMITMENTS) {
-      if (c.lastChecked !== undefined) {
-        expect(isRealUtcDate(c.lastChecked), c.id).toBe(true);
+      if (c.reviewedOn !== undefined && c.reviewedOn !== null) {
+        expect(isRealUtcDate(c.reviewedOn), c.id).toBe(true);
       }
     }
   });

@@ -8,7 +8,8 @@ function c(over: Partial<Commitment>): Commitment {
   return {
     id: 'x', lab: 'OpenAI', track: 'lab', title: 't', description: 'd', category: 'governance',
     committedOn: '2024-01-01', deadlineType: 'calendar', deadline: '2026-06-25',
-    resolution: null, resolvedOn: null, evidenceUrl: 'https://example.com', sourceLabel: 'S',
+    resolution: null, resolvedOn: null,
+    sources: [{ url: 'https://example.com', label: 'S', tier: 'primary', role: 'obligation', quote: 'q' }],
     ...over,
   };
 }
@@ -70,5 +71,10 @@ describe('issueMarker', () => {
   it('is stable and namespaced', () => {
     expect(issueMarker('src', 'anthropic-rsp')).toBe('<!-- watcher:src:anthropic-rsp -->');
     expect(issueMarker('deadline', 'openai-x')).toBe('<!-- watcher:deadline:openai-x -->');
+  });
+  it('supports the verification kinds', () => {
+    expect(issueMarker('source', 'x')).toBe('<!-- watcher:source:x -->');
+    expect(issueMarker('stale', 'y')).toBe('<!-- watcher:stale:y -->');
+    expect(issueMarker('fulfillment', 'z')).toBe('<!-- watcher:fulfillment:z -->');
   });
 });

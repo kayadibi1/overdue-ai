@@ -6,7 +6,8 @@ import type { Commitment } from '../src/lib/types';
 const c = (o: Partial<Commitment>): Commitment => ({
   id:'x', lab:'OpenAI', track:'lab', title:'t', description:'d', category:'governance',
   committedOn:'2025-01-01', deadlineType:'calendar', deadline:'2025-06-01',
-  resolution:null, resolvedOn:null, evidenceUrl:'https://e', sourceLabel:'S', ...o });
+  resolution:null, resolvedOn:null,
+  sources:[{ url:'https://e', label:'S', tier:'primary', role:'obligation', quote:'q' }], ...o });
 
 describe('labSlug', () => {
   it('lowercases + hyphenates, round-trips', () => {

@@ -1,5 +1,5 @@
 export const SITE_NAME = 'Overdue';
-export const DATA_AS_OF = '2026-06-19'; // dataset last reviewed (manually bumped); per-row lastChecked overrides
+export const DATA_AS_OF = '2026-06-19'; // dataset last reviewed (manually bumped); per-row reviewedOn overrides
 export const CANONICAL_ORIGIN = 'https://overduetracker.org'; // canonical even on the Pages backup
 export const FEED_TITLE = 'Overdue — Frontier AI Safety Commitment Tracker';
 export const FEED_DESCRIPTION =

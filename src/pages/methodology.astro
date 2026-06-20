@@ -25,7 +25,16 @@ const today = new Date().toISOString().slice(0, 10);
         <li>Neutral, factual phrasing; genuinely debatable rulings are flagged <code>⚠ contested</code>.</li>
       </ul>
       <h2>How rulings are made</h2>
-      <p><strong>Met / Missed / Partial</strong> are human judgments, each backed by one public source. <strong>Overdue / Upcoming</strong> are computed automatically from the deadline versus today, so those timers stay current on their own. Genuinely disputable rulings are flagged <code>⚠ contested</code> and phrased as open questions.</p>
+      <p><strong>Met / Missed / Partial</strong> are human judgments, each backed by one or more public sources (an <em>obligation</em> source that carries the verbatim promise, and where relevant a <em>fulfillment</em> source proving what was or wasn't delivered). <strong>Overdue / Upcoming</strong> are computed automatically from the deadline versus today, so those timers stay current on their own. Genuinely disputable rulings are flagged <code>⚠ contested</code> and phrased as open questions.</p>
+      <h2>Rating rubric</h2>
+      <ul>
+        <li><strong>Met</strong> — the required artifact or action was delivered by the deadline (or the trigger was satisfied), evidenced by a fulfillment source (primary preferred).</li>
+        <li><strong>Missed</strong> — the deadline passed (or the trigger fired) with no qualifying delivery. Requires especially strong sourcing: a primary admission, or two independent sources. A "missed" resting only on absence of evidence is always <code>⚠ contested</code>.</li>
+        <li><strong>Partial</strong> — a multi-part obligation was partly delivered, <em>or</em> delivered substantially late, <em>or</em> delivered in a materially weakened form; the notes enumerate what was and wasn't met.</li>
+        <li><strong>Contested</strong> — any ruling resting on secondary reporting, a derived deadline, an argument-from-absence, or a genuine interpretive dispute. Phrased as an open question, never as a verdict. A derived deadline (one we inferred from a cadence rather than a lab-stated date) is marked with a <code>†</code>.</li>
+      </ul>
+      <h2>How we keep it current</h2>
+      <p>The live overdue / upcoming countdowns recompute in your browser, so they are never stale. Separately, an automated job re-checks every cited source <strong>daily</strong>: that the link still resolves, that the verbatim quote is still on the page (catching silent edits), and it archives each source to the <a href="https://web.archive.org/">Wayback Machine</a> so a ruling's basis can't quietly disappear. It also flags rulings that haven't had a human re-review in a while (30 days for contested/unresolved, 180 for settled) and watches lab policy pages for new dated promises. When a check needs attention, the affected row shows an <code>⚠ under review</code> badge — we surface our own drift rather than hide it. <strong>The automation only detects and proposes; every Met/Missed/Partial verdict is still issued by a human.</strong></p>
       <h2>Editorial principles</h2>
       <p>Phrasing is strictly factual and neutral: we state the deadline and what shipped by it, and avoid editorializing verbs. A ruling ships only with a rock-solid source. Statuses are curated as of the "updated" date on the board; only the timers update live.</p>
       <h2>Data, license &amp; how to cite</h2>

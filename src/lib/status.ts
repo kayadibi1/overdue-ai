@@ -13,6 +13,9 @@ export function computeStatus(c: Commitment, now: number): Status {
   if (c.deadlineType === 'calendar' && c.deadline) {
     return parseUTC(c.deadline) > now ? 'upcoming' : 'overdue';
   }
+  if (c.deadlineType === 'trigger') {
+    return c.triggerFired ? 'overdue' : 'pending';   // a fired-but-unruled trigger demands attention, not benign 'pending'
+  }
   return 'pending';
 }
 
