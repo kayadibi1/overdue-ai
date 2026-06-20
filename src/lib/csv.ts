@@ -1,4 +1,6 @@
 import type { Commitment, Source } from './types';
+import { archiveFor } from './verification';
+import { primarySource } from './sources';
 
 const BASE = ['id','lab','track','title','description','category','committedOn','deadlineType','deadline','triggerText','resolution','resolvedOn','contested','reviewedOn','notes'] as const;
 const SOURCE_SLOTS = 3;
@@ -17,7 +19,8 @@ export function toCsv(rows: Commitment[]): string {
       const s: Source | undefined = c.sources[i];
       src.push(esc(s?.url), esc(s?.label), esc(s?.role));
     }
-    lines.push([...base, ...src, ''].join(','));   // archive_url empty until verification.json wires it
+    const archiveUrl = archiveFor(c.id, primarySource(c).url) ?? '';
+    lines.push([...base, ...src, esc(archiveUrl)].join(','));   // archive_url from verification.json (empty when unverified)
   }
   return lines.join('\r\n') + '\r\n';
 }

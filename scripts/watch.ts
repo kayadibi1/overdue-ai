@@ -7,6 +7,7 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { extractText, hashText, diffSummary, isMeaningfulChange, dueDeadlines, issueMarker, fetchHtml } from '../src/watcher/core';
 import { runChecks } from '../src/watcher/checks';
+import { archive } from '../src/watcher/wayback';
 import { mergeVerification } from '../src/watcher/merge';
 import { parseVerification } from '../src/lib/verify/schema';
 import { computeStatus } from '../src/lib/status';
@@ -122,6 +123,42 @@ async function main() {
   catch { prevState = { rows: {} }; }
   const { issues, rows } = await runChecks(COMMITMENTS, prevState.rows, now, fetchHtml);
   for (const it of issues) planned.push(it);                 // already {marker,title,body}
+
+  // ---- Capped Wayback archive pass: archive un-archived OBLIGATION sources ----
+  // Build a worklist of obligation sources whose computed row has no archiveUrl yet,
+  // then archive at most ARCHIVE_CAP per run (politely, 5s apart). Skipped in DRY.
+  const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+  const ARCHIVE_CAP = 10;
+  if (DRY) {
+    console.log('skip archiving (dry-run)');
+  } else {
+    const auth = process.env.IA_ACCESS_KEY && process.env.IA_SECRET_KEY
+      ? `LOW ${process.env.IA_ACCESS_KEY}:${process.env.IA_SECRET_KEY}`
+      : undefined;
+    type Job = { id: string; k: number; url: string };
+    const worklist: Job[] = [];
+    for (const c of COMMITMENTS) {
+      const row = rows[c.id];
+      if (!row) continue;
+      for (let i = 0; i < c.sources.length; i++) {
+        if (c.sources[i].role !== 'obligation') continue;
+        const k = row.sources.findIndex((rs) => rs.url === c.sources[i].url);
+        if (k < 0) continue;
+        if (row.sources[k].archiveUrl === undefined) worklist.push({ id: c.id, k, url: c.sources[i].url });
+      }
+    }
+    const toRun = worklist.slice(0, ARCHIVE_CAP);
+    const deferred = worklist.length - toRun.length;
+    console.log(`archiving ${toRun.length} obligation source(s); ${deferred} deferred to a later run`);
+    for (let n = 0; n < toRun.length; n++) {
+      const job = toRun[n];
+      if (n > 0) await sleep(5000); // be polite to Save-Page-Now
+      const result = await archive(job.url, { auth });
+      if (result.url) rows[job.id].sources[job.k].archiveUrl = result.url;
+      console.log(`archive ${job.id} [${job.url}] → ${result.url ?? `(none) ${result.note ?? ''}`.trim()}`);
+    }
+  }
+
   const { next, changed } = mergeVerification(prevState, rows, today);
   // Validate `next` round-trips before any write: corruption drops row keys → refuse + flag.
   const valid = parseVerification(next);
