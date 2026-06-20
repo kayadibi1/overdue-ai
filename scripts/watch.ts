@@ -6,6 +6,9 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { extractText, hashText, diffSummary, isMeaningfulChange, dueDeadlines, issueMarker, fetchHtml } from '../src/watcher/core';
+import { runChecks } from '../src/watcher/checks';
+import { mergeVerification } from '../src/watcher/merge';
+import { parseVerification } from '../src/lib/verify/schema';
 import { computeStatus } from '../src/lib/status';
 import { primarySource } from '../src/lib/sources';
 import { COMMITMENTS } from '../src/data/commitments';
@@ -111,6 +114,36 @@ async function upsert(open: Map<string, number>, p: Planned) {
 async function main() {
   await checkSources();   // updates `state` + `pendingSnapshots` IN MEMORY only
   checkDeadlines();
+
+  // ---- Verification checks → rides along in `planned`; writes verification.json behind a guard ----
+  // Prior state (missing/bad file → empty), then run the checks and merge over it.
+  let prevState;
+  try { prevState = parseVerification(JSON.parse(readFileSync(resolve(ROOT, 'src/data/verification.json'), 'utf8'))); }
+  catch { prevState = { rows: {} }; }
+  const { issues, rows } = await runChecks(COMMITMENTS, prevState.rows, now, fetchHtml);
+  for (const it of issues) planned.push(it);                 // already {marker,title,body}
+  const { next, changed } = mergeVerification(prevState, rows, today);
+  // Validate `next` round-trips before any write: corruption drops row keys → refuse + flag.
+  const valid = parseVerification(next);
+  const validates = Object.keys(valid.rows).length === Object.keys(next.rows).length;
+  if (!validates) {
+    planned.push({
+      marker: issueMarker('stale', 'verification-json'),
+      title: 'verification.json failed validation',
+      body: `${issueMarker('stale', 'verification-json')}\n\nThe freshly-computed verification state did not round-trip through \`parseVerification\` (row keys dropped). The file was NOT written. Inspect \`src/watcher/checks.ts\` / \`merge.ts\` output.`,
+    });
+  }
+  if (DRY) {
+    console.log(`verification: would write (changed=${changed}, validates=${validates})`);
+  } else if (!validates) {
+    console.log('verification: validation refused — verification.json NOT written');
+  } else if (changed) {
+    writeFileSync(resolve(ROOT, 'src/data/verification.json'), JSON.stringify(next, null, 2) + '\n');
+    console.log('verification: wrote verification.json');
+  } else {
+    console.log('verification: no verification change');
+  }
+
   console.log(`\n${planned.length} issue(s) planned; dryRun=${DRY}`);
   if (DRY) { for (const p of planned) console.log(`  • ${p.title}`); return; }
   // Create/refresh issues FIRST. upsert() throws on any API failure, so a failed
