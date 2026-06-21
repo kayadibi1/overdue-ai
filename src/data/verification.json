@@ -125,17 +125,11 @@
           "archiveUrl": "http://web.archive.org/web/20260520152355/https://openai.com/index/updating-our-preparedness-framework/"
         }
       ],
-      "problems": [],
+      "problems": [
+        "Class-B adjudication unavailable — needs manual adjudication"
+      ],
       "lastChangedOn": "2026-06-21",
-      "proposals": [
-        {
-          "kind": "class-B",
-          "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 framework update that established the 'at least once a year' commitment itself, not evidence of any subsequent review conducted by the 2026-04-15 annual deadline.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
-          "via": "archive"
-        }
-      ]
+      "proposals": []
     },
     "openai-ssc-90-days": {
       "sources": [
@@ -371,23 +365,23 @@
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": true,
-          "quoteCheck": "ok"
+          "linkOk": false,
+          "quoteCheck": "inconclusive"
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "lastChangedOn": "2026-06-21"
     },
     "eu-aia-highrisk-annex1": {
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": true,
-          "quoteCheck": "ok"
+          "linkOk": false,
+          "quoteCheck": "inconclusive"
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "lastChangedOn": "2026-06-21"
     },
     "eu-aia-gpai-legacy-2027": {
       "sources": [
