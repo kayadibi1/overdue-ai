@@ -126,13 +126,13 @@
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-06-21",
+      "lastChangedOn": "2026-06-22",
       "proposals": [
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 publication that established the 'at least once a year' commitment itself, not evidence of a subsequent annual review conducted by the 2026-04-15 deadline.",
-          "citation": "openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
+          "rationale": "The artifact is the April 15, 2025 framework update that established the annual-review commitment itself, not evidence of a subsequent review/update performed by the 2026-04-15 deadline — it predates the trigger and shows only the originating action.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
       ]
