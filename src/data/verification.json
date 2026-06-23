@@ -126,12 +126,12 @@
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-06-22",
+      "lastChangedOn": "2026-06-23",
       "proposals": [
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 v2 framework announcement that established the 'at least once a year' commitment itself, not evidence of a subsequent annual review performed by the derived 2026-04-15 deadline.",
+          "rationale": "The artifact is the April 15, 2025 announcement that established the v2 Preparedness Framework (including the 'at least once a year' review cadence), not evidence of a subsequent review/update occurring by the derived 2026-04-15 deadline.",
           "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
