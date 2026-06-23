@@ -4,8 +4,8 @@
       "sources": [
         {
           "url": "https://x.ai/documents/2025.02.20-RMF-Draft.pdf",
-          "linkOk": false,
-          "quoteCheck": "inconclusive",
+          "linkOk": true,
+          "quoteCheck": "ok",
           "archiveUrl": "http://web.archive.org/web/20260429031103/https://x.ai/documents/2025.02.20-RMF-Draft.pdf"
         },
         {
@@ -15,7 +15,7 @@
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-06-22"
+      "lastChangedOn": "2026-06-23"
     },
     "meta-frontier-framework-seoul": {
       "sources": [
@@ -131,8 +131,8 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 v2 Preparedness Framework release that established the 'at least once a year' commitment itself, and shows no subsequent annual review/update performed by the derived 2026-04-15 deadline.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated 'April 15, 2025', the commitment-setting document",
+          "rationale": "The artifact is OpenAI's April 15, 2025 announcement of the v2 Preparedness Framework that established the 'at least once a year' review commitment itself; it contains no evidence of a subsequent annual review/update performed by the derived 2026-04-15 deadline.",
+          "citation": "openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
       ]
@@ -371,8 +371,8 @@
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": true,
-          "quoteCheck": "ok"
+          "linkOk": false,
+          "quoteCheck": "inconclusive"
         }
       ],
       "problems": [],
@@ -382,8 +382,8 @@
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": true,
-          "quoteCheck": "ok"
+          "linkOk": false,
+          "quoteCheck": "inconclusive"
         }
       ],
       "problems": [],
