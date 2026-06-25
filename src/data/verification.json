@@ -125,17 +125,11 @@
           "archiveUrl": "http://web.archive.org/web/20260520152355/https://openai.com/index/updating-our-preparedness-framework/"
         }
       ],
-      "problems": [],
+      "problems": [
+        "Class-B adjudication unavailable — needs manual adjudication"
+      ],
       "lastChangedOn": "2026-06-25",
-      "proposals": [
-        {
-          "kind": "class-B",
-          "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 announcement that established the v2 Preparedness Framework (and the 'review at least once a year' commitment itself); it predates the derived 2026-04-15 deadline and shows no evidence of a subsequent annual review for continued sufficiency.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — April 15, 2025 'Our updated Preparedness Framework'",
-          "via": "archive"
-        }
-      ]
+      "proposals": []
     },
     "openai-ssc-90-days": {
       "sources": [
@@ -371,8 +365,8 @@
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": false,
-          "quoteCheck": "inconclusive"
+          "linkOk": true,
+          "quoteCheck": "ok"
         }
       ],
       "problems": [],
@@ -382,8 +376,8 @@
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": false,
-          "quoteCheck": "inconclusive"
+          "linkOk": true,
+          "quoteCheck": "ok"
         }
       ],
       "problems": [],
