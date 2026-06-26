@@ -128,7 +128,7 @@
       "problems": [
         "Class-B adjudication unavailable — needs manual adjudication"
       ],
-      "lastChangedOn": "2026-06-25",
+      "lastChangedOn": "2026-06-26",
       "proposals": []
     },
     "openai-ssc-90-days": {
@@ -365,23 +365,23 @@
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": true,
-          "quoteCheck": "ok"
+          "linkOk": false,
+          "quoteCheck": "inconclusive"
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-06-25"
+      "lastChangedOn": "2026-06-26"
     },
     "eu-aia-highrisk-annex1": {
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": true,
-          "quoteCheck": "ok"
+          "linkOk": false,
+          "quoteCheck": "inconclusive"
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-06-25"
+      "lastChangedOn": "2026-06-26"
     },
     "eu-aia-gpai-legacy-2027": {
       "sources": [
