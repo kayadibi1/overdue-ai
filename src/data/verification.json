@@ -131,8 +131,8 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 publication that established the 'at least once a year' commitment itself, and contains no evidence of a subsequent review/update performed by the derived 2026-04-15 deadline.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
+          "rationale": "The artifact is OpenAI's April 15, 2025 Preparedness Framework update that established the 'at least once a year' commitment itself; it shows no evidence of a subsequent annual review/update performed by the derived 2026-04-15 deadline.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ (dated April 15, 2025)",
           "via": "archive"
         }
       ]
