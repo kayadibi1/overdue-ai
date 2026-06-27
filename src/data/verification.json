@@ -130,9 +130,9 @@
       "proposals": [
         {
           "kind": "class-B",
-          "verdict": "no",
-          "rationale": "The artifact is OpenAI's April 15, 2025 Preparedness Framework update that established the 'at least once a year' commitment itself; it shows no evidence of a subsequent annual review/update performed by the derived 2026-04-15 deadline.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ (dated April 15, 2025)",
+          "verdict": "met",
+          "rationale": "The artifact is OpenAI's April 15, 2025 publication of the updated Preparedness Framework (v2) itself, which contains the commitment, but it does not evidence a subsequent annual review by the derived 2026-04-15 deadline.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/",
           "via": "archive"
         }
       ]
