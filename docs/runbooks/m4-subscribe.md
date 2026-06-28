@@ -21,7 +21,7 @@ Stand up the subscribe proxy on newbox so the on-site form adds subscribers to B
   ```bash
   mkdir -p /opt/overdue-subscribe
   # from your Mac checkout:
-  rsync -az server/subscribe/ root@37.27.242.32:/opt/overdue-subscribe/
+  rsync -az server/subscribe/ root@<newbox IP>:/opt/overdue-subscribe/
   ```
   (Re-run this rsync whenever `server/subscribe/` changes, then `systemctl restart overdue-subscribe`.)
 - systemd unit `/etc/systemd/system/overdue-subscribe.service` (`ExecStart` matches `/opt/overdue-subscribe/index.mjs`):

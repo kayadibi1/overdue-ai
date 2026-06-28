@@ -58,7 +58,7 @@ The existing `deploy.yml` (Pages) stays as the backup, building with `env: PAGES
 
 ### A3. Manual runbook (user — box + Cloudflare; documented in `docs/runbooks/m4-hosting.md`)
 
-1. **DNS:** Cloudflare → `overduetracker.org` A record → `37.27.242.32`, **proxied**.
+1. **DNS:** Cloudflare → `overduetracker.org` A record → `<newbox IP>`, **proxied**.
 2. **Origin cert / AOP:** ensure the CF Origin cert presented by newbox covers `overduetracker.org` (add to the SAN list or issue a new origin cert); confirm AOP + the ufw CF-only rules apply to the new vhost.
 3. **Deploy key:** `ssh-keygen` a dedicated keypair; add the **public** key to `deploy@newbox` `authorized_keys` (ideally `command=`-restricted to rsync); put the **private** key in GH secret `NEWBOX_DEPLOY_KEY`, and `NEWBOX_KNOWN_HOSTS` from `ssh-keyscan`.
 4. **Caddy vhost** (manual — CI never touches Caddy):
@@ -129,8 +129,8 @@ Progressive-enhancement form (the site already ships a client island, so first-p
 
 Most of these I can execute directly; the runbooks double as the written record of exactly what was applied.
 
-- **Cloudflare (I drive via the logged-in browser):** add the `overduetracker.org` DNS A record → `37.27.242.32` (proxied), set SSL/TLS mode to Full (strict), enable **Authenticated Origin Pulls** for the zone, and issue an **Origin Certificate** covering the host. Optionally mirror the hireme WAF/rate-limit rules.
-- **Box / newbox (I apply over `ssh newbox`):** install the deploy public key in `authorized_keys`, install Node, drop the systemd unit + root-only env file, create `/var/www/overdue`. **The Caddy vhost change requires your explicit OK each time** — the box also serves `sidaraslanoglu.com` + `emersus.ai`, so I'll `caddy validate` and do a careful reload, but you sign off before it's applied.
+- **Cloudflare (I drive via the logged-in browser):** add the `overduetracker.org` DNS A record → `<newbox IP>` (proxied), set SSL/TLS mode to Full (strict), enable **Authenticated Origin Pulls** for the zone, and issue an **Origin Certificate** covering the host. Optionally mirror the hireme WAF/rate-limit rules.
+- **Box / newbox (I apply over `ssh newbox`):** install the deploy public key in `authorized_keys`, install Node, drop the systemd unit + root-only env file, create `/var/www/overdue`. **The Caddy vhost change requires your explicit OK each time** — the box also serves other production vhosts, so I'll `caddy validate` and do a careful reload, but you sign off before it's applied.
 - **GitHub (I do):** add the `NEWBOX_DEPLOY_KEY` + `NEWBOX_KNOWN_HOSTS` secrets.
 - **You (identity/billing):** create the **Buttondown** account (I can drive the browser through setup with you, but it's tied to your email + billing). You may prefer to install the Origin cert's private key on the box yourself rather than hand it to me.
 

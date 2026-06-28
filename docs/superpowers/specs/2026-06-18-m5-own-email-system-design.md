@@ -1,14 +1,14 @@
 # Milestone 5 — Our own email system (Design)
 
 **Date:** 2026-06-18
-**Status:** Approved (brainstorm via the events.emersus.ai blueprint) → spec for review
+**Status:** Approved (brainstorm via the prior events-site blueprint) → spec for review
 **Depends on:** M3 (the updates log that gets mailed), M4 (newbox host + domain + Caddy). **Replaces** M4's Buttondown proxy.
 
 ## Goal
 
-Own the whole email subscription pipeline — list, double opt-in, unsubscribe, and sending — on newbox, with mail delivered through **Resend** (reusing the existing account) so it lands in inboxes. No SaaS owns the list. **Mirror the battle-tested `dc-frontier-events` (events.emersus.ai) implementation**, trimmed to Overdue's needs.
+Own the whole email subscription pipeline — list, double opt-in, unsubscribe, and sending — on newbox, with mail delivered through **Resend** (reusing the existing account) so it lands in inboxes. No SaaS owns the list. **Mirror the battle-tested `dc-frontier-events` implementation**, trimmed to Overdue's needs.
 
-## Why this shape (the events.emersus.ai blueprint, verified on the box)
+## Why this shape (the prior events-site blueprint, verified on the box)
 
 `dc-frontier-events` already runs this exact system in production: a SQLite subscriber store, a hardened subscribe server with double opt-in, and an emailer that sends via Resend SMTP from a verified subdomain with one-click `List-Unsubscribe`. We adapt it rather than invent. **Deliverability (the hard part) is solved by copying its recipe:** Resend's warmed IPs + an authenticated sending domain (SPF/DKIM/DMARC) + double opt-in + `List-Unsubscribe` + real `Reply-To`.
 

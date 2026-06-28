@@ -8,7 +8,7 @@
 
 **Tech Stack:** Astro 5 (static), TypeScript, vitest.
 
-Spec: `docs/superpowers/specs/2026-06-18-milestone-1-coverage-design.md`. Project root: `~/Desktop/overdue-ai`.
+Spec: `docs/superpowers/specs/2026-06-18-milestone-1-coverage-design.md`. Project root: `overdue-ai`.
 
 ---
 
@@ -105,8 +105,8 @@ Expected: PASS (15 tests: the prior 13 + 2 new).
 - [ ] **Step 6: Commit**
 
 ```bash
-git -C ~/Desktop/overdue-ai add src/lib/types.ts src/lib/status.ts src/data/commitments.ts tests/status.test.ts
-git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat: track field (backfilled 'lab') + regulatoryLabel"
+git -C overdue-ai add src/lib/types.ts src/lib/status.ts src/data/commitments.ts tests/status.test.ts
+git -C overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat: track field (backfilled 'lab') + regulatoryLabel"
 ```
 
 ---
@@ -182,8 +182,8 @@ Expected: FAIL — the **"contains both tracks"** assertion fails (after Task 1 
 - [ ] **Step 3: Commit the failing test**
 
 ```bash
-git -C ~/Desktop/overdue-ai add tests/data.test.ts
-git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "test: M1 data-integrity rules (track, >=22 lab, >=3 live, regulatory unscored)"
+git -C overdue-ai add tests/data.test.ts
+git -C overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "test: M1 data-integrity rules (track, >=22 lab, >=3 live, regulatory unscored)"
 ```
 
 ---
@@ -225,8 +225,8 @@ Expected: PASS — `data.test.ts` green (≥22 lab, ≥3 live, both tracks, regu
 - [ ] **Step 5: Commit**
 
 ```bash
-git -C ~/Desktop/overdue-ai add src/data/commitments.ts
-git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat: M1 coverage — reclassify EU as regulatory, grow lab promises to ~24-28 (web-verified)"
+git -C overdue-ai add src/data/commitments.ts
+git -C overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat: M1 coverage — reclassify EU as regulatory, grow lab promises to ~24-28 (web-verified)"
 ```
 
 ---
@@ -325,8 +325,8 @@ Expected: lab board renders (counts exclude regulatory); a "Upcoming regulatory 
 - [ ] **Step 6: Commit**
 
 ```bash
-git -C ~/Desktop/overdue-ai add src/components/RegulatoryItem.astro src/pages/index.astro src/scripts/board.ts src/styles/global.css
-git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat: partition board by track + regulatory milestones section"
+git -C overdue-ai add src/components/RegulatoryItem.astro src/pages/index.astro src/scripts/board.ts src/styles/global.css
+git -C overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat: partition board by track + regulatory milestones section"
 ```
 
 ---
@@ -373,8 +373,8 @@ In `README.md`, update the one-line description to match (the "promises they mad
 
 Run: `npm run build` (Expected: Complete.)
 ```bash
-git -C ~/Desktop/overdue-ai add src/pages/methodology.astro src/pages/index.astro README.md
-git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "docs: M1 identity (promises they made) + inclusion criteria + related trackers"
+git -C overdue-ai add src/pages/methodology.astro src/pages/index.astro README.md
+git -C overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "docs: M1 identity (promises they made) + inclusion criteria + related trackers"
 ```
 
 ---
@@ -389,7 +389,7 @@ Expected: all tests pass; build Complete; `grep -o 'data-reg' dist/index.html | 
 - [ ] **Step 2: Push (CI deploys)**
 
 ```bash
-git -C ~/Desktop/overdue-ai push origin main
+git -C overdue-ai push origin main
 ```
 Then confirm the deploy run goes green and the live site shows the lab board + regulatory section.
 

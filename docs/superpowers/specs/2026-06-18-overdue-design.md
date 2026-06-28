@@ -46,7 +46,7 @@ Researched comprehensively: indie/OSS/GitHub/hackathons, think tanks/government/
 
 - **Astro (static, `output: 'static'`) + TypeScript.** Deploy to **GitHub Pages** via a small Actions workflow (`astro build` → deploy).
 - **vitest** for unit tests. No client framework runtime — one vanilla `<script>` island for live timers + filter/sort.
-- Repo: new public `kayadibi1/overdue-ai`. Local project at `~/Desktop/overdue-ai`.
+- Repo: new public `kayadibi1/overdue-ai`. Local project at `overdue-ai`.
 
 **File layout:**
 ```

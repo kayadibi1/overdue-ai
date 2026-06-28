@@ -8,7 +8,7 @@
 
 **Tech Stack:** TypeScript, `tsx`, `cheerio`, Node `fetch`/`crypto`, GitHub REST API, vitest.
 
-Spec: `docs/superpowers/specs/2026-06-18-milestone-2-watcher-design.md`. Root: `~/Desktop/overdue-ai`.
+Spec: `docs/superpowers/specs/2026-06-18-milestone-2-watcher-design.md`. Root: `overdue-ai`.
 
 ---
 
@@ -35,7 +35,7 @@ Spec: `docs/superpowers/specs/2026-06-18-milestone-2-watcher-design.md`. Root: `
 - [ ] **Step 1: Add dev deps**
 
 ```bash
-cd ~/Desktop/overdue-ai && npm install -D tsx@^4 cheerio@^1 @types/node@^22
+cd overdue-ai && npm install -D tsx@^4 cheerio@^1 @types/node@^22
 ```
 Then add a `watch` script to `package.json` `scripts`: `"watch": "tsx scripts/watch.ts"`.
 Expected: devDependencies include `tsx`, `cheerio`, `@types/node`; the `watch` script exists; `package-lock.json` updated. (`@types/node` lets `node:crypto`/`node:fs` and the runner type-check cleanly; the `watch` script avoids `npm exec` arg-passing ambiguity.)
@@ -193,8 +193,8 @@ Expected: PASS (all watch tests).
 - [ ] **Step 6: Commit**
 
 ```bash
-git -C ~/Desktop/overdue-ai add package.json package-lock.json src/watcher/core.ts tests/watch.test.ts
-git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat(watcher): pure core (extract/hash/diff/dueDeadlines) + tests + tsx/cheerio deps"
+git -C overdue-ai add package.json package-lock.json src/watcher/core.ts tests/watch.test.ts
+git -C overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat(watcher): pure core (extract/hash/diff/dueDeadlines) + tests + tsx/cheerio deps"
 ```
 
 ---
@@ -225,14 +225,14 @@ git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gma
 - [ ] **Step 3: Create the snapshot dir**
 
 ```bash
-mkdir -p ~/Desktop/overdue-ai/.watcher/snapshots && touch ~/Desktop/overdue-ai/.watcher/snapshots/.gitkeep
+mkdir -p overdue-ai/.watcher/snapshots && touch overdue-ai/.watcher/snapshots/.gitkeep
 ```
 
 - [ ] **Step 4: Commit**
 
 ```bash
-git -C ~/Desktop/overdue-ai add .watcher/
-git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat(watcher): watchlist + empty state scaffolding"
+git -C overdue-ai add .watcher/
+git -C overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat(watcher): watchlist + empty state scaffolding"
 ```
 
 ---
@@ -388,14 +388,14 @@ main().catch((e) => { console.error(e); process.exit(1); });
 
 - [ ] **Step 2: Local dry-run**
 
-Run: `cd ~/Desktop/overdue-ai && npm run watch -- --dry-run`
+Run: `cd overdue-ai && npm run watch -- --dry-run`
 Expected: it fetches the watchlist, prints `baseline:` for each source (first run), prints any `Deadline check:` planned issues for genuinely-due commitments, and `dryRun=true` with no API calls or file writes. (If a source fetch fails or returns a JS shell with near-empty text, note it — that source should be swapped/dropped in Task 4.)
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git -C ~/Desktop/overdue-ai add scripts/watch.ts
-git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat(watcher): runner (fetch + diff + GitHub issues + dry-run)"
+git -C overdue-ai add scripts/watch.ts
+git -C overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "feat(watcher): runner (fetch + diff + GitHub issues + dry-run)"
 ```
 
 ---
@@ -465,8 +465,8 @@ on:
 - [ ] **Step 3: Commit**
 
 ```bash
-git -C ~/Desktop/overdue-ai add .github/workflows/watch.yml .github/workflows/deploy.yml
-git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "ci(watcher): weekly workflow + deploy paths-ignore"
+git -C overdue-ai add .github/workflows/watch.yml .github/workflows/deploy.yml
+git -C overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gmail.com' commit -m "ci(watcher): weekly workflow + deploy paths-ignore"
 ```
 
 ---
@@ -475,7 +475,7 @@ git -C ~/Desktop/overdue-ai -c user.name='kayadibi1' -c user.email='sidarvig@gma
 
 - [ ] **Step 1: Full test**
 
-Run: `cd ~/Desktop/overdue-ai && npm test && npm run build`
+Run: `cd overdue-ai && npm test && npm run build`
 Expected: all tests pass (incl. `watch.test.ts`); build Complete (the watcher doesn't touch the site, so build is unaffected).
 
 - [ ] **Step 2: Validate the watchlist URLs (dry-run)**
@@ -486,7 +486,7 @@ For each source, confirm `extractText` produced substantive text (not a ~empty J
 - [ ] **Step 3: Push**
 
 ```bash
-git -C ~/Desktop/overdue-ai push origin main
+git -C overdue-ai push origin main
 ```
 Confirm the **deploy** workflow does NOT run for these commits (paths-ignore covers `.github/**`? No — workflow files are under `.github/`; the deploy push trigger still fires for non-ignored paths like `scripts/`, `src/`, `package.json`). Expect a deploy run (harmless — site rebuilds, unchanged). The *watcher's own* future state commits (touching only `.watcher/`) will be skipped by paths-ignore.
 

@@ -104,7 +104,7 @@ jobs:
           printf '%s\n' "${{ secrets.NEWBOX_DEPLOY_KEY }}" > ~/.ssh/id_deploy
           chmod 600 ~/.ssh/id_deploy
           printf '%s\n' "${{ secrets.NEWBOX_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-          rsync -az --delete -e "ssh -i ~/.ssh/id_deploy -o StrictHostKeyChecking=yes" dist/ deploy@37.27.242.32:/var/www/overdue/
+          rsync -az --delete -e "ssh -i ~/.ssh/id_deploy -o StrictHostKeyChecking=yes" dist/ deploy@<newbox IP>:/var/www/overdue/
 ```
 
 - [ ] **Step 2: Make the Pages workflow build the backup base**
@@ -415,7 +415,7 @@ git commit -m "feat(m4): place Subscribe on homepage Follow block + /updates"
 **Files:** Create `docs/runbooks/m4-hosting.md`, `docs/runbooks/m4-subscribe.md`
 
 - [ ] **Step 1: `m4-hosting.md`** — exact steps + snippets:
-  - Cloudflare (browser): DNS `A overduetracker.org → 37.27.242.32` proxied; SSL/TLS = Full (strict); enable Authenticated Origin Pulls; issue an Origin Certificate covering `overduetracker.org`.
+  - Cloudflare (browser): DNS `A overduetracker.org → <newbox IP>` proxied; SSL/TLS = Full (strict); enable Authenticated Origin Pulls; issue an Origin Certificate covering `overduetracker.org`.
   - Box (`ssh newbox`): create `deploy` user + `/var/www/overdue` (owned by deploy); add the deploy **public** key to `~deploy/.ssh/authorized_keys` (ideally `command="rsync --server ..."`-restricted); install the Origin cert; the **Caddy vhost** block (below) — *applied only with the user's OK*, `caddy validate` then reload.
     ```
     overduetracker.org {
@@ -427,13 +427,13 @@ git commit -m "feat(m4): place Subscribe on homepage Follow block + /updates"
       }
     }
     ```
-    **Mirror the existing `sidaraslanoglu.com` / `emersus.ai` `tls`+AOP block** instead of trusting the syntax above verbatim (Caddy versions differ); run `caddy validate` before reload.
-  - GitHub: add secrets `NEWBOX_DEPLOY_KEY` (private), `NEWBOX_KNOWN_HOSTS` (`ssh-keyscan 37.27.242.32`).
+    **Mirror the production `tls`+AOP block** instead of trusting the syntax above verbatim (Caddy versions differ); run `caddy validate` before reload.
+  - GitHub: add secrets `NEWBOX_DEPLOY_KEY` (private), `NEWBOX_KNOWN_HOSTS` (`ssh-keyscan <newbox IP>`).
   - Verify: push → Action rsyncs → `https://overduetracker.org` serves the site.
 
 - [ ] **Step 2: `m4-subscribe.md`** — exact steps:
   - Buttondown (user): create account; copy API key to `/etc/overdue-subscribe.env` (`BUTTONDOWN_API_KEY=...`, `chmod 600`, root-only); enable RSS-to-email → `https://overduetracker.org/feed.xml`.
-  - Box: install Node 22; deploy the service to a fixed path — `mkdir -p /opt/overdue-subscribe && rsync -az server/subscribe/ root@37.27.242.32:/opt/overdue-subscribe/` (re-run on service changes, then `systemctl restart overdue-subscribe`). systemd unit (its `ExecStart` path matches `/opt/overdue-subscribe/index.mjs`):
+  - Box: install Node 22; deploy the service to a fixed path — `mkdir -p /opt/overdue-subscribe && rsync -az server/subscribe/ root@<newbox IP>:/opt/overdue-subscribe/` (re-run on service changes, then `systemctl restart overdue-subscribe`). systemd unit (its `ExecStart` path matches `/opt/overdue-subscribe/index.mjs`):
     ```ini
     [Unit]
     Description=Overdue subscribe proxy

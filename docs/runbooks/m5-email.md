@@ -1,6 +1,6 @@
 # M5 Runbook — Own email system go-live
 
-Replace M4's Buttondown proxy with Overdue's own pipeline: a Python `subscribe_server` on newbox (SQLite double opt-in) sending through **Resend SMTP** from a verified subdomain. Do the M4 hosting runbook first (the box, Cloudflare/AOP, and the deploy user already exist). The **Caddy edit needs explicit sign-off** since the box also serves `sidaraslanoglu.com` + `emersus.ai`.
+Replace M4's Buttondown proxy with Overdue's own pipeline: a Python `subscribe_server` on newbox (SQLite double opt-in) sending through **Resend SMTP** from a verified subdomain. Do the M4 hosting runbook first (the box, Cloudflare/AOP, and the deploy user already exist). The **Caddy edit needs explicit sign-off** since the box also serves other production vhosts.
 
 ## 1. Resend + DNS (reuse the existing account)
 - In the existing Resend account, **Add Domain** → `overduetracker.org`, using the send subdomain **`mail.overduetracker.org`** (isolates sending reputation from the apex).
@@ -30,7 +30,7 @@ chmod 600 /etc/overdue-subscribe.env
   ```bash
   mkdir -p /opt/overdue-subscribe
   # from your Mac checkout:
-  rsync -az server/subscribe/ root@37.27.242.32:/opt/overdue-subscribe/
+  rsync -az server/subscribe/ root@<newbox IP>:/opt/overdue-subscribe/
   ```
   (Re-run this rsync whenever `server/subscribe/` changes, then `systemctl restart overdue-subscribe`.) The flat layout + absolute imports mean it runs as `python3 -m subscribe_server` from `/opt/overdue-subscribe`.
 - The SQLite store lives at `/opt/overdue-subscribe/data/subscribers.db` (created on first run; `data/` is auto-created). Keep it in your backups — **this is the list; no SaaS holds it.**
@@ -64,7 +64,7 @@ overduetracker.org {
   file_server
   handle /api/* { reverse_proxy 127.0.0.1:8788 }
   # TLS + Authenticated Origin Pulls + trusted_proxies (Cloudflare ranges):
-  # MIRROR the working block from the existing sidaraslanoglu.com / emersus.ai
+  # MIRROR the working block from the existing production
   # vhost (so Cf-Connecting-Ip is trusted for the rate limiter).
 }
 ```

@@ -6,9 +6,11 @@ import type { Commitment } from '../lib/types';
 //
 // Sources model: every row carries `sources[]`. An `obligation` source is the
 // document that CREATES the promise and carries the verbatim `quote`; a
-// `fulfillment` source proves it was / was not delivered. `// TODO verify quote`
-// marks a quote not yet confirmed verbatim against the (often JS/PDF) source —
-// the daily drift check surfaces these as `inconclusive` for human confirmation.
+// `fulfillment` source proves it was / was not delivered. A quote tagged
+// `// quote: pending verbatim confirmation` is transcribed from reporting but
+// not yet machine-confirmed character-for-character against the (often JS/PDF)
+// primary source; the daily drift check surfaces these as `inconclusive` so a
+// human can confirm or correct them. It is a verification state, not unfinished work.
 export const COMMITMENTS: Commitment[] = [
   // ---- resolved: partial (updated policy published ~3 months after the self-imposed deadline) ----
   { id: 'xai-updated-policy-2025', lab: 'xAI', track: 'lab',
@@ -53,7 +55,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://openai.com/index/introducing-superalignment/', label: 'OpenAI', tier: 'primary', role: 'obligation',
-        quote: 'dedicating 20% of the compute we’ve secured to date over the next four years' }, // TODO verify quote
+        quote: 'dedicating 20% of the compute we’ve secured to date over the next four years' }, // quote: pending verbatim confirmation
       { url: 'https://fortune.com/2024/05/21/openai-superalignment-20-compute-commitment-never-fulfilled-sutskever-leike-altman-brockman-murati/', label: 'Fortune', tier: 'secondary', role: 'fulfillment' },
     ],
     notes: 'Reporting (six sources) says the compute was not fully delivered; OpenAI did not respond to the report and disputes the broader safety criticism. Team disbanded before the four years elapsed.' },
@@ -86,7 +88,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://www.anthropic.com/news/anthropics-responsible-scaling-policy', label: 'Anthropic', tier: 'primary', role: 'obligation',
-        quote: 'Responsible Scaling Policy' }, // TODO verify quote
+        quote: 'Responsible Scaling Policy' }, // quote: pending verbatim confirmation
     ] },
 
   // #4 Anthropic capability-assessment cadence relaxed (partial/contested)
@@ -193,7 +195,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf', label: 'The White House (archive)', tier: 'primary', role: 'obligation',
-        quote: 'internal and external red-teaming of models' }, // TODO verify quote
+        quote: 'internal and external red-teaming of models' }, // quote: pending verbatim confirmation
     ],
     notes: 'Pre-release red-teaming became broadly standard practice among signatories; recorded as broadly met.' },
 
@@ -236,7 +238,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai', label: 'European Commission', tier: 'primary', role: 'context',
-        quote: 'General-Purpose AI Code of Practice' }, // TODO verify quote
+        quote: 'General-Purpose AI Code of Practice' }, // quote: pending verbatim confirmation
     ],
     notes: 'Regulatory instrument under the EU AI Act; shown as context, not scored.' },
 
@@ -250,7 +252,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://artificialintelligenceact.eu/article/113/', label: 'EU AI Act', tier: 'primary', role: 'context',
-        quote: 'Chapter V (general-purpose AI models) shall apply from 2 August 2025' }, // TODO verify quote
+        quote: 'Chapter V (general-purpose AI models) shall apply from 2 August 2025' }, // quote: pending verbatim confirmation
     ],
     notes: 'Statutory in-force date under the EU AI Act; shown as context, not scored.' },
 
@@ -279,7 +281,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://www.anthropic.com/rsp-updates', label: 'Anthropic', tier: 'primary', role: 'obligation',
-        quote: 'Responsible Scaling Policy' }, // TODO verify quote
+        quote: 'Responsible Scaling Policy' }, // quote: pending verbatim confirmation
     ] },
 
   // #18 Anthropic sabotage risk reports for future frontier models (met)
@@ -350,7 +352,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf', label: 'The White House (archive)', tier: 'primary', role: 'obligation',
-        quote: 'develop robust mechanisms, including provenance and/or watermarking' }, // TODO verify quote
+        quote: 'develop robust mechanisms, including provenance and/or watermarking' }, // quote: pending verbatim confirmation
     ],
     notes: 'Some signatories shipped provenance tooling (e.g. Google SynthID, C2PA Content Credentials), but a 2025 academic review found deployment across publicly available products was uneven a year on; recorded as partial.' },
 
@@ -398,7 +400,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules', label: 'Hogan Lovells', tier: 'secondary', role: 'context',
-        quote: 'delay for high-risk AI rules' }, // TODO verify quote
+        quote: 'delay for high-risk AI rules' }, // quote: pending verbatim confirmation
     ],
     notes: 'New date (2027-12-02) is the Digital Omnibus deferral, provisionally agreed and pending formal adoption / EU Official Journal publication; the prior statutory date was 2026-08-02. Shown as a countdown, not scored.' },
 
@@ -412,7 +414,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules', label: 'Hogan Lovells', tier: 'secondary', role: 'context',
-        quote: 'delay for high-risk AI rules' }, // TODO verify quote
+        quote: 'delay for high-risk AI rules' }, // quote: pending verbatim confirmation
     ],
     notes: 'New date (2028-08-02) is the Digital Omnibus deferral, provisionally agreed and pending formal adoption / EU Official Journal publication; the prior date was 2027-08-02. Shown as a countdown, not scored.' },
 
@@ -426,7 +428,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://artificialintelligenceact.eu/article/111/', label: 'EU AI Act', tier: 'primary', role: 'context',
-        quote: 'shall comply with the obligations laid down in this Regulation by 2 August 2027' }, // TODO verify quote
+        quote: 'shall comply with the obligations laid down in this Regulation by 2 August 2027' }, // quote: pending verbatim confirmation
     ],
     notes: 'Statutory transition deadline for pre-existing GPAI models; shown as a countdown, not scored.' },
 
@@ -440,7 +442,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-18',
     sources: [
       { url: 'https://artificialintelligenceact.eu/article/112/', label: 'EU AI Act', tier: 'primary', role: 'context',
-        quote: 'by 2 August 2028 and every four years thereafter' }, // TODO verify quote
+        quote: 'by 2 August 2028 and every four years thereafter' }, // quote: pending verbatim confirmation
     ],
     notes: 'Statutory review cycle (first due 2028-08-02, then every four years); shown as a countdown, not scored.' },
 
@@ -531,7 +533,7 @@ export const COMMITMENTS: Commitment[] = [
     reviewedBy: 'sa', reviewedOn: '2026-06-19',
     sources: [
       { url: 'https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf', label: 'The White House (archive)', tier: 'primary', role: 'obligation',
-        quote: 'publicly report model or system capabilities, limitations, and domains of appropriate and inappropriate use' }, // TODO verify quote
+        quote: 'publicly report model or system capabilities, limitations, and domains of appropriate and inappropriate use' }, // quote: pending verbatim confirmation
       { url: 'https://arxiv.org/abs/2508.08345', label: 'Wang, Huang, Klyman & Bommasani (AIES 2025)', tier: 'secondary', role: 'fulfillment' },
     ],
     notes: 'Shallow disclosure is near-universal — frontier labs publish system/model cards for major releases — but the 2025 study found deeper indicators (limitations, societal-risk discussion, adversarial-test results) met inconsistently. Recorded as partial; contested because the basic reporting bar is broadly met while the substantive bar is not.' },
