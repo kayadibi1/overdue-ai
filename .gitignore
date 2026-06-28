@@ -10,3 +10,7 @@ __pycache__/
 # runtime SQLite store + dry-run .eml output — never commit the subscriber list
 server/subscribe/data/
 server/subscribe/out/
+
+# internal planning/runbook scaffolding (not product)
+docs/superpowers/
+docs/runbooks/
