@@ -126,13 +126,13 @@
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-06-29",
+      "lastChangedOn": "2026-06-30",
       "proposals": [
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 publication that itself established the 'at least once a year' commitment, not evidence of any subsequent review conducted by the derived 2026-04-15 deadline.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025 (COMMITTED ON date)",
+          "rationale": "The artifact is OpenAI's April 15, 2025 publication that introduced the updated Preparedness Framework and established the 'at least once a year' review cadence — it is the source of the commitment, not evidence of a subsequent annual review completed by the derived 2026-04-15 deadline.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ (dated April 15, 2025)",
           "via": "archive"
         }
       ]
