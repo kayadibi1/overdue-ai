@@ -131,8 +131,8 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 v2 framework publication that established the 'at least once a year' commitment itself, not evidence of the subsequent annual review due by the 2026-04-15 trigger; despite the 2026 Wayback capture date, the page content and byline are April 15, 2025.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — 'April 15, 2025 … We're releasing an update to our Preparedness Framework'",
+          "rationale": "The artifact is the April 15, 2025 v2 framework release that established the 'at least once a year' cadence, not evidence of the subsequent annual review due by 2026-04-15; despite the 2026-05-20 Wayback capture, its content and dateline are April 15, 2025 and show no review occurring near the deadline.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dateline 'April 15, 2025'",
           "via": "archive"
         }
       ]
