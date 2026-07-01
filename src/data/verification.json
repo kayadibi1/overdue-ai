@@ -4,8 +4,8 @@
       "sources": [
         {
           "url": "https://x.ai/documents/2025.02.20-RMF-Draft.pdf",
-          "linkOk": true,
-          "quoteCheck": "ok",
+          "linkOk": false,
+          "quoteCheck": "inconclusive",
           "archiveUrl": "http://web.archive.org/web/20260429031103/https://x.ai/documents/2025.02.20-RMF-Draft.pdf"
         },
         {
@@ -15,7 +15,7 @@
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-06-30"
+      "lastChangedOn": "2026-07-01"
     },
     "meta-frontier-framework-seoul": {
       "sources": [
@@ -126,13 +126,13 @@
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-06-30",
+      "lastChangedOn": "2026-07-01",
       "proposals": [
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 announcement that established the v2 Preparedness Framework (the source of the annual-review commitment), not evidence of any subsequent yearly review conducted by the 2026-04-15 deadline.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
+          "rationale": "The artifact is OpenAI's April 15, 2025 announcement that introduced the updated (v2) framework containing the 'at least once a year' promise itself — it is the commitment's source, not evidence of a subsequent annual review by the derived 2026-04-15 deadline.",
+          "citation": "openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
       ]
@@ -371,23 +371,23 @@
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": false,
-          "quoteCheck": "inconclusive"
+          "linkOk": true,
+          "quoteCheck": "ok"
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-06-30"
+      "lastChangedOn": "2026-07-01"
     },
     "eu-aia-highrisk-annex1": {
       "sources": [
         {
           "url": "https://www.hoganlovells.com/en/publications/eu-legislators-agree-to-delay-for-highrisk-ai-rules",
-          "linkOk": false,
-          "quoteCheck": "inconclusive"
+          "linkOk": true,
+          "quoteCheck": "ok"
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-06-30"
+      "lastChangedOn": "2026-07-01"
     },
     "eu-aia-gpai-legacy-2027": {
       "sources": [
