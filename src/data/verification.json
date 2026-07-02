@@ -131,7 +131,7 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 v2 framework publication that established the annual-review commitment itself, and shows no subsequent review conducted for the 2026-04-15 cycle despite the later Wayback capture date.",
+          "rationale": "The artifact is the April 15, 2025 publication that introduced the v2 framework and created the once-a-year review commitment itself; it shows no review conducted by the derived 2026-04-15 deadline, only the originating update.",
           "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
