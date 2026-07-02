@@ -126,13 +126,13 @@
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-07-01",
+      "lastChangedOn": "2026-07-02",
       "proposals": [
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 v2 framework release that established the 'at least once a year' cadence, not evidence of the subsequent annual review due by 2026-04-15; despite the 2026-05-20 Wayback capture, its content and dateline are April 15, 2025 and show no review occurring near the deadline.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dateline 'April 15, 2025'",
+          "rationale": "The artifact is the original April 15, 2025 v2 Preparedness Framework release that established the annual-review cadence, not evidence of a review conducted by the derived 2026-04-15 deadline; its forward-looking 'living document' language does not evidence an actual completed annual review.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
       ]
