@@ -125,11 +125,17 @@
           "archiveUrl": "http://web.archive.org/web/20260520152355/https://openai.com/index/updating-our-preparedness-framework/"
         }
       ],
-      "problems": [
-        "Class-B adjudication unavailable — needs manual adjudication"
-      ],
+      "problems": [],
       "lastChangedOn": "2026-07-03",
-      "proposals": []
+      "proposals": [
+        {
+          "kind": "class-B",
+          "verdict": "no",
+          "rationale": "The artifact is the April 15, 2025 framework update that established the 'at least once a year' commitment itself, and shows no evidence of a subsequent review completed by the derived 2026-04-15 deadline.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
+          "via": "archive"
+        }
+      ]
     },
     "openai-ssc-90-days": {
       "sources": [
