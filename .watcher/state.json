@@ -1,11 +1,11 @@
 {
   "anthropic-rsp": {
-    "hash": "c66fdfcd4873ab9bb63298209345d39ce980420cbea28e4b1d41be1ba3456d4a",
+    "hash": "b9371037a1a6dd731856edae8b009746b49a56370cf009f1308ec948804f8e40",
     "lastChanged": "2026-07-09"
   },
   "openai-preparedness": {
-    "hash": "f5568126028ab42db6283602c381f699194fcac353704513a60b3eabb8742ef1",
-    "lastChanged": "2026-06-25"
+    "hash": "346bf085ab3cf79859c4ed43ddd1405c7ecfd82674fb852d0ee4c45aa7f89a6f",
+    "lastChanged": "2026-07-09"
   },
   "deepmind-responsibility": {
     "hash": "3c09bf5b1b08fdfa45dd60bfba9a98efdd64e818d60e2c826a49212edbabd427",
