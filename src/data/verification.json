@@ -125,11 +125,17 @@
           "archiveUrl": "http://web.archive.org/web/20260520152355/https://openai.com/index/updating-our-preparedness-framework/"
         }
       ],
-      "problems": [
-        "Class-B adjudication unavailable — needs manual adjudication"
-      ],
+      "problems": [],
       "lastChangedOn": "2026-07-10",
-      "proposals": []
+      "proposals": [
+        {
+          "kind": "class-B",
+          "verdict": "no",
+          "rationale": "The artifact is the April 15, 2025 v2 framework release that established the annual-review cadence itself, not evidence of a subsequent review conducted by the 2026-04-15 deadline.",
+          "citation": "openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
+          "via": "archive"
+        }
+      ]
     },
     "openai-ssc-90-days": {
       "sources": [
