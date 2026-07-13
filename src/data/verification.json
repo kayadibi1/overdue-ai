@@ -126,12 +126,12 @@
         }
       ],
       "problems": [],
-      "lastChangedOn": "2026-07-12",
+      "lastChangedOn": "2026-07-13",
       "proposals": [
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is OpenAI's April 15, 2025 Preparedness Framework update that established the annual-review commitment itself, and contains no evidence of a subsequent review conducted by the derived 2026-04-15 deadline (the May 2026 Wayback capture only re-serves the same 2025 publication).",
+          "rationale": "The artifact is the April 15, 2025 v2 framework release that established the 'at least once a year' cadence itself — it is the commitment-making document, not evidence of a subsequent annual review conducted by the derived 2026-04-15 deadline.",
           "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
