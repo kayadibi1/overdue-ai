@@ -131,7 +131,7 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 publication that established the 'at least once a year' review commitment itself, not evidence of a subsequent annual review conducted by the derived 2026-04-15 deadline.",
+          "rationale": "The artifact is the April 15, 2025 publication that announced the updated framework and made the once-a-year review commitment itself; it shows no review/update occurring in the following year by the 2026-04-15 trigger.",
           "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
