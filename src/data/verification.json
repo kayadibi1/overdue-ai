@@ -131,8 +131,8 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is OpenAI's April 15, 2025 v2 Preparedness Framework publication itself — the document that established the 'at least once a year' review cadence — and shows no review or update conducted by the derived 2026-04-15 deadline.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ (dated April 15, 2025)",
+          "rationale": "The artifact is the April 15, 2025 v2 framework publication that itself established the 'at least once a year' review commitment; it shows no review conducted around the 2026-04-15 annual deadline (the 2026-05-20 Wayback date is merely when the page was archived).",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
       ]
