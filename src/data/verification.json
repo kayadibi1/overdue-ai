@@ -131,8 +131,8 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 Preparedness Framework v2 announcement that established the once-a-year review cadence itself; it shows no review conducted by the derived 2026-04-15 deadline, only the baseline update that created the obligation.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
+          "rationale": "The artifact is the April 15, 2025 v2 framework publication that itself established the annual-review commitment, not evidence of a subsequent review conducted by the derived 2026-04-15 deadline; the 2026 Wayback capture date only reflects archiving, while the page content and dateline remain April 15, 2025.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dateline 'April 15, 2025'",
           "via": "archive"
         }
       ]
