@@ -14,8 +14,10 @@
           "quoteCheck": "ok"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-07-10"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "meta-frontier-framework-seoul": {
       "sources": [
@@ -48,8 +50,10 @@
           "quoteCheck": "ok"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "anthropic-asl4-before-asl3": {
       "sources": [
@@ -66,8 +70,10 @@
           "archiveUrl": "http://web.archive.org/web/20260616171234/https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "anthropic-rsp-v1": {
       "sources": [
@@ -90,8 +96,10 @@
           "archiveUrl": "http://web.archive.org/web/20260220175916/https://www.anthropic.com/rsp-updates"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "anthropic-ltbt-majority": {
       "sources": [
@@ -125,14 +133,16 @@
           "archiveUrl": "http://web.archive.org/web/20260520152355/https://openai.com/index/updating-our-preparedness-framework/"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-07-17",
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18",
       "proposals": [
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 v2 framework publication that itself established the annual-review commitment, not evidence of a subsequent review conducted by the derived 2026-04-15 deadline; the 2026 Wayback capture date only reflects archiving, while the page content and dateline remain April 15, 2025.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dateline 'April 15, 2025'",
+          "rationale": "The artifact is the April 15, 2025 v2 framework release that itself established the annual-review promise; it shows no review or update performed in the subsequent year by the 2026-04-15 deadline.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
       ]
@@ -164,8 +174,10 @@
           "archiveUrl": "http://web.archive.org/web/20260509182004/https://deepmind.google/blog/updating-the-frontier-safety-framework/"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "deepmind-fsf-eval-cadence": {
       "sources": [
@@ -176,8 +188,10 @@
           "archiveUrl": "http://web.archive.org/web/20260616170618/https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/introducing-the-frontier-safety-framework/fsf-technical-report.pdf"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "wh-voluntary-redteam-2023": {
       "sources": [
@@ -217,8 +231,10 @@
           "quoteCheck": "ok"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "eu-gpai-cop-finalized": {
       "sources": [
@@ -228,8 +244,10 @@
           "quoteCheck": "ok"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "eu-aia-gpai-apply-2025": {
       "sources": [
@@ -239,8 +257,10 @@
           "quoteCheck": "ok"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "microsoft-frontier-governance-v1": {
       "sources": [
@@ -304,8 +324,10 @@
           "archiveUrl": "http://web.archive.org/web/20260613100720/https://darioamodei.com/post/the-urgency-of-interpretability"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "seoul-frameworks-by-paris": {
       "sources": [
@@ -316,8 +338,10 @@
           "archiveUrl": "http://web.archive.org/web/20260613085944/https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "wh-voluntary-watermarking-2023": {
       "sources": [
@@ -328,8 +352,10 @@
           "archiveUrl": "http://web.archive.org/web/20260604163547/https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/09/Voluntary-AI-Commitments-September-2023.pdf"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "anthropic-risk-report-next": {
       "sources": [
@@ -346,8 +372,10 @@
           "archiveUrl": "http://web.archive.org/web/20260220175916/https://www.anthropic.com/rsp-updates"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "anthropic-annual-procedural-review": {
       "sources": [
@@ -364,8 +392,10 @@
           "archiveUrl": "http://web.archive.org/web/20260220175916/https://www.anthropic.com/rsp-updates"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "eu-aia-highrisk-annex3": {
       "sources": [
@@ -375,8 +405,10 @@
           "quoteCheck": "ok"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-07-01"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "eu-aia-highrisk-annex1": {
       "sources": [
@@ -386,8 +418,10 @@
           "quoteCheck": "ok"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-07-01"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "eu-aia-gpai-legacy-2027": {
       "sources": [
@@ -397,8 +431,10 @@
           "quoteCheck": "ok"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "eu-aia-commission-eval-2028": {
       "sources": [
@@ -408,8 +444,10 @@
           "quoteCheck": "ok"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-18 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-18"
     },
     "amazon-frontier-framework-seoul": {
       "sources": [
