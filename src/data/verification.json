@@ -136,13 +136,13 @@
       "problems": [
         "ruling not reviewed since 2026-06-18 — re-review due"
       ],
-      "lastChangedOn": "2026-07-18",
+      "lastChangedOn": "2026-07-19",
       "proposals": [
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 v2 Preparedness Framework update that established the 'at least once a year' review cadence — it is the commitment's origin document, not evidence of a subsequent annual review completed by the 2026-04-15 deadline.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ (dated April 15, 2025)",
+          "rationale": "The artifact is OpenAI's April 15, 2025 v2 Preparedness Framework update that established the annual-review commitment itself; it shows no review or update performed by the derived 2026-04-15 deadline, only the originating action.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
       ]
@@ -480,8 +480,10 @@
           "quoteCheck": "ok"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-19 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-19"
     },
     "mistral-frontier-framework-seoul": {
       "sources": [
@@ -497,8 +499,10 @@
           "quoteCheck": "ok"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-19 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-19"
     },
     "wh-voluntary-weight-security-2023": {
       "sources": [
@@ -548,8 +552,10 @@
           "quoteCheck": "ok"
         }
       ],
-      "problems": [],
-      "lastChangedOn": "2026-06-20"
+      "problems": [
+        "ruling not reviewed since 2026-06-19 — re-review due"
+      ],
+      "lastChangedOn": "2026-07-19"
     }
   }
 }
