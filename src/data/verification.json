@@ -4,8 +4,8 @@
       "sources": [
         {
           "url": "https://x.ai/documents/2025.02.20-RMF-Draft.pdf",
-          "linkOk": true,
-          "quoteCheck": "ok",
+          "linkOk": false,
+          "quoteCheck": "inconclusive",
           "archiveUrl": "http://web.archive.org/web/20260429031103/https://x.ai/documents/2025.02.20-RMF-Draft.pdf"
         },
         {
@@ -17,7 +17,7 @@
       "problems": [
         "ruling not reviewed since 2026-06-18 — re-review due"
       ],
-      "lastChangedOn": "2026-07-18"
+      "lastChangedOn": "2026-07-20"
     },
     "meta-frontier-framework-seoul": {
       "sources": [
@@ -134,11 +134,18 @@
         }
       ],
       "problems": [
-        "ruling not reviewed since 2026-06-18 — re-review due",
-        "Class-B adjudication unavailable — needs manual adjudication"
+        "ruling not reviewed since 2026-06-18 — re-review due"
       ],
       "lastChangedOn": "2026-07-20",
-      "proposals": []
+      "proposals": [
+        {
+          "kind": "class-B",
+          "verdict": "no",
+          "rationale": "The artifact is the April 15, 2025 announcement of the v2 Preparedness Framework that established the annual-review commitment itself, and shows no subsequent review/update occurring by the derived 2026-04-15 deadline.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
+          "via": "archive"
+        }
+      ]
     },
     "openai-ssc-90-days": {
       "sources": [
