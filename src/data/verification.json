@@ -134,18 +134,11 @@
         }
       ],
       "problems": [
-        "ruling not reviewed since 2026-06-18 — re-review due"
+        "ruling not reviewed since 2026-06-18 — re-review due",
+        "Class-B adjudication unavailable — needs manual adjudication"
       ],
       "lastChangedOn": "2026-07-23",
-      "proposals": [
-        {
-          "kind": "class-B",
-          "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 v2 Preparedness Framework update that established the annual-review commitment itself, not evidence of the subsequent review due by the 2026-04-15 deadline.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
-          "via": "archive"
-        }
-      ]
+      "proposals": []
     },
     "openai-ssc-90-days": {
       "sources": [
