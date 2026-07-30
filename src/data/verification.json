@@ -141,7 +141,7 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 publication that originally established the 'at least once a year' cadence, not evidence of a subsequent review/update performed by the derived 2026-04-15 deadline.",
+          "rationale": "The artifact is the April 15, 2025 Preparedness Framework update that established the annual-review commitment itself; it shows no review or update occurring in the subsequent year by the 2026-04-15 deadline.",
           "citation": "https://openai.com/index/updating-our-preparedness-framework/ (dated April 15, 2025)",
           "via": "archive"
         }
