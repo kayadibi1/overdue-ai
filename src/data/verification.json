@@ -141,7 +141,7 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is OpenAI's April 15, 2025 publication announcing the v2 framework that itself established the annual-review commitment, not evidence of a subsequent review conducted by the derived 2026-04-15 deadline.",
+          "rationale": "The artifact is the April 15, 2025 v2 launch announcement that itself established the 'at least once a year' cadence; it predates the derived 2026-04-15 deadline and shows no review conducted by that date.",
           "citation": "openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
