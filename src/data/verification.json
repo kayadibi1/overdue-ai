@@ -141,8 +141,8 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 v2 launch announcement that itself established the 'at least once a year' cadence; it predates the derived 2026-04-15 deadline and shows no review conducted by that date.",
-          "citation": "openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
+          "rationale": "The artifact is the April 15, 2025 framework-update post that established the 'at least once a year' commitment itself; it contains no evidence of a subsequent review conducted by the 2026-04-15 annual deadline, despite the Wayback snapshot being captured in May 2026.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
       ]
