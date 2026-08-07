@@ -141,7 +141,7 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 framework update that originated the annual-review commitment, not evidence of any subsequent review conducted by the 2026-04-15 deadline; it only shows the promise being made.",
+          "rationale": "The artifact is the April 15, 2025 v2 Preparedness Framework release that established the 'at least once a year' review commitment itself — it shows no subsequent review or update performed by the 2026-04-15 deadline.",
           "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
