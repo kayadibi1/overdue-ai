@@ -141,8 +141,8 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 framework update that established the 'at least once a year' review cadence, but it shows no review conducted by the 2026-04-15 deadline — it is the triggering action itself, not evidence of the subsequent annual review.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
+          "rationale": "The artifact is the April 15, 2025 framework update itself—the document that establishes the once-a-year review commitment—not evidence of any subsequent annual review occurring by the 2026-04-15 deadline; the 2026-05-20 Wayback date only reflects when this unchanged 2025 page was archived.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025, 'Our updated Preparedness Framework'",
           "via": "archive"
         }
       ]
