@@ -136,13 +136,13 @@
       "problems": [
         "ruling not reviewed since 2026-06-18 — re-review due"
       ],
-      "lastChangedOn": "2026-08-13",
+      "lastChangedOn": "2026-08-14",
       "proposals": [
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 v2 framework publication that established the annual-review cadence itself — it shows no review conducted during the 2025-04-15 to 2026-04-15 window, so it does not evidence the subsequent annual review due by the 2026-04-15 deadline.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated 'April 15, 2025', content describes the v2 update, not a later review",
+          "rationale": "The artifact is the April 15, 2025 launch post announcing the v2 framework that established the annual-review commitment; it shows no review conducted by the 2026-04-15 deadline and predates the obligation's trigger.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
       ]
