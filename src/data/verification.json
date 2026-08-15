@@ -136,12 +136,12 @@
       "problems": [
         "ruling not reviewed since 2026-06-18 — re-review due"
       ],
-      "lastChangedOn": "2026-08-14",
+      "lastChangedOn": "2026-08-15",
       "proposals": [
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 framework update that itself established the 'at least once a year' commitment; it predates the derived 2026-04-15 deadline and shows no subsequent annual review for continued sufficiency.",
+          "rationale": "The artifact is the original April 15, 2025 v2 framework publication that established the annual-review commitment, not evidence of a subsequent review conducted by the derived 2026-04-15 deadline; the snapshot merely archives the same 2025 announcement.",
           "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
