@@ -141,8 +141,8 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is OpenAI's April 2025 v2 announcement page ('Our updated Preparedness Framework', /updating-our-preparedness-framework/) — the very post that established the once-a-year commitment — and its extracted text contains only CSS/theme styling and the title, with no content evidencing a distinct annual review conducted by the 2026-04-15 deadline.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ (title: 'Our updated Preparedness Framework | OpenAI')",
+          "rationale": "The artifact is the April 15, 2025 framework update that established the annual-review commitment itself, not evidence of the subsequent review due by 2026-04-15; nothing here shows a review conducted in the 2025-2026 cycle.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
       ]
