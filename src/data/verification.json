@@ -140,9 +140,9 @@
       "proposals": [
         {
           "kind": "class-B",
-          "verdict": "met",
-          "rationale": "The artifact is OpenAI's published Preparedness Framework update dated April 15, 2025, which explicitly states the framework is a living document they commit to reviewing and updating, but note this evidences the v2 publication that established the commitment, not a subsequent annual review by the 2026-04-15 deadline.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — \"Our updated Preparedness Framework,\" April 15, 2025",
+          "verdict": "no",
+          "rationale": "The artifact is the April 15, 2025 framework update that established the annual-review commitment itself; it shows no review conducted around the 2026-04-15 deadline, and the page content is dated April 15, 2025 despite the 2026 Wayback capture.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
       ]
