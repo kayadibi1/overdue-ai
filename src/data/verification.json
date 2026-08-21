@@ -134,18 +134,11 @@
         }
       ],
       "problems": [
-        "ruling not reviewed since 2026-06-18 — re-review due"
+        "ruling not reviewed since 2026-06-18 — re-review due",
+        "Class-B adjudication unavailable — needs manual adjudication"
       ],
       "lastChangedOn": "2026-08-21",
-      "proposals": [
-        {
-          "kind": "class-B",
-          "verdict": "no",
-          "rationale": "The artifact is OpenAI's April 15, 2025 post announcing the v2 Preparedness Framework update that itself established the 'at least once a year' commitment; it shows no subsequent annual review by the derived 2026-04-15 deadline and predates that trigger.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ (dated April 15, 2025)",
-          "via": "archive"
-        }
-      ]
+      "proposals": []
     },
     "openai-ssc-90-days": {
       "sources": [
@@ -476,14 +469,15 @@
         },
         {
           "url": "https://www.themidasproject.com/article-list/xai-misses-a-second-self-imposed-deadline-to-implement-a-frontier-safety-policy",
-          "linkOk": true,
-          "quoteCheck": "ok"
+          "linkOk": false,
+          "quoteCheck": "inconclusive"
         }
       ],
       "problems": [
+        "dead link (404): https://www.themidasproject.com/article-list/xai-misses-a-second-self-imposed-deadline-to-implement-a-frontier-safety-policy",
         "ruling not reviewed since 2026-06-19 — re-review due"
       ],
-      "lastChangedOn": "2026-07-19"
+      "lastChangedOn": "2026-08-21"
     },
     "mistral-frontier-framework-seoul": {
       "sources": [
