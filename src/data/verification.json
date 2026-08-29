@@ -141,8 +141,8 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 publication announcing the v2 Preparedness Framework itself (the source of the 'at least once a year' commitment), and contains no evidence of a subsequent annual review completed by the 2026-04-15 deadline.",
-          "citation": "openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
+          "rationale": "The artifact is OpenAI's April 15, 2025 v2 Preparedness Framework announcement that established the 'at least once a year' review cadence itself, and shows no evidence of a subsequent review/update being conducted by the derived 2026-04-15 deadline (the May 2026 Wayback snapshot merely re-serves the same April 2025 publication).",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025, 'Our updated Preparedness Framework'",
           "via": "archive"
         }
       ]
