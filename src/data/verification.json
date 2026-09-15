@@ -141,8 +141,8 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is OpenAI's April 15, 2025 announcement of the v2 framework that established the annual-review commitment itself, not evidence of a subsequent review/update performed by the 2026-04-15 deadline; the 2026-05-20 Wayback stamp only reflects archival date, not a new review.",
-          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — page dated April 15, 2025 'Our updated Preparedness Framework'",
+          "rationale": "The artifact is the April 15, 2025 publication that introduced this very commitment (the v2 framework), not evidence of a subsequent review conducted by the derived 2026-04-15 annual deadline; the Wayback banner date reflects snapshot capture, not a new review.",
+          "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025 'Our updated Preparedness Framework'",
           "via": "archive"
         }
       ]
