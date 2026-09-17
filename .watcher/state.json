@@ -1,6 +1,6 @@
 {
   "anthropic-rsp": {
-    "hash": "c97a5dc68d1f7836e2b63a6fce646228f288f1fc941c17e741fae0a610298936",
+    "hash": "bef83055f82525a554c2191607c74a6d3edbfdc147deb0c448a3980473bad18a",
     "lastChanged": "2026-09-17"
   },
   "openai-preparedness": {
@@ -12,8 +12,8 @@
     "lastChanged": "2026-09-16"
   },
   "metr-fsp": {
-    "hash": "2d5ebb77c1d73fd8396669c135e6477a7204e382a1e7a12cd073498218a8113d",
-    "lastChanged": "2026-07-30"
+    "hash": "941d1a5ff1543d57740ea370f0da450aa1d75c75e20812b9e13c181311c3f202",
+    "lastChanged": "2026-09-17"
   },
   "eu-ai-act-timeline": {
     "hash": "e8482978ba115c6dd13b300d4f8a542d62bf896036670718e03dea9116e440e9",
