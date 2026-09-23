@@ -141,7 +141,7 @@
         {
           "kind": "class-B",
           "verdict": "no",
-          "rationale": "The artifact is the April 15, 2025 v2 publication that created the 'at least once a year' commitment itself, not evidence of a subsequent review by the 2026-04-15 annual deadline; the 2026-05-20 Wayback snapshot merely archives that same 2025 page.",
+          "rationale": "The artifact is OpenAI's April 15, 2025 Preparedness Framework update that established the annual-review commitment itself, and shows no evidence of a subsequent review conducted by the 2026-04-15 deadline (the May 2026 archive timestamp only reflects when this same 2025 page was captured).",
           "citation": "https://openai.com/index/updating-our-preparedness-framework/ — dated April 15, 2025",
           "via": "archive"
         }
